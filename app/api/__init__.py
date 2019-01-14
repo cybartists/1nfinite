@@ -4,4 +4,4 @@ api = Blueprint('api', __name__)
 
 # from . import login
 
-from . import users,token
+from . import users,token,upload
