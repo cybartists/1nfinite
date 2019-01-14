@@ -17,3 +17,38 @@ User:
 | email    | varchar(255) |         |
 | password | varchar(255) |         |
 
+Channel:
+
+| key     | type | comment |
+| ------- | ---- | ------- |
+| id      | int  |         |
+| user_id | int  | fk      |
+| content | text |         |
+
+Topic:
+
+| key     | type | comment |
+| ------- | ---- | ------- |
+| id      | int  |         |
+| user_id | int  | fk      |
+| title   | text |         |
+| sum     | text |         |
+
+image:
+
+| key        | type | comment |
+| ---------- | ---- | ------- |
+| id         | int  |         |
+| channel_id | int  | fk      |
+| url        | text |         |
+
+Topic_artical:
+
+| key      | type | comment |
+| -------- | ---- | ------- |
+| id       | int  |         |
+| Topic_id | int  | fk      |
+| title    | text |         |
+| content  | text |         |
+| sum      | text |         |
+
