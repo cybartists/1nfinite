@@ -16,6 +16,8 @@ User:
 | ban      | tinyint      |         |
 | email    | varchar(255) |         |
 | password | varchar(255) |         |
+| sex      | int(4)       |         |
+| country  | int(4)       |         |
 
 Channel:
 
@@ -53,12 +55,23 @@ Topic_artical:
 
 sex:
 
-| sex  | int  | 
+| sex  | int  |
 | ---- | ---- |
 | 未知 |  0  |
-|  男  | 1 | 
+|  男  | 1 |
 |  女  | 2 |
 |女汉子 | 3 |
 |女装大佬| 4 |
 
+country:
+
+| country    | int  |
+| ---------- | ---- |
+| 霍格沃兹   | 0    |
+| 赛博坦     | 1    |
+| 瓦坎达     | 2    |
+| 新日暮里   | 3    |
+| 3栋501     | 4    |
+| 卡塞尔     | 5    |
+| 召唤师峡谷 | 6    |
 

@@ -15,7 +15,7 @@ def create_app():
     # #调用初始化方法
     Config.init_app(app)
     #错误页面显示
-    config_errorhandler(app)
+    # config_errorhandler(app)
     #调用扩展方法 完成 app跟扩展对象的绑定
     config_extensions(app)
 
@@ -31,7 +31,7 @@ def create_app():
     return app
 
 
-def config_errorhandler(app):
-    @app.errorhandler(404)
-    def page_not_found():
-        return render_template('error/404.html')
+# def config_errorhandler(app):
+#     @app.errorhandler(404)
+#     def page_not_found():
+#         return render_template('error/404.html')

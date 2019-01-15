@@ -1,25 +1,45 @@
-from flask import render_template, url_for
+from flask import render_template, url_for, abort
+from app.base.function import is_admin
 from app.admin import admin
 
 
 @admin.route('/')
 def index():
-    return render_template('admin_index.html')
+    if is_admin():
+        return render_template('admin_index.html')
+    abort(404)
+
 
 @admin.route('/visitor/')
 def visitor():
-    return render_template('admin_visitor.html')
+    if is_admin():
+        return render_template('admin_visitor.html')
+    abort(404)
+
+
 @admin.route('/user/')
 def user():
-    return render_template('admin_user.html')
+    if is_admin():
+        return render_template('admin_user.html')
+    abort(404)
+
+
 @admin.route('/channel/')
 def channel():
-    return render_template('admin_channel.html')
+    if is_admin():
+        return render_template('admin_channel.html')
+    abort(404)
+
+
 @admin.route('/topic/')
 def topic():
-    return render_template('admin_topic.html')
+    if is_admin():
+        return render_template('admin_topic.html')
+    abort(404)
+
+
 @admin.route('/game/')
 def game():
-    return render_template('admin_game.html')
-
-
+    if is_admin():
+        return render_template('admin_game.html')
+    abort(404)
