@@ -8,9 +8,14 @@ from app.model.User import User
 def index():
     dbs = DBSession()
     user_id = session.get('user_id')
-    user = dbs.query(User.id == user_id).first()
+    user = dbs.query(User).filter(User.id == user_id).first()
+    dbs.close()
     login = False
+    admin = False
     if user is not None:
         login = True
-    # print(login)
-    return render_template('/index.html', login=login)
+        if user.admin == 1:
+            admin = True
+    print('用户: '+user.username+' 访问。')
+
+    return render_template('/index.html', login=login, admin=admin)
