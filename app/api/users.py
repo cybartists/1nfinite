@@ -7,14 +7,13 @@ from app.model.User import User
 from app.model.Channel import Channel
 from app.base.function import correct_email
 
-
 sex_dict = {
-        0:'未知',
-        1:'男',
-        2:'女',
-        3:'女汉子',
-        4:'女装大佬'
-    }
+    0: '未知',
+    1: '男',
+    2: '女',
+    3: '女汉子',
+    4: '女装大佬'
+}
 
 
 @api.route('/users/login', methods=['POST'])
@@ -82,8 +81,8 @@ def create():
         if email_db is not None:
             return jsonify({'status': 9, 'message': '邮箱重复'})
 
-        user = User(username=username, password=password_encoded,email=email)
-        session['user_id'] = user.id#自动登录
+        user = User(username=username, password=password_encoded, email=email)
+        session['user_id'] = user.id  # 自动登录
         db_session.add(user)
         db_session.commit()
         db_session.close()
@@ -105,8 +104,8 @@ def logout():
 @api.route('/users/update', methods=['POST'])
 def updateUsers():
     try:
-        if session['user_id'] == None or session['user_id']=='':
-            return jsonify({'status':2,'message':'没有登录'})
+        if session['user_id'] == None or session['user_id'] == '':
+            return jsonify({'status': 2, 'message': '没有登录'})
         else:
             form = request.form
             nickname = form['nickname']
@@ -116,17 +115,17 @@ def updateUsers():
             db_session = DBSession()
             user_id = session['user_id']
             user = db_session.query(User).filter_by(id=user_id).first()
-            if nickname!=None and nickname!='':
+            if nickname != None and nickname != '':
                 user.nickname = nickname
-            if sex != None and sex !='':
+            if sex != None and sex != '':
                 user.sex = sex
-            if password !=''and password!=None:
+            if password != '' and password != None:
                 password_encoded = password_encode(password)
 
                 user.password = password_encoded
             db_session.commit()
             db_session.close()
-            return jsonify({'status':0,'message':'修改成功'})
+            return jsonify({'status': 0, 'message': '修改成功'})
 
 
     except Exception as e:
@@ -138,27 +137,26 @@ def updateUsers():
 def getList():
     pass
 
-@api.route('/user/listsex',methods=['POST'])
+
+@api.route('/user/listsex', methods=['POST'])
 def listSex():
     try:
-        return jsonify({'status':0,'message':'获取成功','data':sex_dict})
+        return jsonify({'status': 0, 'message': '获取成功', 'data': sex_dict})
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','data':None})
+        return jsonify({'status': 1, 'message': '获取失败', 'data': None})
 
 
-
-
-
-
-@api.route('/users/sex',methods=['POST'])
+@api.route('/users/sex', methods=['POST'])
 def getSex():
     try:
         sex = request.form['sex']
         sex_code = sex_dict[sex]
-        return jsonify({'status':0,'message':'获取成功','data':{sex_code:sex}})
+        return jsonify({'status': 0, 'message': '获取成功', 'data': {sex_code: sex}})
 
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败'})
+        return jsonify({'status': 1, 'message': '获取失败'})
+
+
 @api.route('/users/channelcount', methods=['POST'])
 def channelCount():
     try:

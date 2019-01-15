@@ -1,4 +1,7 @@
 from werkzeug.security import generate_password_hash,check_password_hash
+from flask import session
+from app.base.extensions import DBSession
+from app.model.User import User
 import re
 
 def password_encode(password):
@@ -15,3 +18,22 @@ def correct_email(email_str):
         return True
     else:
         return False
+
+
+def is_login():
+    user_id = session.get('user_id')
+    return user_id is not None
+
+
+def is_admin():
+    dbs = DBSession()
+    user_id = session.get('user_id')
+    user = dbs.query(User).filter(User.id == user_id).first()
+    dbs.close()
+    login = False
+    admin = False
+    if user is not None:
+        login = True
+        if user.admin == 1:
+            admin = True
+    return admin
