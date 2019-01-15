@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='asset/mdui/css/mdui.min.css') }}">
+    <script src="{{ url_for('.static', filename='asset/mdui/js/mdui.min.js') }}"></script>
+    <title>1finite-Admin</title>
+
+    <!-- global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/font-icon-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/style.default.css') }}" id="theme-stylesheet">
+</head>
+<body class="mdui-theme-layout-dark mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded mdui-drawer-body-left"
+      style="margin-top: 20px;">
+
+<header class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
+    <div class="mdui-toolbar mdui-color-indigo">
+        <span class="mdui-btn mdui-btn-icon " mdui-drawer="{target: '#main-drawer', swipe: true}"><i
+                class="mdui-icon material-icons">menu</i></span>
+        <i class="mdui-icon material-icons">vpn_key</i>
+        <a href="javascript:;" class="mdui-typo-headline">1finite-管理员页面</a>
+        <!-- <a href="javascript:;" class="mdui-typo-title">动态</a> -->
+        <div class="mdui-toolbar-spacer"></div>
+        <div class="mdui-textfield mdui-textfield-expandable">
+            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i>
+            </button>
+            <input class="mdui-textfield-input" type="text" placeholder="Search"/>
+            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>
+            </button>
+        </div>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">person</i></a>
+    </div>
+</header>
+
+<!-- 侧边栏 -->
+<div class="mdui-drawer" id="main-drawer">
+
+    <div class="mdui-list">
+        <a class="mdui-list-item mdui-ripple mdui-list-item-active" >
+            <i class="mdui-list-item-icon mdui-icon material-icons ">home</i>
+            <div class="mdui-list-item-content">首页</div>
+        </a>
+
+           <a class="mdui-list-item mdui-ripple" href="./visitor">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">assignment_turned_in</i>
+            <div class="mdui-list-item-content">访客记录</div>
+       </a>
+    </div>
+</div>
+
+<div class="mdui-container">
+<div class="mdui-row">
+    <!-- 卡片1 -->
+<div class="mdui-col-sm-3">
+<div class="mdui-card mdui-hoverable">
+ <div class="mdui-toolbar mdui-color-light-blue-a200">
+ </div>
+
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">8次访问</div>
+    <div class="mdui-card-primary-subtitle">今日访问量</div>
+      <div class="mdui-card-primary-subtitle">80%</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-light-blue-a200" style="width: 80%;"></div>
+</div>
+  </div>
+
+  <div class="mdui-card-content">子曰：「学而时习之，不亦说乎？」</div>
+
+  <div class="mdui-card-actions">
+    <button class="mdui-btn mdui-ripple">日访问</button>
+    <button class="mdui-btn mdui-ripple">月访问</button>
+  </div>
+
+</div>
+</div>
+
+      <!-- 卡片2 -->
+<div class="mdui-col-sm-3">
+<div class="mdui-card mdui-hoverable">
+ <div class="mdui-toolbar mdui-color-green-accent">
+ </div>
+
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">1个新注册</div>
+    <div class="mdui-card-primary-subtitle">今日注册量</div>
+      <div class="mdui-card-primary-subtitle">50%</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-green-accent" style="width: 50%;"></div>
+</div>
+  </div>
+
+  <div class="mdui-card-content">子曰：「有朋自远方来，不亦乐乎？」</div>
+
+  <div class="mdui-card-actions">
+    <button class="mdui-btn mdui-ripple">日注册</button>
+    <button class="mdui-btn mdui-ripple">月注册</button>
+  </div>
+
+</div>
+</div>
+
+          <!-- 卡片3 -->
+<div class="mdui-col-sm-3">
+<div class="mdui-card mdui-hoverable">
+ <div class="mdui-toolbar mdui-color-yellow">
+ </div>
+
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">3个新消息</div>
+    <div class="mdui-card-primary-subtitle">今日产生消息(频道中内容)量</div>
+      <div class="mdui-card-primary-subtitle">60%</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-yellow" style="width: 60%;"></div>
+</div>
+  </div>
+
+  <div class="mdui-card-content">子曰：「人不知而不愠，不亦君子乎？」</div>
+
+  <div class="mdui-card-actions">
+    <button class="mdui-btn mdui-ripple">日消息</button>
+    <button class="mdui-btn mdui-ripple">月消息</button>
+  </div>
+
+</div>
+</div>
+
+          <!-- 卡片4 -->
+<div class="mdui-col-sm-3">
+<div class="mdui-card mdui-hoverable">
+ <div class="mdui-toolbar mdui-color-deep-orange-accent">
+ </div>
+
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">1个新话题讨论</div>
+    <div class="mdui-card-primary-subtitle">今日话题讨论产生量</div>
+      <div class="mdui-card-primary-subtitle">50%</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-deep-orange-accent" style="width: 50%;"></div>
+</div>
+  </div>
+
+  <div class="mdui-card-content">我曰：「没有话题就创造话题」</div>
+
+  <div class="mdui-card-actions">
+    <button class="mdui-btn mdui-ripple">日话题</button>
+    <button class="mdui-btn mdui-ripple">月话题</button>
+  </div>
+
+</div>
+</div>
+
+</div>
+    <div class="mdui-row">
+        <span>    </span>
+    </div>
+
+
+<div class="mdui-row">
+    <!--图表1 每日访问量-->
+<div class="mdui-col-sm-4">
+                    <div class="mdui-card mdui-hoverable">
+                        <div class="mdui-card mdui-hoverable">
+                        <div class="card-block"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                            <canvas id="visitor-chart" width="787" height="787" class="chartjs-render-monitor" style="display: block; width: 787px; height: 787px;"></canvas>
+                        </div>
+                        </div>
+                        <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">今日访客量</div>
+    <div class="mdui-card-primary-subtitle">是昨日的 120%</div>
+      </div>
+
+                </div>
+</div>
+
+    <!--图表2 各板块访问量-->
+<div class="mdui-col-sm-4">
+                    <div class="mdui-card mdui-hoverable">
+                        <div class="mdui-card mdui-hoverable">
+                            <div class="card-block"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                            <canvas id="visitor_time-chart" width="787" height="787" class="chartjs-render-monitor" style="display: block; width: 787px; height: 787px;"></canvas>
+                        </div>
+                        </div>
+                        <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">各时段(模块)访客</div>
+      </div>
+
+                </div>
+</div>
+
+          <!-- 卡片5 -->
+<div class="mdui-col-sm-4">
+<div class="mdui-card mdui-hoverable">
+
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">今日话题产生量</div>
+    <div class="mdui-card-primary-subtitle">1个</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-pink" style="width: 1%;"></div>
+          <div class="mdui-card-primary-subtitle">50%</div>
+</div>
+  </div>
+</div>
+    <div><span> </span></div>
+
+<div class="mdui-card mdui-hoverable">
+    <div class="mdui-row">
+        <div class="mdui-col-sm-1">
+            <div class="mdui-card-primary">
+    <i class="mdui-icon material-icons">whatshot</i>
+            </div>
+        </div>
+        <div class="mdui-col-sm-6">
+            <div class="mdui-card-primary">
+    <div class="mdui-card-header-title">热门话题</div>
+    <div class="mdui-card-header-subtitle">人云亦云</div>
+            </div>
+        </div>
+  </div>
+    <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">1finite三天建站</div>
+    <div class="mdui-card-primary-subtitle">被引用次数</div>
+      <div class="mdui-card-primary-subtitle">45次</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-purple" style="width: 45%;"></div>
+          <div class="mdui-card-primary-subtitle">50%</div>
+</div>
+  </div>
+
+    <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">今天晚上吃啥</div>
+    <div class="mdui-card-primary-subtitle">被引用次数</div>
+      <div class="mdui-card-primary-subtitle">30次</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-teal-accent" style="width: 30%;"></div>
+          <div class="mdui-card-primary-subtitle">50%</div>
+</div>
+  </div>
+
+    <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">阿瑞斯叕叒双又上床了</div>
+    <div class="mdui-card-primary-subtitle">被引用次数</div>
+      <div class="mdui-card-primary-subtitle">20次</div>
+      <div class="mdui-progress">
+  <div class="mdui-progress-determinate mdui-color-lime-accent" style="width: 20%;"></div>
+          <div class="mdui-card-primary-subtitle">50%</div>
+</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+    <div class="mdui-row">
+        <span>    </span>
+    </div>
+     <!-- 最新的消息 和 用户性别 -->
+    <div class="mdui-row">
+        <div class="mdui-col-sm-8">
+    <div class="mdui-table-fluid">
+  <table class="mdui-table mdui-table-hoverable mdui-table-selectable">
+    <thead>
+      <tr>
+        <th>最新的频道消息</th>
+        <th>用户名</th>
+        <th>频道名</th>
+        <th>消息标题</th>
+        <th>转发人数</th>
+        <th>正文(局部)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><i class="mdui-icon material-icons">filter_1</i></td>
+        <td>Funter</td>
+        <td>Funter的后台开发动态</td>
+        <td>想加进去的东西太TM多了，都贼JB炫酷</td>
+        <td>123</td>
+        <td>太多东西想弄了，干死写控制器的</td>
+      </tr>
+      <tr>
+        <td><i class="mdui-icon material-icons">filter_2</i></td>
+        <td>Chisec</td>
+        <td>Chisec的阿瑞斯炼狱</td>
+        <td>瑞瑞你TM能不能好好干，好好干，GKD</td>
+        <td>99</td>
+        <td>你要是再消极怠工我就把你们都T了，老子自己写</td>
+      </tr>
+      <tr>
+        <td><i class="mdui-icon material-icons">filter_3</i></td>
+        <td>Ryo</td>
+        <td>Ryo家的后院</td>
+        <td>你们先搞，我先上床了</td>
+        <td>0</td>
+        <td>不用着急，反正明天一天就干得差不多了，咦，我后院的脑子怎么又被僵尸吃了</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+        </div>
+        <!--图表3  用户性别-->
+<div class="mdui-col-sm-4">
+                    <div class="mdui-card mdui-hoverable">
+                        <div class="mdui-card mdui-hoverable">
+                        <div class="card-block"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                            <canvas id="sex-chart" width="787" height="787" class="chartjs-render-monitor" style="display: block; width: 787px; height: 787px;"></canvas>
+                        </div>
+                        </div>
+
+                </div>
+</div>
+    </div>
+
+<!-- 最新的话题讨论 和 用户性别 -->
+    <div class="mdui-row">
+        <div class="mdui-col-sm-8">
+    <div class="mdui-table-fluid">
+  <table class="mdui-table mdui-table-hoverable mdui-table-selectable">
+    <thead>
+      <tr>
+        <th>最新的话题讨论</th>
+        <th>用户名</th>
+        <th>话题名</th>
+        <th>楼层序号</th>
+        <th>参与人数</th>
+        <th>正文(局部)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><i class="mdui-icon material-icons">filter_1</i></td>
+        <td>Funter</td>
+        <td>救救头发</td>
+        <td>5</td>
+        <td>4</td>
+        <td>我头也要秃了！后台干嘛写这么酷炫啊啊啊啊</td>
+      </tr>
+      <tr>
+        <td><i class="mdui-icon material-icons">filter_2</i></td>
+        <td>Ryo</td>
+        <td>开发进度</td>
+        <td>8</td>
+        <td>3</td>
+        <td>@Chisec 你透尼玛呢，你别找我啊，数据库那边还没搞好呢，找他 @杨佳浩</td>
+      </tr>
+      <tr>
+        <td><i class="mdui-icon material-icons">filter_3</i></td>
+        <td>Chisec</td>
+        <td>开发进度</td>
+        <td>7</td>
+        <td>3</td>
+        <td>@Ryo 你TM能不能别摸手游了，透你马</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+        </div>
+        <!--图表3  用户所在地-->
+<div class="mdui-col-sm-4">
+                    <div class="mdui-card mdui-hoverable">
+                        <div class="mdui-card mdui-hoverable">
+                        <div class="card-block"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                            <canvas id="hometown-chart" width="787" height="787" class="chartjs-render-monitor" style="display: block; width: 787px; height: 787px;"></canvas>
+                        </div>
+                        </div>
+
+                </div>
+</div>
+    </div>
+
+
+
+
+    <!-- 悬浮按钮 -->
+    <div class="mdui-fab-wrapper" id="fab" mdui-fab="{trigger: 'hover'}">
+        <button class="mdui-fab mdui-ripple mdui-color-pink-accent">
+            <i class="mdui-icon material-icons">add</i>
+            <i class="mdui-icon mdui-fab-opened material-icons">mode_edit</i>
+        </button>
+        <div class="mdui-fab-dial">
+
+            <button class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-red">
+                <i class="mdui-icon material-icons">bookmark</i>
+            </button>
+
+            <button class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-blue">
+                <i class="mdui-icon material-icons">touch_app</i>
+            </button>
+        </div>
+    </div>
+
+</div>
+</div>
+    <!--图标 Javascript -->
+    <script src="{{ url_for('.static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/popper/popper.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/tether.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/jquery.cookie.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/chart.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/front.js') }}"></script>
+
+    <!--Core Javascript -->
+    <script src="{{ url_for('.static', filename='js/chart-page.js') }}"></script>
+    <script>
+        new Chart(document.getElementById("sex-chart").getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: ["男", "女", "女汉子", "女装大佬", "未知"],
+            datasets: [{
+              backgroundColor: [
+                "#3498db",
+                "#e74c3c",
+                "#f1c40f",
+                "#9b59b6",
+                "#2ecc71",
+              ],
+              data: [10, 2, 1, 2, 4]
+            }]
+          },
+          options: {
+              legend: { display: true },
+              title: {
+                display: true,
+                text: '注册用户性别分布'
+               }
+            }
+        });
+    </script>
+<script>// Bar chart
+new Chart(document.getElementById("visitor-chart"), {
+    type: 'bar',
+    data: {
+      labels: ["星期一", "星期二", "星期三", "星期四", "星期五","星期六","星期日"],
+      datasets: [
+        {
+          label: "访客数",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#FFEB3B","#795548"],
+          data: [20,14,5,9,17,11,19]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: '一周访客数量'
+      }
+    }
+})</script>
+<script>//Line chart
+new Chart(document.getElementById("visitor_time-chart"), {
+  type: 'line',
+  data: {
+    labels: ['0:00','2:00','4:00','6:00','8:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00'],
+    datasets: [{
+        data: [8,11,10,10,10,11,13,22,30,24,20,40],
+        label: "总访客数",
+        borderColor: "#3e95cd",
+        fill: false
+      }, {
+        data: [28,35,41,50,63,80,94,14,37,52,56,21],
+        label: "频道访问数",
+        borderColor: "#8e5ea2",
+        fill: false
+      }, {
+        data: [16,17,17,19,20,27,40,54,67,73,41,10],
+        label: "话题访问数",
+        borderColor: "#3cba9f",
+        fill: false
+      }, {
+        data: [40,20,10,16,24,38,74,16,50,78,14,30],
+        label: "游戏公墓访问数",
+        borderColor: "#e8c3b9",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: '各时段(模块)访客数量'
+    }
+  }
+});</script>
+<script>
+    //Polar Chart2
+new Chart(document.getElementById("hometown-chart").getContext('2d'), {
+  type: 'polarArea',
+  data: {
+    labels: ["霍格沃兹", "赛博坦", "瓦坎达", "新日暮里", "3栋501", "卡塞尔", "召唤师峡谷"],
+    datasets: [{
+      backgroundColor: [
+        "#2ecc71",
+        "#3498db",
+        "#95a5a6",
+        "#9b59b6",
+        "#f1c40f",
+        "#e74c3c",
+        "#34495e"
+      ],
+      data: [12, 19, 3, 30, 4, 24, 7]
+    }]
+  },
+    options: {
+              legend: { display: true },
+              title: {
+                display: true,
+                text: '注册用户居住地分布'
+               }
+            }
+})
+</script>
+<script>
+    // var inst = new mdui.Fab('#fab');
+
+</script>
+</body>
+</html>
