@@ -64,7 +64,13 @@ def create():
 
 @api.route('/users/update', methods=['POST'])
 def updateUsers():
-    pass
+    form = request.form
+
+    try:
+        pass
+    except Exception as e:
+        print(e)
+        return jsonify({'status':1,'message':'未知错误'})
 
 
 @api.route('/users/list', methods=['POST'])
