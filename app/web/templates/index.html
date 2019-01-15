@@ -27,8 +27,15 @@
             <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>
             </button>
         </div>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon" onclick="open_login_dialog()"><i
-                class="mdui-icon material-icons">account_circle</i></a>
+        {% if not login %}
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon" onclick="open_login_dialog()">
+                <i class="mdui-icon material-icons">account_circle</i>
+            </a>
+        {% else %}
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons">account_circle</i>
+            </a>
+        {% endif %}
     </div>
 </header>
 
@@ -43,16 +50,28 @@
     {#        </div>#}
     {#    </div>#}
 
-    <ul class="mdui-list">
-        <li class="mdui-list-item mdui-ripple mdui-list-item-active">
+    <div class="mdui-list">
+        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">all_inclusive</i>
             <div class="mdui-list-item-content">动态</div>
-        </li>
-        <li class="mdui-list-item mdui-ripple">
+        </a>
+        <a class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">explore</i>
             <div class="mdui-list-item-content">发现</div>
-        </li>
-    </ul>
+        </a>
+        {% if admin %}
+            <a class="mdui-list-item mdui-ripple" href="/admin">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink">verified_user</i>
+                <div class="mdui-list-item-content">滥权中心</div>
+            </a>
+        {% endif %}
+        {% if login %}
+            <a class="mdui-list-item mdui-ripple" onclick="logout()">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink">verified_user</i>
+                <div class="mdui-list-item-content">退出登录</div>
+            </a>
+        {% endif %}
+    </div>
 </div>
 
 <div class="mdui-container">
@@ -76,191 +95,210 @@
         </div>
     </div>
 
-    <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
-        <div class="mdui-color-indigo">
-            <div style="height: 150px;">
-                <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
-                        mdui-dialog-close>
-                    <i class="mdui-icon material-icons">clear</i>
-                </button>
-            </div>
-            <div style="height: 50px;">
-                <div class="mdui-typo-title" style="margin-left: 30px; margin-right: 30px;">
-                    登录
+    {% if not login %}
+        <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
+            <div class="mdui-color-indigo">
+                <div style="height: 150px;">
+                    <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
+                            mdui-dialog-close>
+                        <i class="mdui-icon material-icons">clear</i>
+                    </button>
                 </div>
-            </div>
-        </div>
-        <div style="margin-bottom: 60px">
-
-            <form id="login">
-
-                <div style="margin-left: 30px; margin-right: 30px;">
-                    <div class="mdui-textfield mdui-textfield-floating-label" id="username">
-                        <label class="mdui-textfield-label">用户名</label>
-                        <input class="mdui-textfield-input" type="text" name="username"/>
-                        <div class="mdui-textfield-error" id="error_msg_username"></div>
-                    </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label" id="password">
-                        <label class="mdui-textfield-label">密码</label>
-                        <input class="mdui-textfield-input" type="password" name="password"/>
-                        <div class="mdui-textfield-error" id="error_msg_password"></div>
+                <div style="height: 50px;">
+                    <div class="mdui-typo-title" style="margin-left: 30px; margin-right: 30px;">
+                        登录
                     </div>
                 </div>
-
-            </form>
-
-            <div style="margin: 30px;">
-                &nbsp;
-                <div class="mdui-float-left">
-                    <button class="mdui-btn" onclick="open_register_dialog()">注册</button>
-                </div>
-                <div class="mdui-float-right">
-                    <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="login()">登录</button>
-                </div>
             </div>
-        </div>
-    </div>
+            <div style="margin-bottom: 60px">
 
-    <div class="mc-login mdui-dialog" style="width: 400px; top: 30px;" id="registerDialog">
-        <div class="mdui-color-indigo">
-            <div style="height: 150px;">
-                <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
-                        mdui-dialog-close>
-                    <i class="mdui-icon material-icons">clear</i>
-                </button>
-            </div>
-            <div style="height: 50px;">
-                <div class="mdui-typo-title" style="margin-left: 30px; margin-right: 30px;">
-                    注册
+                <form id="login">
+
+                    <div style="margin-left: 30px; margin-right: 30px;">
+                        <div class="mdui-textfield mdui-textfield-floating-label" id="username">
+                            <label class="mdui-textfield-label">用户名</label>
+                            <input class="mdui-textfield-input" type="text" name="username"/>
+                            <div class="mdui-textfield-error" id="error_login_msg_username"></div>
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label" id="password">
+                            <label class="mdui-textfield-label">密码</label>
+                            <input class="mdui-textfield-input" type="password" name="password"/>
+                            <div class="mdui-textfield-error" id="error_login_msg_password"></div>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div style="margin: 30px;">
+                    &nbsp;
+                    <div class="mdui-float-left">
+                        <button class="mdui-btn" onclick="open_register_dialog()">注册</button>
+                    </div>
+                    <div class="mdui-float-right">
+                        <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="login()">登录</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div style="margin-bottom: 60px">
 
-            <form id="register">
-
-                <div style="margin-left: 30px; margin-right: 30px;">
-                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_username">
-                        <label class="mdui-textfield-label">用户名</label>
-                        <input class="mdui-textfield-input" type="text" name="username"/>
-                        <div class="mdui-textfield-error" id="error_msg_username"></div>
-                    </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_password">
-                        <label class="mdui-textfield-label">密码</label>
-                        <input class="mdui-textfield-input" type="password" name="password"/>
-                        <div class="mdui-textfield-error" id="error_msg_password"></div>
-                    </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_password_again">
-                        <label class="mdui-textfield-label">确认密码</label>
-                        <input class="mdui-textfield-input" type="password" name="password_again"/>
-                        <div class="mdui-textfield-error" id="error_msg_password_again"></div>
-                    </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_email">
-                        <label class="mdui-textfield-label">邮箱</label>
-                        <input class="mdui-textfield-input" type="email" name="email"/>
-                        <div class="mdui-textfield-error" id="error_msg_email"></div>
+        <div class="mc-login mdui-dialog" style="width: 400px; top: 30px;" id="registerDialog">
+            <div class="mdui-color-indigo">
+                <div style="height: 150px;">
+                    <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
+                            mdui-dialog-close>
+                        <i class="mdui-icon material-icons">clear</i>
+                    </button>
+                </div>
+                <div style="height: 50px;">
+                    <div class="mdui-typo-title" style="margin-left: 30px; margin-right: 30px;">
+                        注册
                     </div>
                 </div>
+            </div>
+            <div style="margin-bottom: 60px">
 
-            </form>
+                <form id="register">
 
-            <div style="margin: 30px;">
-                &nbsp;
-                {#                <div class="mdui-float-left">#}
-                {#                    <button class="mdui-btn" onclick="register()">注册</button>#}
-                {#                </div>#}
-                <div class="mdui-float-right">
-                    <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="register()">注册</button>
+                    <div style="margin-left: 30px; margin-right: 30px;">
+                        <div class="mdui-textfield mdui-textfield-floating-label" id="register_username">
+                            <label class="mdui-textfield-label">用户名</label>
+                            <input class="mdui-textfield-input" type="text" name="username"/>
+                            <div class="mdui-textfield-error" id="error_msg_username"></div>
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label" id="register_password">
+                            <label class="mdui-textfield-label">密码</label>
+                            <input class="mdui-textfield-input" type="password" name="password"/>
+                            <div class="mdui-textfield-error" id="error_msg_password"></div>
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label" id="register_password_again">
+                            <label class="mdui-textfield-label">确认密码</label>
+                            <input class="mdui-textfield-input" type="password" name="password_again"/>
+                            <div class="mdui-textfield-error" id="error_msg_password_again"></div>
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label" id="register_email">
+                            <label class="mdui-textfield-label">邮箱</label>
+                            <input class="mdui-textfield-input" type="email" name="email"/>
+                            <div class="mdui-textfield-error" id="error_msg_email"></div>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div style="margin: 30px;">
+                    &nbsp;
+                    {#                <div class="mdui-float-left">#}
+                    {#                    <button class="mdui-btn" onclick="register()">注册</button>#}
+                    {#                </div>#}
+                    <div class="mdui-float-right">
+                        <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="register()">注册</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class=""></div>
+    {% endif %}
+
 </div>
-</div>
+
 <script>
     mdui.mutation();
 
-    let login_dialog = new mdui.Dialog('#loginDialog');
-    let register_dialog = new mdui.Dialog('#registerDialog');
+    {% if not login %}
+        let login_dialog = new mdui.Dialog('#loginDialog');
+        let register_dialog = new mdui.Dialog('#registerDialog');
 
-    let open_login_dialog = function () {
-        login_dialog.open();
-    };
+        let open_login_dialog = function () {
+            login_dialog.open();
+        };
 
-    let open_register_dialog = function () {
-        login_dialog.close();
-        register_dialog.open();
-    };
+        let open_register_dialog = function () {
+            login_dialog.close();
+            register_dialog.open();
+        };
 
 
-    let login = function () {
-        $.post('/api/users/login', $('#login').serialize(), function (d) {
-            if (2 == d.status) {
-                login_dialog.close();
-                mdui.alert(d.message);
-            } else {
-                if (0 == d.status) {
+        let login = function () {
+            $.post('/api/users/login', $('#login').serialize(), function (d) {
+                if (2 == d.status) {
+                    login_dialog.close();
+                    mdui.alert(d.message, function () {
+                        location.reload();
+                    });
+                } else {
+                    if (0 == d.status) {
+                        $('#error_login_msg_username').text(d.message);
+                        $('#username').addClass('mdui-textfield-invalid');
+                        mdui.mutation();
+                    }
+                    else if (1 == d.status) {
+                        $('#error_login_msg_password').text(d.message);
+                        $('#password').addClass('mdui-textfield-invalid');
+                        mdui.mutation();
+                    } else {
+                        $('#error_login_msg_password').text(d.message);
+                        $('#password').addClass('mdui-textfield-invalid');
+                        mdui.mutation();
+                    }
+                }
+            }, 'json');
+        };
+
+        let register = function () {
+            $.post('/api/users/create', $('#register').serialize(), function (d) {
+                if (8 == d.status) {
+                    mdui.alert(d.message);
+                    register_dialog.close();
+                    login_dialog.open();
+                } else if (0 == d.status) {
                     $('#error_msg_username').text(d.message);
-                    $('#username').addClass('mdui-textfield-invalid');
+                    $('#register_username').addClass('mdui-textfield-invalid');
                     mdui.mutation();
-                }
-                else if (1 == d.status) {
+                } else if (1 == d.status) {
+                    $('#error_msg_username').text(d.message);
+                    $('#register_username').addClass('mdui-textfield-invalid');
+                    mdui.mutation();
+                } else if (2 == d.status) {
                     $('#error_msg_password').text(d.message);
-                    $('#password').addClass('mdui-textfield-invalid');
+                    $('#register_password').addClass('mdui-textfield-invalid');
+                    mdui.mutation();
+                } else if (3 == d.status) {
+                    $('#error_msg_password_again').text(d.message);
+                    $('#register_password_again').addClass('mdui-textfield-invalid');
+                    mdui.mutation();
+                } else if (4 == d.status) {
+                    $('#error_msg_password_again').text(d.message);
+                    $('#register_password_again').addClass('mdui-textfield-invalid');
+                    mdui.mutation();
+                } else if (5 == d.status) {
+                    $('#error_msg_email').text(d.message);
+                    $('#register_email').addClass('mdui-textfield-invalid');
+                    mdui.mutation();
+                } else if (6 == d.status) {
+                    $('#error_msg_email').text(d.message);
+                    $('#register_email').addClass('mdui-textfield-invalid');
+                    mdui.mutation();
+                } else if (7 == d.status) {
+                    $('#error_msg_email').text(d.message);
+                    $('#register_email').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 }
-                else {
-                    $('#error_msg_password').text(d.message);
-                    $('#password').addClass('mdui-textfield-invalid');
-                    mdui.mutation();
+
+            })
+        };
+    {% endif %}
+
+    {% if login %}
+        let logout = function () {
+            $.post('/api/users/logout',{},function (d) {
+                if (0 == d.status) {
+                    mdui.alert(d.message, function () {
+                       location.reload();
+                    });
                 }
-            }
-        }, 'json');
-    };
-
-    let register = function () {
-        $.post('/api/users/create', $('#register').serialize(), function (d) {
-            if (8 == d.status) {
-                mdui.alert(d.message);
-                register_dialog.close();
-                login_dialog.open();
-            } else if (0 == d.status) {
-                $('#error_msg_username').text(d.message);
-                $('#register_username').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            } else if (1 == d.status) {
-                $('#error_msg_username').text(d.message);
-                $('#register_username').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            } else if (2 == d.status) {
-                $('#error_msg_password').text(d.message);
-                $('#register_password').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            } else if (3 == d.status) {
-                $('#error_msg_password_again').text(d.message);
-                $('#register_password_again').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            } else if (4 == d.status) {
-                $('#error_msg_password_again').text(d.message);
-                $('#register_password_again').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            } else if (5 == d.status) {
-                $('#error_msg_email').text(d.message);
-                $('#register_email').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            } else if (6 == d.status) {
-                $('#error_msg_email').text(d.message);
-                $('#register_email').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            } else if (7 == d.status) {
-                $('#error_msg_email').text(d.message);
-                $('#register_email').addClass('mdui-textfield-invalid');
-                mdui.mutation();
-            }
-
-        })
-    }
-
+            })
+        };
+    {% endif %}
     // var inst = new mdui.Fab('#fab');
 </script>
 </body>
