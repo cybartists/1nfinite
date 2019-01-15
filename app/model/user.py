@@ -14,8 +14,3 @@ class User(Base):
     ban = Column(INT)
     email = Column(VARCHAR(255))
     password = Column(VARCHAR(255))
-
-
-    def find_user(self,form):
-        if form['username'] == 'yyy' and form['password'] == 'zzz':
-            return True

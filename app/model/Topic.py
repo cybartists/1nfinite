@@ -7,15 +7,7 @@ from app.base.extensions import Base
 class Topic(Base):
     __tablename__ = 'Topic'
     id = Column(INT, primary_key=True, autoincrement=True)
-    user_id = Column(VARCHAR(255))
-    nickname = Column(VARCHAR(255))
-    sex = Column(INT)
-    admin = Column(INT)
-    ban = Column(INT)
-    email = Column(VARCHAR(255))
-    password = Column(VARCHAR(255))
+    user_id = Column(INT,)
+    title = Column(Text)
+    sum = Column(Text)
 
-
-    def find_user(self,form):
-        if form['username'] == 'yyy' and form['password'] == 'zzz':
-            return True
