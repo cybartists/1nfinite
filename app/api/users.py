@@ -84,10 +84,18 @@ def create():
         return jsonify({'status': 7, 'message': '未知错误'})
 
 
+@api.route('/users/logout', methods=['POST'])
+def logout():
+    try:
+        session['user_id'] = None
+        return jsonify({'status': 0, 'message': '退出登录成功'})
+    except Exception as e:
+        return jsonify({'status': 1, 'message': '退出登录失败'})
+
+
 @api.route('/users/update', methods=['POST'])
 def updateUsers():
     form = request.form
-
     try:
         pass
     except Exception as e:
@@ -105,13 +113,14 @@ def channelCount():
     try:
         db_session = DBSession()
         userid = session.get('user_id')
-        #db操作
+        # db操作
 
-        user = db_session.query(Channel).filter_by(user_id=userid).all()
+        # user = db_session.query(Channel).filter_by(user_id=userid).all()
+        #
+        # countNum = int(len(user))
 
-        countNum = int(len(user))
-
-        return jsonify({'status':0,'message':'获得数据成功','countNum':countNum})
+        countNum = db_session.query(Channel).filter_by(user_id=userid).count()
+        return jsonify({'status': 0, 'message': '获得数据成功', 'countNum': countNum})
 
     except Exception as e:
         print(e)
