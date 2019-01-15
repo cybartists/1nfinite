@@ -2,15 +2,16 @@
 from flask import request, flash, render_template, redirect, url_for, jsonify
 from app.api import api
 from app.base.function import password_hash
-@api.route('/users/get_user', methods=['POST'])
-def getUsers():
+from app.model.user import User
+user = User()
+@api.route('/users/login', methods=['POST'])
+def login():
     form = request.form
-
-
-    if 'username_example' == form['username'] and 'password_example' == form['password']:
-        return jsonify({'status':0})
+    if user.find_user(form):
+        return jsonify({'status':0,'message':'登录成功'})
     else:
-        return jsonify({'status':1})
+        return jsonify({'status':1,'message':'登录失败'})
+
 
 
 
