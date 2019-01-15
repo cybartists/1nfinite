@@ -9,5 +9,8 @@ def index():
     dbs = DBSession()
     user_id = session.get('user_id')
     user = dbs.query(User.id == user_id).first()
-
-    return render_template('/index.html', **user)
+    login = False
+    if user is not None:
+        login = True
+    # print(login)
+    return render_template('/index.html', login=login)

@@ -27,8 +27,15 @@
             <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>
             </button>
         </div>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon" onclick="open_login_dialog()"><i
-                class="mdui-icon material-icons">account_circle</i></a>
+        {% if not login %}
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon" onclick="open_login_dialog()">
+                <i class="mdui-icon material-icons">account_circle</i>
+            </a>
+        {% else %}
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons">account_circle</i>
+            </a>
+        {% endif %}
     </div>
 </header>
 
@@ -76,6 +83,7 @@
         </div>
     </div>
 
+    {% if not login %}
     <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
         <div class="mdui-color-indigo">
             <div style="height: 150px;">
@@ -175,11 +183,13 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 </div>
 <script>
     mdui.mutation();
 
+    {% if not login %}
     let login_dialog = new mdui.Dialog('#loginDialog');
     let register_dialog = new mdui.Dialog('#registerDialog');
 
@@ -258,7 +268,8 @@
             }
 
         })
-    }
+    };
+    {% endif %}
 
     // var inst = new mdui.Fab('#fab');
 </script>
