@@ -10,7 +10,7 @@ def password_auth(password_to_be_checked, password):
 
 
 def correct_email(email_str):
-    mail = re.compile('^www\.\w{1,15}@\w{1,10}\.(com|cn|net)$')
+    mail = re.compile('^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$')
     if re.search(mail,email_str):
         return True
     else:

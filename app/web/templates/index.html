@@ -95,7 +95,7 @@
             <form id="login">
 
                 <div style="margin-left: 30px; margin-right: 30px;">
-                    <div class="mdui-textfield mdui-textfield-floating-label">
+                    <div class="mdui-textfield mdui-textfield-floating-label" id="username">
                         <label class="mdui-textfield-label">用户名</label>
                         <input class="mdui-textfield-input" type="text" name="username"/>
                         <div class="mdui-textfield-error" id="error_msg_username"></div>
@@ -155,7 +155,7 @@
                         <input class="mdui-textfield-input" type="password" name="password_again"/>
                         <div class="mdui-textfield-error" id="error_msg_password_again"></div>
                     </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_password">
+                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_email">
                         <label class="mdui-textfield-label">邮箱</label>
                         <input class="mdui-textfield-input" type="email" name="email"/>
                         <div class="mdui-textfield-error" id="error_msg_email"></div>
@@ -166,9 +166,9 @@
 
             <div style="margin: 30px;">
                 &nbsp;
-{#                <div class="mdui-float-left">#}
-{#                    <button class="mdui-btn" onclick="register()">注册</button>#}
-{#                </div>#}
+                {#                <div class="mdui-float-left">#}
+                {#                    <button class="mdui-btn" onclick="register()">注册</button>#}
+                {#                </div>#}
                 <div class="mdui-float-right">
                     <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="register()">注册</button>
                 </div>
@@ -195,11 +195,11 @@
 
     let login = function () {
         $.post('/api/users/login', $('#login').serialize(), function (d) {
-                if (2 == d.status) {
-                    login_dialog.close();
-                    mdui.alert(d.message);
-                }else{
-                    if (0 == d.status) {
+            if (2 == d.status) {
+                login_dialog.close();
+                mdui.alert(d.message);
+            } else {
+                if (0 == d.status) {
                     $('#error_msg_username').text(d.message);
                     $('#username').addClass('mdui-textfield-invalid');
                     mdui.mutation();
@@ -209,21 +209,55 @@
                     $('#password').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 }
+                else {
                     $('#error_msg_password').text(d.message);
                     $('#password').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 }
-            }, 'json');
+            }
+        }, 'json');
     };
 
     let register = function () {
         $.post('/api/users/create', $('#register').serialize(), function (d) {
-            if (0 == d.status) {
-                register_dialog.close();
+            if (8 == d.status) {
                 mdui.alert(d.message);
+                register_dialog.close();
+                login_dialog.open();
+            } else if (0 == d.status) {
+                $('#error_msg_username').text(d.message);
+                $('#register_username').addClass('mdui-textfield-invalid');
+                mdui.mutation();
+            } else if (1 == d.status) {
+                $('#error_msg_username').text(d.message);
+                $('#register_username').addClass('mdui-textfield-invalid');
+                mdui.mutation();
+            } else if (2 == d.status) {
+                $('#error_msg_password').text(d.message);
+                $('#register_password').addClass('mdui-textfield-invalid');
+                mdui.mutation();
+            } else if (3 == d.status) {
+                $('#error_msg_password_again').text(d.message);
+                $('#register_password_again').addClass('mdui-textfield-invalid');
+                mdui.mutation();
+            } else if (4 == d.status) {
+                $('#error_msg_password_again').text(d.message);
+                $('#register_password_again').addClass('mdui-textfield-invalid');
+                mdui.mutation();
+            } else if (5 == d.status) {
+                $('#error_msg_email').text(d.message);
+                $('#register_email').addClass('mdui-textfield-invalid');
+                mdui.mutation();
+            } else if (6 == d.status) {
+                $('#error_msg_email').text(d.message);
+                $('#register_email').addClass('mdui-textfield-invalid');
+                mdui.mutation();
+            } else if (7 == d.status) {
+                $('#error_msg_email').text(d.message);
+                $('#register_email').addClass('mdui-textfield-invalid');
+                mdui.mutation();
             }
-            register_dialog.close();
-            mdui.alert(d.message);
+
         })
     }
 
