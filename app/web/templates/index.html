@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="renderer" content="webkit">
     <link rel="stylesheet" href="{{ url_for('.static', filename='asset/mdui/css/mdui.min.css') }}">
+    <script src="{{ url_for('.static', filename='asset/chisec/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('.static', filename='asset/mdui/js/mdui.min.js') }}"></script>
     <title>1finite</title>
 </head>
@@ -26,7 +27,7 @@
             <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>
             </button>
         </div>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#loginDialog'}"><i
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon" onclick="open_login_dialog()"><i
                 class="mdui-icon material-icons">account_circle</i></a>
     </div>
 </header>
@@ -78,7 +79,8 @@
     <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
         <div class="mdui-color-indigo">
             <div style="height: 150px;">
-                <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense" mdui-dialog-close>
+                <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
+                        mdui-dialog-close>
                     <i class="mdui-icon material-icons">clear</i>
                 </button>
             </div>
@@ -88,30 +90,108 @@
                 </div>
             </div>
         </div>
+        <div style="margin-bottom: 60px">
 
-        <form id="login">
-            <div style="margin-bottom: 60px">
-            <div style="margin-left: 30px; margin-right: 30px;">
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">用户名</label>
-                <input class="mdui-textfield-input" type="text"/>
-            </div>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">密码</label>
-                <input class="mdui-textfield-input" type="password"/>
+            <form id="login">
+
+                <div style="margin-left: 30px; margin-right: 30px;">
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <label class="mdui-textfield-label">用户名</label>
+                        <input class="mdui-textfield-input" type="text" name="username"/>
+                    </div>
+                    <div class="mdui-textfield mdui-textfield-floating-label" id="password">
+                        <label class="mdui-textfield-label">密码</label>
+                        <input class="mdui-textfield-input" type="password" name="password"/>
+                        <div class="mdui-textfield-error" id="error_msg"></div>
+                    </div>
+                </div>
+
+            </form>
+
+            <div style="margin: 30px;">
+                &nbsp;
+                <div class="mdui-float-left">
+                    <button class="mdui-btn">注册</button>
+                </div>
+                <div class="mdui-float-right">
+                    <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="login()">登录</button>
+                </div>
             </div>
         </div>
-        </form>
-        <div style="margin: 30px;">
-            &nbsp;
-            <div class="mdui-float-left"><button class="mdui-btn">注册</button></div>
-            <div class="mdui-float-right"><button class="mdui-btn mdui-color-theme-accent mdui-ripple">登录</button></div>
+    </div>
+
+    <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="registerDialog">
+        <div class="mdui-color-indigo">
+            <div style="height: 150px;">
+                <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
+                        mdui-dialog-close>
+                    <i class="mdui-icon material-icons">clear</i>
+                </button>
+            </div>
+            <div style="height: 50px;">
+                <div class="mdui-typo-title" style="margin-left: 30px; margin-right: 30px;">
+                    注册
+                </div>
+            </div>
         </div>
+        <div style="margin-bottom: 60px">
+
+            <form id="login">
+
+                <div style="margin-left: 30px; margin-right: 30px;">
+                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_username">
+                        <label class="mdui-textfield-label">用户名</label>
+                        <input class="mdui-textfield-input" type="text" name="username"/>
+                        <div class="mdui-textfield-error" id="error_msg_username"></div>
+                    </div>
+                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_password">
+                        <label class="mdui-textfield-label">密码</label>
+                        <input class="mdui-textfield-input" type="password" name="password"/>
+                        <div class="mdui-textfield-error" id="error_msg_password"></div>
+                    </div>
+                    <div class="mdui-textfield mdui-textfield-floating-label" id="register_password_again">
+                        <label class="mdui-textfield-label">确认密码</label>
+                        <input class="mdui-textfield-input" type="password" name="password_again"/>
+                        <div class="mdui-textfield-error" id="error_msg_password_again"></div>
+                    </div>
+                </div>
+
+            </form>
+
+            <div style="margin: 30px;">
+                &nbsp;
+                <div class="mdui-float-left">
+                    <button class="mdui-btn">注册</button>
+                </div>
+                <div class="mdui-float-right">
+                    <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="login()">登录</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+</div>
 <script>
     mdui.mutation();
+
+    let login_dialog = new mdui.Dialog('#loginDialog');
+
+    let open_login_dialog = function () {
+        login_dialog.open();
+    };
+
+    let login = function () {
+        $.post('/api/users/login', $('#login').serialize(), function (d) {
+                if (0 == d.status) {
+                    login_dialog.close();
+                    mdui.alert(d.message);
+                }else{
+                    $('#error_msg').text(d.message);
+                    $('#password').addClass('mdui-textfield-invalid');
+                    mdui.mutation();
+                }
+            }, 'json');
+    }
     // var inst = new mdui.Fab('#fab');
 </script>
 </body>
