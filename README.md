@@ -51,3 +51,14 @@ Topic_artical:
 | content  | text |         |
 | sum      | text |         |
 
+sex:
+
+| sex  | int  | 
+| ---- | ---- |
+| 未知 |  0  |
+|  男  | 1 | 
+|  女  | 2 |
+|女汉子 | 3 |
+|女装大佬| 4 |
+
+
