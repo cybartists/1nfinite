@@ -3,7 +3,7 @@ from flask import request, flash, render_template, redirect, url_for, jsonify
 from app.api import api
 from app.base.extensions import DBSession
 from app.base.function import password_encode, password_auth
-from app.model.user import User
+from app.model.User import User
 
 
 @api.route('/users/login', methods=['POST'])
