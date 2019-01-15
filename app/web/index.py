@@ -1,6 +1,6 @@
 from flask import render_template, url_for
 from app.web import web
-from app.model.user import User
+from app.model.User import User
 
 
 @web.route('/')
