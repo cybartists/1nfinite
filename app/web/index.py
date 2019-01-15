@@ -5,6 +5,5 @@ from app.model.user import User
 
 @web.route('/')
 def index():
-    User()
     return render_template('/index.html')
 

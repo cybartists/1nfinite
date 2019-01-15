@@ -1,24 +1,18 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_moment import Moment
-from flask_login import LoginManager
-from flask_wtf.csrf import CSRFProtect
-from .config import Config
+from flask_uploads import UploadSet,IMAGES,configure_uploads,patch_request_class
+
+#创建对象
 
 db = SQLAlchemy()
 moment = Moment()
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
+# photos = UploadSet('photos',IMAGES)
 
+#完成对象 跟 实例的绑定
 
-class Extensions:
+def config_extensions(app):
+    db.init_app(app)
+    moment.init_app(app)
 
-    @staticmethod
-    def init_app(app):
-        db.init_app(app)
-        moment.init_app(app)
-        login_manager.init_app(app)
-        CSRFProtect(app)
-
-
-
+    # configure_uploads(app, photos)
+    patch_request_class(app,size=None)
