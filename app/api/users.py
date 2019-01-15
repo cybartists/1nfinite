@@ -83,7 +83,7 @@ def channelCount():
         db_session = DBSession()
         userid = session.get('user_id')
         db_session.execute('select * from channel where user_id='+str(userid))
-
+        pass
 
     except Exception as e:
         print(e)
