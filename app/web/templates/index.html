@@ -26,20 +26,21 @@
             <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>
             </button>
         </div>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">account_circle</i></a>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#loginDialog'}"><i
+                class="mdui-icon material-icons">account_circle</i></a>
     </div>
 </header>
 
 <!-- 侧边栏 -->
 <div class="mdui-drawer" id="main-drawer">
-{#     <div class="mdui-grid-tile">#}
-{#        <a><img src="{{ url_for('.static', filename='asset/chisec/avator.jpg') }}"/></a>#}
-{#        <div class="mdui-grid-tile-actions">#}
-{#            <div class="mdui-grid-tile-text">#}
-{#                <div class="mdui-grid-tile-title">游客</div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    {#     <div class="mdui-grid-tile">#}
+    {#        <a><img src="{{ url_for('.static', filename='asset/chisec/avator.jpg') }}"/></a>#}
+    {#        <div class="mdui-grid-tile-actions">#}
+    {#            <div class="mdui-grid-tile-text">#}
+    {#                <div class="mdui-grid-tile-title">游客</div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
 
     <ul class="mdui-list">
         <li class="mdui-list-item mdui-ripple mdui-list-item-active">
@@ -74,36 +75,34 @@
         </div>
     </div>
 
-    <div class="mc-login mdui-dialog" style="top: 155px; display: block; height: 540px;">
-        <button class="mdui-btn mdui-btn-icon mdui-text-color-white close"><i class="mdui-icon material-icons">close</i>
-        </button>
-        <div class="mdui-dialog-title mdui-color-indigo">登录</div>
-        <form>
-            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom mdui-textfield-invalid-html5">
-                <label class="mdui-textfield-label">用户名或邮箱</label><input class="mdui-textfield-input" name="name"
-                                                                         type="text" required="">
-                <div class="mdui-textfield-error">账号不能为空</div>
-            </div>
-            <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-has-bottom"><label
-                    class="mdui-textfield-label">密码</label><input class="mdui-textfield-input" name="password"
-                                                                  type="password" required="">
-                <div class="mdui-textfield-error">密码不能为空</div>
-            </div>
-            <div class="actions mdui-clearfix">
-                <button class="mdui-btn mdui-ripple more-option" type="button"
-                        mdui-menu="{target: '#mc-login-menu', position: 'top', covered: true}">更多选项
-                </button>
-                <ul class="mdui-menu" id="mc-login-menu">
-                    <li class="mdui-menu-item"><a class="mdui-ripple mc-password-reset-trigger">忘记密码</a></li>
-                    <li class="mdui-menu-item"><a class="mdui-ripple mc-register-trigger">创建新账号</a></li>
-                </ul>
-                <button type="submit" class="mdui-btn mdui-btn-raised mdui-color-theme-accent mdui-float-right">登录
+    <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 540px;" id="loginDialog">
+        <div class="mdui-color-indigo">
+            <div style="height: 150px;">
+                <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense">
+                    <i class="mdui-icon material-icons">clear</i>
                 </button>
             </div>
-        </form>
+            <div style="height: 50px;">
+                <div class="mdui-typo-title" style="margin-left: 30px; margin-right: 30px;">
+                    登录
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-left: 30px; margin-right: 30px; margin-bottom: 30px">
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label">用户名</label>
+                <input class="mdui-textfield-input" type="text"/>
+            </div>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label">密码</label>
+                <input class="mdui-textfield-input" type="password"/>
+            </div>
+        </div>
     </div>
 </div>
 <script>
+    mdui.mutation();
     // var inst = new mdui.Fab('#fab');
 </script>
 </body>

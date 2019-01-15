@@ -36,11 +36,10 @@ Topic:
 
 image:
 
-| key        | type | comment |
-| ---------- | ---- | ------- |
-| id         | int  |         |
-| channel_id | int  | fk      |
-| url        | text |         |
+| key  | type | comment |
+| ---- | ---- | ------- |
+| id   | int  |         |
+| url  | text |         |
 
 Topic_artical:
 
