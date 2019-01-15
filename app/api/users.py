@@ -4,18 +4,20 @@ from app.api import api
 from app.base.extensions import DBSession
 from app.base.function import password_encode, password_auth
 from app.model.User import User
+from app.model.Channel import Channel
+from app.base.function import correct_email
 
 
 @api.route('/users/login', methods=['POST'])
 def login():
     form = request.form
-    if None  == form['username']or form['username'] == '':
+    if None == form['username'] or form['username'] == '':
         return jsonify({'status': 0, 'message': '请输入用户名！'})
-    if None == form['password']or form['password'] == '':
+    if None == form['password'] or form['password'] == '':
         return jsonify({'status': 1, 'message': '请输入密码！'})
 
     db_session = DBSession()
-    user = db_session.query(User).filter(User.username == form['username']).one()
+    user = db_session.query(User).filter(User.username == form['username']).first()
     db_session.close()
 
     session['user_id'] = user.id
@@ -31,8 +33,28 @@ def create():
     form = request.form
     try:
         username = form['username']
+        if username == None or username == '':
+            return jsonify({'status': 0, 'message': '用户名为空'})
+
         password = form['password']
+
+        if password == None or password == '':
+            return jsonify({'status': 2, 'message': '密码为空'})
+        password_again = form['password_again']
+
+        if password_again == None or password_again == '':
+            return jsonify({'status': 3, 'message': '确认密码为空'})
+
+        if password_again != password:
+            return jsonify({'status': 4, 'message': '两次密码不同'})
+
         email = form['email']
+
+        if email == None or email == '':
+            return jsonify({'status': 5, 'message': '邮箱空'})
+        if correct_email(email) == False:
+            return jsonify({'status': 6, 'message': '邮箱格式错误'})
+
         # sex = form['sex']
         # nickname = form['nickname']
 
@@ -45,7 +67,7 @@ def create():
         user = db_session.query(User).filter(User.username == username).first()
         if user is not None:
             db_session.close()
-            return jsonify({'status': 2, 'message': '用户名重复'})
+            return jsonify({'status': 1, 'message': '用户名已存在'})
 
         email = db_session.query(User).filter(User.email == email).first()
         if email is not None:
@@ -56,10 +78,10 @@ def create():
         db_session.commit()
         db_session.close()
 
-        return jsonify({'status': 0, 'message': '注册成功'})
+        return jsonify({'status': 8, 'message': '注册成功'})
     except Exception as e:
         print(e)
-        return jsonify({'status': 1, 'message': '未知错误'})
+        return jsonify({'status': 7, 'message': '未知错误'})
 
 
 @api.route('/users/update', methods=['POST'])
@@ -70,21 +92,27 @@ def updateUsers():
         pass
     except Exception as e:
         print(e)
-        return jsonify({'status':1,'message':'未知错误'})
+        return jsonify({'status': 1, 'message': '未知错误'})
 
 
 @api.route('/users/list', methods=['POST'])
 def getList():
     pass
 
-@api.route('/users/channelcount',methods=['POST'])
+
+@api.route('/users/channelcount', methods=['POST'])
 def channelCount():
     try:
         db_session = DBSession()
         userid = session.get('user_id')
-        db_session.execute('select * from channel where user_id='+str(userid))
-        pass
+        #db操作
+
+        user = db_session.query(Channel).filter_by(user_id=userid).all()
+
+        countNum = int(len(user))
+
+        return jsonify({'status':0,'message':'获得数据成功','countNum':countNum})
 
     except Exception as e:
         print(e)
-        return jsonify({'status':1,'message':'没有登录'})
+        return jsonify({'status': 1, 'message': '没有登录'})
