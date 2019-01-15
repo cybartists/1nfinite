@@ -7,10 +7,12 @@ from app.base.extensions import Base
 class User(Base):
     __tablename__ = 'User'
     id = Column(INT, primary_key=True, autoincrement=True)
+    email = Column(VARCHAR(255))
     username = Column(VARCHAR(255))
-    nickname = Column(VARCHAR(255))
-    sex = Column(INT)
     admin = Column(INT)
     ban = Column(INT)
-    email = Column(VARCHAR(255))
+
+
+    nickname = Column(VARCHAR(255))
+    sex = Column(INT)
     password = Column(VARCHAR(255))
