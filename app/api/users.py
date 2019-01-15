@@ -2,11 +2,12 @@
 from flask import request, flash, render_template, redirect, url_for, jsonify
 from app.api import api
 from app import base
-
-
+from werkzeug.security import generate_password_hash,check_password_hash
+from app.base.function import password_hash
 @api.route('/users/get_user', methods=['POST'])
 def getUsers():
     form = request.form
+
 
     if 'username_example' == form['username'] and 'password_example' == form['password']:
         return jsonify({'status':0})
@@ -24,6 +25,10 @@ def createUsers():
         email = form['email']
         sex = form['sex']
         nickname = form['nickname']
+        #密码处理
+        password_coding = password_hash(password)
+
+
         #db操作
         if username == 'username_example':
             return jsonify({'status':2,'message':'用户名重复'})
