@@ -1,8 +1,6 @@
 #decoding=utf-8
 from flask import request, flash, render_template, redirect, url_for, jsonify
 from app.api import api
-from app import base
-from werkzeug.security import generate_password_hash,check_password_hash
 from app.base.function import password_hash
 @api.route('/users/get_user', methods=['POST'])
 def getUsers():
