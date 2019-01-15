@@ -16,6 +16,6 @@ def index():
         login = True
         if user.admin == 1:
             admin = True
-    print('用户: '+user.username+' 访问。')
+        print('用户: ' + user.username + ' 访问。')
 
     return render_template('/index.html', login=login, admin=admin)

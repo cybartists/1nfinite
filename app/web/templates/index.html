@@ -60,10 +60,16 @@
             <div class="mdui-list-item-content">发现</div>
         </a>
         {% if admin %}
-        <a class="mdui-list-item mdui-ripple" href="/admin">
-            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink">verified_user</i>
-            <div class="mdui-list-item-content">滥权中心</div>
-        </a>
+            <a class="mdui-list-item mdui-ripple" href="/admin">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink">verified_user</i>
+                <div class="mdui-list-item-content">滥权中心</div>
+            </a>
+        {% endif %}
+        {% if login %}
+            <a class="mdui-list-item mdui-ripple" onclick="logout()">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink">verified_user</i>
+                <div class="mdui-list-item-content">退出登录</div>
+            </a>
         {% endif %}
     </div>
 </div>
@@ -189,6 +195,8 @@
                 </div>
             </div>
         </div>
+
+        <div class=""></div>
     {% endif %}
 
 </div>
@@ -214,7 +222,9 @@
             $.post('/api/users/login', $('#login').serialize(), function (d) {
                 if (2 == d.status) {
                     login_dialog.close();
-                    mdui.alert(d.message);
+                    mdui.alert(d.message, function () {
+                        location.reload();
+                    });
                 } else {
                     if (0 == d.status) {
                         $('#error_login_msg_username').text(d.message);
@@ -278,6 +288,17 @@
         };
     {% endif %}
 
+    {% if login %}
+        let logout = function () {
+            $.post('/api/users/logout',{},function (d) {
+                if (0 == d.status) {
+                    mdui.alert(d.message, function () {
+                       location.reload();
+                    });
+                }
+            })
+        };
+    {% endif %}
     // var inst = new mdui.Fab('#fab');
 </script>
 </body>
