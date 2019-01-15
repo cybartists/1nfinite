@@ -98,12 +98,12 @@
                     <div class="mdui-textfield mdui-textfield-floating-label" id="username">
                         <label class="mdui-textfield-label">用户名</label>
                         <input class="mdui-textfield-input" type="text" name="username"/>
-                        <div class="mdui-textfield-error" id="error_msg_username"></div>
+                        <div class="mdui-textfield-error" id="error_login_msg_username"></div>
                     </div>
                     <div class="mdui-textfield mdui-textfield-floating-label" id="password">
                         <label class="mdui-textfield-label">密码</label>
                         <input class="mdui-textfield-input" type="password" name="password"/>
-                        <div class="mdui-textfield-error" id="error_msg_password"></div>
+                        <div class="mdui-textfield-error" id="error_login_msg_password"></div>
                     </div>
                 </div>
 
@@ -200,17 +200,16 @@
                 mdui.alert(d.message);
             } else {
                 if (0 == d.status) {
-                    $('#error_msg_username').text(d.message);
+                    $('#error_login_msg_username').text(d.message);
                     $('#username').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 }
                 else if (1 == d.status) {
-                    $('#error_msg_password').text(d.message);
+                    $('#error_login_msg_password').text(d.message);
                     $('#password').addClass('mdui-textfield-invalid');
                     mdui.mutation();
-                }
-                else {
-                    $('#error_msg_password').text(d.message);
+                } else {
+                    $('#error_login_msg_password').text(d.message);
                     $('#password').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 }
