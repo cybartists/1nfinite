@@ -1,5 +1,5 @@
 from app.base.extensions import DBSession
-from app.model.user import User
+from app.model.User import User
 
 session = DBSession()
 
