@@ -7,11 +7,10 @@ from app.web import web
 from app.admin import admin
 
 config = Config()
-extensions = Extensions()
 
 app = Flask(__name__)
 config.init_app(app)
-extensions.init_app(app)
+Extensions.init_app(app)
 
 app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(web, url_prefix='/web')
