@@ -8,6 +8,15 @@ from app.model.Channel import Channel
 from app.base.function import correct_email
 
 
+sex_dict = {
+        0:'未知',
+        1:'男',
+        2:'女',
+        3:'女汉子',
+        4:'女装大佬'
+    }
+
+
 @api.route('/users/login', methods=['POST'])
 def login():
     form = request.form
@@ -129,7 +138,27 @@ def updateUsers():
 def getList():
     pass
 
+@api.route('/user/listsex',methods=['POST'])
+def listSex():
+    try:
+        return jsonify({'status':0,'message':'获取成功','data':sex_dict})
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败','data':None})
 
+
+
+
+
+
+@api.route('/users/sex',methods=['POST'])
+def getSex():
+    try:
+        sex = request.form['sex']
+        sex_code = sex_dict[sex]
+        return jsonify({'status':0,'message':'获取成功','data':{sex_code:sex}})
+
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败'})
 @api.route('/users/channelcount', methods=['POST'])
 def channelCount():
     try:
