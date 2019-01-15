@@ -69,15 +69,15 @@ def create():
             db_session.close()
             return jsonify({'status': 1, 'message': '用户名已存在'})
 
-        email = db_session.query(User).filter(User.email == email).first()
-        if email is not None:
-            return jsonify({'status': 3, 'message': '邮箱重复'})
+        email_db = db_session.query(User).filter(User.email == email).first()
+        if email_db is not None:
+            return jsonify({'status': 9, 'message': '邮箱重复'})
 
-        user = User(username=username, password=password_encoded)
+        user = User(username=username, password=password_encoded,email=email)
+        session['user_id'] = user.id#自动登录
         db_session.add(user)
         db_session.commit()
         db_session.close()
-
         return jsonify({'status': 8, 'message': '注册成功'})
     except Exception as e:
         print(e)
@@ -95,9 +95,31 @@ def logout():
 
 @api.route('/users/update', methods=['POST'])
 def updateUsers():
-    form = request.form
     try:
-        pass
+        if session['user_id'] == None or session['user_id']=='':
+            return jsonify({'status':2,'message':'没有登录'})
+        else:
+            form = request.form
+            nickname = form['nickname']
+            sex = form['sex']
+            password = form['password']
+
+            db_session = DBSession()
+            user_id = session['user_id']
+            user = db_session.query(User).filter_by(id=user_id).first()
+            if nickname!=None and nickname!='':
+                user.nickname = nickname
+            if sex != None and sex !='':
+                user.sex = sex
+            if password !=''and password!=None:
+                password_encoded = password_encode(password)
+
+                user.password = password_encoded
+            db_session.commit()
+            db_session.close()
+            return jsonify({'status':0,'message':'修改成功'})
+
+
     except Exception as e:
         print(e)
         return jsonify({'status': 1, 'message': '未知错误'})
