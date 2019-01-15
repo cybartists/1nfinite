@@ -9,10 +9,10 @@ from app.model.User import User
 @api.route('/users/login', methods=['POST'])
 def login():
     form = request.form
-    if None == form['username']:
-        return jsonify({'status': 1, 'message': '请输入用户名！'})
-    if None == form['password']:
-        return jsonify({'status': 2, 'message': '请输入密码！'})
+    if None  == form['username']or form['username'] == '':
+        return jsonify({'status': 0, 'message': '请输入用户名！'})
+    if None == form['password']or form['password'] == '':
+        return jsonify({'status': 1, 'message': '请输入密码！'})
 
     db_session = DBSession()
     user = db_session.query(User).filter(User.username == form['username']).one()
@@ -21,9 +21,9 @@ def login():
     session['user_id'] = user.id
 
     if None is not user and password_auth(password_to_be_checked=form['password'], password=user.password):
-        return jsonify({'status': 0, 'message': '登录成功'})
+        return jsonify({'status': 2, 'message': '登录成功'})
     else:
-        return jsonify({'status': 1, 'message': '登录失败'})
+        return jsonify({'status': 3, 'message': '登录失败'})
 
 
 @api.route('/users/create', methods=['POST'])
