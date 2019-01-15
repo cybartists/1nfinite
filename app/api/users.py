@@ -77,4 +77,14 @@ def updateUsers():
 def getList():
     pass
 
+@api.route('/users/channelcount',methods=['POST'])
+def channelCount():
+    try:
+        db_session = DBSession()
+        userid = session.get('user_id')
+        db_session.execute('select * from channel where user_id='+str(userid))
 
+
+    except Exception as e:
+        print(e)
+        return jsonify({'status':1,'message':'没有登录'})
