@@ -2,7 +2,7 @@
 from flask import request, flash, render_template, redirect, url_for, jsonify, session
 from app.api import api
 from app.base.extensions import DBSession
-from app.base.function import password_encode, password_auth
+from app.base.function import is_admin,password_encode, password_auth
 from app.model.User import User
 from app.model.Channel import Channel
 from app.base.function import correct_email
@@ -122,6 +122,8 @@ def updateUsers():
             sex = form['sex']
             password = form['password']
 
+
+
             db_session = DBSession()
             user_id = session['user_id']
             user = db_session.query(User).filter_by(id=user_id).first()
@@ -145,6 +147,8 @@ def updateUsers():
     except Exception as e:
         print(e)
         return jsonify({'status': 1, 'message': '未知错误'})
+
+
 
 
 @api.route('/users/list', methods=['POST'])
@@ -246,5 +250,44 @@ def pageCount():
         users = db_session.query(User).all()
         count = len(users)/10
         return jsonify({'status':0,'message':'获取成功','page_count':int(count)+1})
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
+
+@api.route('/users/admin_update',methods=['POST'])
+def admin_update():
+    try:
+        if session['user_id'] == None or session['user_id'] == '':
+            return jsonify({'status': 3, 'message': '没有登录'})
+
+        if is_admin():
+            form = request.form
+            admin = form['admin']
+            ban = form['ban']
+            nickname = form['nickname']
+            sex = form['sex']
+            password = form['password']
+            db_session = DBSession()
+            user_id = form['id']
+            user = db_session.query(User).filter_by(id=user_id).first()
+
+
+
+            if admin != None and admin != '':
+                user.admin = admin
+            if ban != None and ban != '':
+                user.ban = ban
+            if nickname != None and nickname != '':
+                user.nickname = nickname
+            if sex != None and sex != '':
+                user.sex = sex
+            if password != '' and password != None:
+                password_encoded = password_encode(password)
+                user.password = password_encoded
+            db_session.commit()
+            db_session.close()
+            return jsonify({'status': 0, 'message': '修改成功'})
+
+        else:
+            return jsonify({'status':2,'message':'不是管理员'})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
