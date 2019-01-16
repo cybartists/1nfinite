@@ -12,25 +12,44 @@ from app.base.function import sort_by_time, pd_time
 def listAll():
     try:
         db_session = DBSession()
-        data = db_session.query(Channel).order_by(Channel.create_time.desc()).all()
+        page_num = request.form['page']
+        data = db_session.query(Channel).order_by(Channel.create_time.desc()).limit(11).offset((page_num-1)*10).all()
         Channel_list_arr = []
-        for i in data:
+        if len(data)<=10:
+            for i in data:
+                Channel_list = {}
+                id = i.id
+                user_id = i.user_id
+                Content = i.Content
+                create_time = pd_time(i.create_time)
+                Channel_list.update(
+                    {
+                        'id':id,
+                        'user_id':user_id,
+                        'Content':Content,
+                        'create_time':create_time
+                    }
+                )
+                Channel_list_arr.append(Channel_list)
+                db_session.close()
+            return jsonify({'status':2,'message':'最后一页了','data':Channel_list_arr})
+        for i in range(10):
             Channel_list = {}
-            id = i.id
-            user_id = i.user_id
-            Content = i.Content
-            create_time = pd_time(i.create_time)
+            id = data[i].id
+            user_id = data[i].user_id
+            Content = data[i].Content
+            create_time = pd_time(data[i].create_time)
             Channel_list.update(
                 {
-                    'id':id,
-                    'user_id':user_id,
-                    'Content':Content,
-                    'create_time':create_time
+                    'id': id,
+                    'user_id': user_id,
+                    'Content': Content,
+                    'create_time': create_time
                 }
             )
             Channel_list_arr.append(Channel_list)
             db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':Channel_list_arr})
+        return jsonify({'status': 0, 'message': '获取成功', 'data': Channel_list_arr})
     except Exception as e :
         return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
 
