@@ -161,7 +161,7 @@ def getList():
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{}})
 
-@api.route('/users/listNext',['POST'])
+@api.route('/users/listNext',methods=['POST'])
 def getlistNext():
     try:
         db_session = DBSession()
