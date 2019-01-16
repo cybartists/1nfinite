@@ -170,7 +170,7 @@ def getList():
                 )
                 user_dict_list.append(user_dict)
 
-            return jsonify({'status':2,'message':'这是最后了','data':user_dict_list})
+            return jsonify({'status':2,'message':'这是最后了','data':user_dict_list,'page':page_num})
         for i in range(10):
             user_dict = {}
             user_id = users[i].id
@@ -192,7 +192,7 @@ def getList():
             user_dict_list.append(user_dict)
         session['user_page_count'] += 10
         db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':user_dict_list})
+        return jsonify({'status':0,'message':'获取成功','data':user_dict_list,'page':page_num})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{},'error_message':str(e)})
 

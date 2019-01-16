@@ -3,7 +3,7 @@ from flask import session
 from app.base.extensions import DBSession
 from app.model.User import User
 import re
-
+import datetime
 
 def password_encode(password):
     return generate_password_hash(password)
@@ -39,3 +39,23 @@ def is_admin():
 #时间戳排序
 def sort_by_time(List):
     List.sort(key=lambda x:x.create_time,reverse=True)
+
+
+def pd_time(time):
+    sec = (datetime.datetime.utcnow()-time).seconds
+    if sec<60:
+        return str(sec)+'秒前'
+    else:
+        minute = sec/60
+        if minute <60:
+            return str(int(minute))+'分钟前'
+        else:
+            hour = minute/60
+            if hour<24:
+                return str(int(hour))+'小时前'
+            else:
+                days = hour/24
+                if days<7:
+                    return str(int(days))+'天前'
+                else:
+                    return str(time)
