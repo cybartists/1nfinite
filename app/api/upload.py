@@ -8,7 +8,7 @@ def upload():
     if file:
         filename = file.filename
         cwd = os.getcwd()
-        file.save(os.path.join(cwd,filename))
+        file.save(os.path.join(cwd,'/app/api/static/upload/'+filename))
         return jsonify({'status':0,'message':'保存成功'})
     else:
         return jsonify({'status':1,'message':'保存失败'})

@@ -236,8 +236,8 @@
     <div id="content"></div>
 
     <div class="mdui-row">
-        <div class="mdui-col-md-7 mdui-col-sm-8">
-            <div class="mdui-spinner mdui-hidden mdui-center mdui-m-y-5" id="lazy_load_spinner"></div>
+        <div class="mdui-col-md-7 mdui-col-sm-8 mdui-hidden" id="lazy_load_spinner">
+            <div class="mdui-spinner mdui-center mdui-m-y-5"></div>
         </div>
     </div>
 </div>
@@ -277,6 +277,7 @@
 
 <script>
     mdui.mutation();
+    let page = 1, enable_load = true;
 
     {% if not login %}
         let login_dialog = new mdui.Dialog('#loginDialog');
@@ -363,10 +364,13 @@
     {% endif %}
 
     // var inst = new mdui.Fab('#fab');
+
     LazyLoadEvent(function () {
-        return true;
+        return enable_load;
     }, function () {
         $('#lazy_load_spinner').removeClass('mdui-hidden');
+        enable_load = false;
+        update_content();
         {#alert('到底了');#}
     });
 
@@ -377,6 +381,28 @@
         close: '%>'
     });
 
+
+    let update_content = function () {
+        $.post('/api/channel/listdynamic', {page: page}, function (d) {
+            if (0 == d.status || 2 == d.status) {
+                $('#lazy_load_spinner').addClass('mdui-hidden');
+
+                const channelTpl = channel_tpl.innerHTML;
+                const view = document.getElementById('content');
+                for (const item of d.data) {
+                    laytpl(channelTpl).render(item, function (html) {
+                        view.innerHTML += html;
+                    });
+                }
+                ++page;
+                enable_load = true;
+            }
+            if (0 != d.status) {
+                $('#lazy_load_spinner').html(d.message);
+            }
+        });
+    };
+
     const data = {
         "id": "",
         "avatar": "{{ url_for('.static', filename='asset/chisec/avator.jpg') }}",
@@ -386,11 +412,8 @@
         "content": "<a href=\"\">@ryo</a> 进来挨打"
     };
 
-    const channelTpl = channel_tpl.innerHTML;
-    const view = document.getElementById('content');
-    laytpl(channelTpl).render(data, function (html) {
-        view.innerHTML = html;
-    })
+    // init
+    update_content();
 
 
 </script>
