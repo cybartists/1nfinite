@@ -7,14 +7,10 @@
     <meta name="renderer" content="webkit">
     <link rel="stylesheet" href="{{ url_for('.static', filename='asset/mdui/css/mdui.min.css') }}">
     <script src="{{ url_for('.static', filename='asset/mdui/js/mdui.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/jquery.min.js') }}"></script>
     <title>1finite-Admin</title>
 
-    <!-- global stylesheets -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('.static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('.static', filename='css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('.static', filename='css/font-icon-style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('.static', filename='css/style.default.css') }}" id="theme-stylesheet">
+
 </head>
 <body class="mdui-theme-layout-dark mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded mdui-drawer-body-left"
       style="margin-top: 20px;">
@@ -47,51 +43,109 @@
             <div class="mdui-list-item-content">首页</div>
         </a>
 
-           <a class="mdui-list-item mdui-ripple" href="../visitor">
+        <a class="mdui-list-item mdui-ripple" href="../visitor">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">assignment_turned_in</i>
             <div class="mdui-list-item-content">访客记录</div>
-       </a>
+        </a>
         <a class="mdui-list-item mdui-ripple mdui-list-item-active">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">assignment_ind</i>
             <div class="mdui-list-item-content">用户管理</div>
-       </a>
+        </a>
         <a class="mdui-list-item mdui-ripple" href="../channel">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">keyboard_voice</i>
             <div class="mdui-list-item-content">频道管理</div>
-       </a>
+        </a>
         <a class="mdui-list-item mdui-ripple" href="../topic">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">chat_bubble</i>
             <div class="mdui-list-item-content">话题管理</div>
-       </a>
+        </a>
         <a class="mdui-list-item mdui-ripple" href="../game">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">videogame_asset</i>
             <div class="mdui-list-item-content">游戏公墓</div>
-       </a>
+        </a>
     </div>
 </div>
 
 <div class="mdui-container">
-<h4>用户管理</h4>
+    <h4>用户管理</h4>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="load_user()">获取</button>
+    <table class="mdui-table mdui-table-hoverable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>uesername</th>
+            <th>admin</th>
+            <th>ban</th>
+            <th>nickname</th>
+            <th>sex</th>
+            <th>编辑</th>
+            <th>删除</th>
+        </tr>
+        </thead>
+        <tbody id="user_table">
 
+        </tbody>
+    </table>
+    {#    编辑页面#}
+    <div class="mdui-dialog" id="editDialog">
+        <div class="mdui-dialog-title">Edit</div>
+        <div class="mdui-dialog-content">You'll lose all photos and media!</div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-close>cancel</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>erase</button>
+        </div>
+    </div>
+
+    {#    删除页面#}
+    <div class="mdui-dialog" id="deleteDialog">
+        <div class="mdui-dialog-title">Delete</div>
+        <div class="mdui-dialog-content">You'll lose all photos and media!</div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-close>cancel</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>erase</button>
+        </div>
+    </div>
 </div>
-    <!--图标 Javascript -->
-    <script src="{{ url_for('.static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('.static', filename='js/popper/popper.min.js') }}"></script>
-    <script src="{{ url_for('.static', filename='js/tether.min.js') }}"></script>
-    <script src="{{ url_for('.static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('.static', filename='js/jquery.cookie.js') }}"></script>
-    <script src="{{ url_for('.static', filename='js/jquery.validate.min.js') }}"></script>
-    <script src="{{ url_for('.static', filename='js/chart.min.js') }}"></script>
-    <script src="{{ url_for('.static', filename='js/front.js') }}"></script>
-
-    <!--Core Javascript -->
-    <script src="{{ url_for('.static', filename='js/chart-page.js') }}"></script>
-
-
 
 
 <script>
+    mdui.mutation();
+    let edit_dialog = new mdui.Dialog("#editDialog")
+    let delete_dialog = new mdui.Dialog("#deleteDialog")
 
+    function open_edit_dialog() {
+        edit_dialog.open();
+    }
+
+    function open_delete_dialog() {
+        delete_dialog.open();
+    }
+
+    function load_user() {
+        let oTab = document.getElementById('user_table');
+        $.post('/api/users/list', {'page': 1}, function (d) {
+            if (0 == d.status) {
+                for (let i = 0; i < d.data.length; i++) {
+                    let oTr = document.createElement('tr');
+                    oTr.innerHTML = '<td>' + d.data[i].id + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog()">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog()">删除</button></td>';
+                    oTab.appendChild(oTr);
+                }
+                mdui.mutation();
+            }
+            else if (2 == d.status) {
+                for (let i = 0; i < d.data.length; i++) {
+                    let oTr = document.createElement('tr');
+                    oTr.innerHTML = '<td>' + d.data[i].id + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog()">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog()">删除</button></td>';
+                    oTab.appendChild(oTr);
+                }
+                mdui.mutation();
+            }
+            else if (1 == d.status) {
+                mdui.alert(d.message)
+            }
+        })
+    }
+    load_user();
 </script>
 </body>
 </html>
