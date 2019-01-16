@@ -7,7 +7,6 @@ from app.model.Following import Following
 from app.model.Reference import Reference
 from app.base.function import sort_by_time, pd_time
 
-
 @api.route('/channel/listdynamic',methods=['POST'])
 def listAll():
     try:
@@ -18,6 +17,7 @@ def listAll():
             Channel_list = {}
             id = i.id
             user_id = i.user_id
+            username = db_session.query(User).filter(id=user_id).first().username
             Content = i.Content
             create_time = pd_time(i.create_time)
             Channel_list.update(
