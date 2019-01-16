@@ -114,6 +114,7 @@
                 <i class="mdui-icon material-icons">lock</i>
                 <label class="mdui-textfield-label">Password</label>
                 <input class="mdui-textfield-input" type="text" id="re_password"/>
+                <input class="mdui-hidden" type="text" id="re_uid"/>
             </div>
         </div>
         <div class="mdui-dialog-actions">
@@ -144,6 +145,7 @@
     let nickname_label = document.getElementById('re_nickname');
     let sex_label = document.getElementById('re_sex');
     let password_label = document.getElementById('re_password');
+    let uid_label = document.getElementById('re_uid');
 
     function open_edit_dialog(i) {
         console.log(data[i]);
@@ -151,6 +153,7 @@
         ban_label.value = data[i].ban;
         nickname_label.value = data[i].nickname;
         sex_label.value = data[i].sex;
+        uid_label.value = data[i].uid;
         edit_dialog.open();
     }
 
@@ -160,10 +163,16 @@
         let nickname = document.getElementById('re_nickname').value;
         let sex = document.getElementById('re_sex').value;
         let password = document.getElementById('re_password').value;
-        alert(nickname)
-        $.post('/api/users/admin_update', {'id':data[i].id,'admin':}, function (d) {
-
+        let uid = document.getElementById('re_uid').value;
+        $.post('/api/users/admin_update', {'id':uid,'admin':admin,'ban':ban,'nickname':nickname,'sex':sex,'password':password}, function (d) {
+            if (0 == d.status) {
+                edit_dialog.close();
+                    mdui.alert(d.message, function () {
+                        location.reload();
+                    });
+                }
         })
+
     }
 
     function open_delete_dialog(i) {
@@ -178,7 +187,7 @@
             if (0 == d.status) {
                 for (let i = 0; i < d.data.length; i++) {
                     let oTr = document.createElement('tr');
-                    oTr.innerHTML = '<td>' + d.data[i].id + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog(' + i + ')">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog(' + i + ')">删除</button></td>';
+                    oTr.innerHTML = '<td>' + d.data[i].uid + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog(' + i + ')">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog(' + i + ')">删除</button></td>';
                     oTab.appendChild(oTr);
                 }
                 mdui.mutation();
@@ -186,7 +195,7 @@
             else if (2 == d.status) {
                 for (let i = 0; i < d.data.length; i++) {
                     let oTr = document.createElement('tr');
-                    oTr.innerHTML = '<td>' + d.data[i].id + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog()">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog()">删除</button></td>';
+                    oTr.innerHTML = '<td>' + d.data[i].uid + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog()">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog()">删除</button></td>';
                     oTab.appendChild(oTr);
                 }
                 mdui.mutation();

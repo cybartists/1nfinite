@@ -170,7 +170,7 @@ def getList():
                 user_sex = i.sex
                 user_dict.update(
                     {
-                        'id': user_id,
+                        'uid': user_id,
                         'username': user_username,
                         'admin': user_admin,
                         'ban': user_ban,
@@ -191,7 +191,7 @@ def getList():
             user_sex = users[i].sex
             user_dict.update(
                 {
-                    'id':user_id,
+                    'uid':user_id,
                     'username':user_username,
                     'admin':user_admin,
                     'ban':user_ban,
