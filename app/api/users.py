@@ -116,6 +116,8 @@ def updateUsers():
             return jsonify({'status': 2, 'message': '没有登录'})
         else:
             form = request.form
+            admin = form['admin']
+            ban = form['ban']
             nickname = form['nickname']
             sex = form['sex']
             password = form['password']
@@ -123,6 +125,10 @@ def updateUsers():
             db_session = DBSession()
             user_id = session['user_id']
             user = db_session.query(User).filter_by(id=user_id).first()
+            if admin != None and admin != '':
+                user.admin = admin
+            if ban != None and ban != '':
+                user.ban = ban
             if nickname != None and nickname != '':
                 user.nickname = nickname
             if sex != None and sex != '':
