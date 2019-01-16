@@ -6,6 +6,7 @@ from app.model.Channel import Channel
 from app.model.Following import Following
 from app.model.Reference import Reference
 from app.base.function import sort_by_time, pd_time
+from app.model.User import User
 
 
 @api.route('/channel/listdynamic',methods=['POST'])
@@ -37,6 +38,7 @@ def listAll():
             Channel_list = {}
             id = data[i].id
             user_id = data[i].user_id
+            username = db_session.query(User).filter(id=user_id).first().username
             Content = data[i].Content
             create_time = pd_time(data[i].create_time)
             Channel_list.update(
@@ -44,7 +46,8 @@ def listAll():
                     'id': id,
                     'user_id': user_id,
                     'Content': Content,
-                    'create_time': create_time
+                    'create_time': create_time,
+                    'username':username
                 }
             )
             Channel_list_arr.append(Channel_list)
