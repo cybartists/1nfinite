@@ -7,6 +7,7 @@ from app.base.extensions import Base
 
 class Reference(Base):
     __tablename__ = 'Reference'
+    id =Column(INT,primary_key=True)
     user_id = Column(INT)
     channel_id = Column(INT)
     topic_id = Column(INT)
