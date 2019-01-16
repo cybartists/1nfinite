@@ -157,6 +157,7 @@ def getList():
                 }
             )
         session['user_page_count'] = 10
+        db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{}})
@@ -168,6 +169,25 @@ def getlistNext():
         users = db_session.query(User).all()
         last_count = session['user_page_count']
         user_dict = {}
+        if len(users)<=10:
+            for i in users:
+                user_id = i.id
+                user_username = i.username
+                user_admin = i.admin
+                user_ban = i.ban
+                user_sex = i.sex
+                user_nickname = i.nickname
+                user_dict.update(
+                    {
+                        'id': user_id,
+                        'username': user_username,
+                        'admin': user_admin,
+                        'ban': user_ban,
+                        'nickname': user_nickname,
+                        'sex': user_sex
+                    }
+                )
+            return jsonify({'status':2,'message':'到最后一页了','data':user_dict})
         for i in range(last_count,last_count+10):
             user_id = users[i].id
             user_username = users[i].username
@@ -186,6 +206,7 @@ def getlistNext():
                 }
             )
         session['user_page_count']+=10
+        db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{}})
@@ -221,6 +242,7 @@ def channelCount():
         # countNum = int(len(user))
 
         countNum = db_session.query(Channel).filter_by(user_id=userid).count()
+        db_session.close()
         return jsonify({'status': 0, 'message': '获得数据成功', 'countNum': countNum})
 
     except Exception as e:
