@@ -7,7 +7,7 @@ from app.model.Reference import Reference
 from app.base.function import sort_by_time, pd_time
 
 
-@api.route('/channel/referencelist')
+@api.route('/channel/referencelist',methods=['POST'])
 def listChannel():
     try:
         if session['user_id'] == None or session['user_id'] == '':
@@ -54,6 +54,6 @@ def listChannel():
             )
             channel_dict_arr.append(channel_dict)
         db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':channel_dict_arr})
+        return jsonify({'status': 0, 'message': '获取成功', 'data': channel_dict_arr})
     except Exception as e:
         return jsonify({'status': 1, 'message': '获取失败'})
