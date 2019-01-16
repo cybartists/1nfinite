@@ -25,7 +25,7 @@ def listAll():
                 {
                     'id':id,
                     'user_id':user_id,
-                    'Content':Content,
+                    'content':Content,
                     'create_time':create_time,
                     'username':username
                 }
