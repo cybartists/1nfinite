@@ -14,7 +14,15 @@ sex_dict = {
     3: '女汉子',
     4: '女装大佬'
 }
-
+country_dict = {
+    0:'霍格沃兹',
+    1:'赛博坦',
+    2:'瓦坎达',
+    3:'新日暮里',
+    4:'3栋501',
+    5:'卡塞尔',
+    6:'召唤师峡谷'
+}
 
 @api.route('/users/login', methods=['POST'])
 def login():
