@@ -14,3 +14,4 @@ class Reference(Base):
     topic_artical_id = Column(INT)
     is_readed = Column(INT)
     create_time =Column(TIMESTAMP)
+    status = Column(INT)
