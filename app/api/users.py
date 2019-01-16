@@ -147,6 +147,26 @@ def getList():
         db_session = DBSession()
         user_dict = {}
         users = db_session.query(User).all()
+        if len(users)<=10:
+            for i in users:
+                user_id = i.id
+                user_username = i.username
+                user_admin = i.admin
+                user_ban = i.ban
+                user_nickname = i.nickname
+                user_sex = i.sex
+                user_dict.update(
+                    {
+                        'id': user_id,
+                        'username': user_username,
+                        'admin': user_admin,
+                        'ban': user_ban,
+                        'nickname': user_nickname,
+                        'sex': user_sex
+                    }
+                )
+
+            return jsonify({'status':2,'message':'这是最后了','data':user_dict})
         for i in range(10):
             user_id = users[i].id
             user_username = users[i].username
@@ -168,7 +188,7 @@ def getList():
         db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict})
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','data':{}})
+        return jsonify({'status':1,'message':'获取失败','data':{},'error_message':str(e)})
 
 @api.route('/users/listNext',methods=['POST'])
 def getlistNext():
@@ -217,7 +237,7 @@ def getlistNext():
         db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict})
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','data':{}})
+        return jsonify({'status':1,'message':'获取失败','data':{},'error_message':str(e)})
 
 @api.route('/user/listsex', methods=['POST'])
 def listSex():
