@@ -42,7 +42,7 @@ def sort_by_time(List):
 
 
 def pd_time(time):
-    sec = (datetime.datetime.utcnow()-time).seconds
+    sec = (datetime.datetime.now()-time).seconds
     if sec<60:
         return str(sec)+'秒前'
     else:
@@ -58,4 +58,4 @@ def pd_time(time):
                 if days<7:
                     return str(int(days))+'天前'
                 else:
-                    return str(time)
+                    return time.strftime('%Y年%m月%d日星期%w %H时%M分%S秒')
