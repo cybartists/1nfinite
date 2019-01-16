@@ -133,10 +133,62 @@ def updateUsers():
         return jsonify({'status': 1, 'message': '未知错误'})
 
 
-@api.route('/users/list', methods=['POST'])
+@api.route('/users/listFirst', methods=['POST'])
 def getList():
-    pass
+    try:
+        db_session = DBSession()
+        user_dict = {}
+        users = db_session.query(User).all()
+        for i in range(10):
+            user_id = users[i].id
+            user_username = users[i].username
+            user_admin = users[i].admin
+            user_ban = users[i].ban
+            user_nickname = users[i].nickname
+            user_sex = users[i].sex
+            user_dict.update(
+                {
+                    'id':user_id,
+                    'username':user_username,
+                    'admin':user_admin,
+                    'ban':user_ban,
+                    'nickname':user_nickname,
+                    'sex':user_sex
+                }
+            )
+        session['user_page_count'] = 10
+        return jsonify({'status':0,'message':'获取成功','data':user_dict})
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败','data':{}})
 
+@api.route('/users/listNext',['POST'])
+def getlistNext():
+    try:
+        db_session = DBSession()
+        users = db_session.query(User).all()
+        last_count = session['user_page_count']
+        user_dict = {}
+        for i in range(last_count,last_count+10):
+            user_id = users[i].id
+            user_username = users[i].username
+            user_admin = users[i].admin
+            user_ban = users[i].ban
+            user_nickname = users[i].nickname
+            user_sex = users[i].sex
+            user_dict.update(
+                {
+                    'id': user_id,
+                    'username': user_username,
+                    'admin': user_admin,
+                    'ban': user_ban,
+                    'nickname': user_nickname,
+                    'sex': user_sex
+                }
+            )
+        session['user_page_count']+=10
+        return jsonify({'status':0,'message':'获取成功','data':user_dict})
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败','data':{}})
 
 @api.route('/user/listsex', methods=['POST'])
 def listSex():
