@@ -109,25 +109,29 @@
 
 
 <script>
+    let data;
     mdui.mutation();
     let edit_dialog = new mdui.Dialog("#editDialog")
     let delete_dialog = new mdui.Dialog("#deleteDialog")
 
-    function open_edit_dialog() {
+    function open_edit_dialog(i) {
+        console.log(data[i]);
         edit_dialog.open();
     }
 
-    function open_delete_dialog() {
+    function open_delete_dialog(i) {
+        console.log(data[i]);
         delete_dialog.open();
     }
 
     function load_user() {
         let oTab = document.getElementById('user_table');
         $.post('/api/users/list', {'page': 1}, function (d) {
+            data = d.data;
             if (0 == d.status) {
                 for (let i = 0; i < d.data.length; i++) {
                     let oTr = document.createElement('tr');
-                    oTr.innerHTML = '<td>' + d.data[i].id + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog()">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog()">删除</button></td>';
+                    oTr.innerHTML = '<td>' + d.data[i].id + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog(' + i + ')">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog(' + i + ')">删除</button></td>';
                     oTab.appendChild(oTr);
                 }
                 mdui.mutation();
