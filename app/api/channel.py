@@ -8,7 +8,7 @@ from app.base.function import sort_by_time, pd_time
 
 
 @api.route('/channel/referencelist',methods=['POST'])
-def listChannel():
+def listChannelReference():
     try:
         if session['user_id'] == None or session['user_id'] == '':
             return jsonify({'status': 2, 'message': '没有登录'})
@@ -57,3 +57,12 @@ def listChannel():
         return jsonify({'status': 0, 'message': '获取成功', 'data': channel_dict_arr})
     except Exception as e:
         return jsonify({'status': 1, 'message': '获取失败'})
+
+@api.route('/channel/followlist',methods=['POST'])
+def listChannelFollow():
+    try:
+        if session['user_id'] == None or session['user_id']=='':
+            return jsonify({'status': 2, 'message': '没有登录'})
+        pass
+    except Exception as e:
+        return jsonify({'status':1,'message':"获取失败",'data':{},'error_message':str(e)})

@@ -239,3 +239,12 @@ def channelCount():
     except Exception as e:
         print(e)
         return jsonify({'status': 1, 'message': '没有登录'})
+@api.route('/users/count',methods=['POST'])
+def pageCount():
+    try:
+        db_session = DBSession()
+        users = db_session.query(User).all()
+        count = len(users)/10
+        return jsonify({'status':0,'message':'获取成功','page_count':pageCount})
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
