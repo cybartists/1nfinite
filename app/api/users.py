@@ -190,7 +190,6 @@ def getList():
                 }
             )
             user_dict_list.append(user_dict)
-        session['user_page_count'] += 10
         db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict_list,'page':page_num})
     except Exception as e:
