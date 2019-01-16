@@ -36,6 +36,7 @@ def listChannel():
                     }
                 )
                 channel_dict_arr.append(channel_dict)
+            db_session.close()
             return jsonify({'status': 2, 'message': '最后一页了', 'data': channel_dict_arr})
         for i in range(10):
             channel_dict = {}
@@ -52,6 +53,7 @@ def listChannel():
                 }
             )
             channel_dict_arr.append(channel_dict)
+        db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':channel_dict_arr})
     except Exception as e:
         return jsonify({'status': 1, 'message': '获取失败'})
