@@ -36,3 +36,6 @@ def is_admin():
         if user.admin == 1:
             admin = True
     return admin
+#时间戳排序
+def sort_by_time(List):
+    List.sort(key=lambda x:x.create_time,reverse=True)
