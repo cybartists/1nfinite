@@ -320,14 +320,10 @@
 
         let register = function () {
             $.post('/api/users/create', $('#register').serialize(), function (d) {
-                if (8 == d.status) {
+                if (0 == d.status) {
                     mdui.alert(d.message);
                     register_dialog.close();
                     login_dialog.open();
-                } else if (0 == d.status) {
-                    $('#error_msg_username').text(d.message);
-                    $('#register_username').addClass('mdui-textfield-invalid');
-                    mdui.mutation();
                 } else if (1 == d.status) {
                     $('#error_msg_username').text(d.message);
                     $('#register_username').addClass('mdui-textfield-invalid');
@@ -341,20 +337,12 @@
                     $('#register_password_again').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 } else if (4 == d.status) {
-                    $('#error_msg_password_again').text(d.message);
-                    $('#register_password_again').addClass('mdui-textfield-invalid');
+                    $('#error_msg_email').text(d.message);
+                    $('#register_email').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 } else if (5 == d.status) {
-                    $('#error_msg_email').text(d.message);
-                    $('#register_email').addClass('mdui-textfield-invalid');
-                    mdui.mutation();
-                } else if (6 == d.status) {
-                    $('#error_msg_email').text(d.message);
-                    $('#register_email').addClass('mdui-textfield-invalid');
-                    mdui.mutation();
-                } else if (7 == d.status) {
-                    $('#error_msg_email').text(d.message);
-                    $('#register_email').addClass('mdui-textfield-invalid');
+                    $('#error_msg_password').text(d.message);
+                    $('#register_password').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 }
 
