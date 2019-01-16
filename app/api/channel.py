@@ -14,25 +14,26 @@ def listAll():
         db_session = DBSession()
         data = db_session.query(Channel).order_by(Channel.create_time.desc()).all()
         Channel_list_arr = []
-        for i in data:
-            Channel_list = {}
-            id = i.id
-            user_id = i.user_id
-            username = db_session.query(User).filter(id=user_id).first().username
-            Content = i.Content
-            create_time = pd_time(i.create_time)
-            Channel_list.update(
-                {
-                    'id':id,
-                    'user_id':user_id,
-                    'content':Content,
-                    'create_time':create_time,
-                    'username':username
-                }
-            )
-            Channel_list_arr.append(Channel_list)
-            db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':Channel_list_arr})
+        if len(data)<=10:
+            for i in data:
+                Channel_list = {}
+                id = i.id
+                user_id = i.user_id
+                username = db_session.query(User).filter(id=user_id).first().username
+                Content = i.Content
+                create_time = pd_time(i.create_time)
+                Channel_list.update(
+                    {
+                        'id':id,
+                        'user_id':user_id,
+                        'content':Content,
+                        'create_time':create_time,
+                        'username':username
+                    }
+                )
+                Channel_list_arr.append(Channel_list)
+                db_session.close()
+            return jsonify({'status':0,'message':'获取成功','data':Channel_list_arr})
     except Exception as e :
         return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
 
