@@ -14,7 +14,7 @@ def listChannel():
         userid = session['user_id']
         db_session = DBSession()
         data = db_session.query(Reference).filter_by(user_id=userid).all()
-        sort_by_time(data)
+        # sort_by_time(data)
         if len(data)<=10:
             for i in data:
                 pass

@@ -141,14 +141,17 @@ def updateUsers():
         return jsonify({'status': 1, 'message': '未知错误'})
 
 
-@api.route('/users/listFirst', methods=['POST'])
+@api.route('/users/list', methods=['POST'])
 def getList():
     try:
         db_session = DBSession()
-        user_dict = {}
-        users = db_session.query(User).all()
+        page_num = int(request.form['page'])
+        page_cur = (page_num-1)*10
+        user_dict_list = []
+        users = db_session.query(User).limit(11).offset(page_cur).all()
         if len(users)<=10:
             for i in users:
+                user_dict = {}
                 user_id = i.id
                 user_username = i.username
                 user_admin = i.admin
@@ -165,9 +168,11 @@ def getList():
                         'sex': user_sex
                     }
                 )
+                user_dict_list.append(user_dict)
 
-            return jsonify({'status':2,'message':'这是最后了','data':user_dict})
+            return jsonify({'status':2,'message':'这是最后了','data':user_dict_list})
         for i in range(10):
+            user_dict = {}
             user_id = users[i].id
             user_username = users[i].username
             user_admin = users[i].admin
@@ -184,60 +189,13 @@ def getList():
                     'sex':user_sex
                 }
             )
-        session['user_page_count'] = 10
+            user_dict_list.append(user_dict)
+        session['user_page_count'] += 10
         db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':user_dict})
+        return jsonify({'status':0,'message':'获取成功','data':user_dict_list})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{},'error_message':str(e)})
 
-@api.route('/users/listNext',methods=['POST'])
-def getlistNext():
-    try:
-        db_session = DBSession()
-        users = db_session.query(User).all()
-        last_count = session['user_page_count']
-        user_dict = {}
-        if len(users)<=10:
-            for i in users:
-                user_id = i.id
-                user_username = i.username
-                user_admin = i.admin
-                user_ban = i.ban
-                user_sex = i.sex
-                user_nickname = i.nickname
-                user_dict.update(
-                    {
-                        'id': user_id,
-                        'username': user_username,
-                        'admin': user_admin,
-                        'ban': user_ban,
-                        'nickname': user_nickname,
-                        'sex': user_sex
-                    }
-                )
-            return jsonify({'status':2,'message':'到最后一页了','data':user_dict})
-        for i in range(last_count,last_count+10):
-            user_id = users[i].id
-            user_username = users[i].username
-            user_admin = users[i].admin
-            user_ban = users[i].ban
-            user_nickname = users[i].nickname
-            user_sex = users[i].sex
-            user_dict.update(
-                {
-                    'id': user_id,
-                    'username': user_username,
-                    'admin': user_admin,
-                    'ban': user_ban,
-                    'nickname': user_nickname,
-                    'sex': user_sex
-                }
-            )
-        session['user_page_count']+=10
-        db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':user_dict})
-    except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','data':{},'error_message':str(e)})
 
 @api.route('/user/listsex', methods=['POST'])
 def listSex():
