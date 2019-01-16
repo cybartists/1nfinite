@@ -20,7 +20,9 @@ def listAll():
                 Channel_list = {}
                 id = i.id
                 user_id = i.user_id
-                username = db_session.query(User).filter(User.id == user_id).first().username
+                user = db_session.query(User).filter(User.id == user_id).first()
+                username = user.username
+                channel_name = user.channel_name
                 Content = i.Content
                 create_time = pd_time(i.create_time)
                 Channel_list.update(
@@ -28,6 +30,7 @@ def listAll():
                         'id': id,
                         'user_id': user_id,
                         'content': Content,
+                        'channel_name': channel_name,
                         'create_time': create_time,
                         'username': username,
                         'avatar': 'http://127.0.0.1:5000/web/static/asset/chisec/avator.jpg',
@@ -41,7 +44,9 @@ def listAll():
             Channel_list = {}
             id = data[i].id
             user_id = data[i].user_id
-            username = db_session.query(User).filter(User.id == user_id).first().username
+            user = db_session.query(User).filter(User.id == user_id).first()
+            username = user.username
+            channel_name = user.channel_name
             Content = data[i].Content
             create_time = pd_time(data[i].create_time)
             Channel_list.update(
@@ -49,8 +54,11 @@ def listAll():
                     'id': id,
                     'user_id': user_id,
                     'content': Content,
+                    'channel_name': channel_name,
                     'create_time': create_time,
-                    'username': username
+                    'username': username,
+                    'avatar': 'http://127.0.0.1:5000/web/static/asset/chisec/avator.jpg',
+                    'media': 'http://127.0.0.1:5000/web/static/asset/chisec/testpicture.jpg'
                 }
             )
             Channel_list_arr.append(Channel_list)
