@@ -49,7 +49,7 @@ def create():
     try:
         username = form['username']
         if username == None or username == '':
-            return jsonify({'status': 0, 'message': '用户名为空'})
+            return jsonify({'status': 1, 'message': '用户名为空'})
 
         password = form['password']
 
@@ -61,14 +61,14 @@ def create():
             return jsonify({'status': 3, 'message': '确认密码为空'})
 
         if password_again != password:
-            return jsonify({'status': 4, 'message': '两次密码不同'})
+            return jsonify({'status': 3, 'message': '两次密码不同'})
 
         email = form['email']
 
         if email == None or email == '':
-            return jsonify({'status': 5, 'message': '邮箱空'})
+            return jsonify({'status': 4, 'message': '邮箱空'})
         if correct_email(email) == False:
-            return jsonify({'status': 6, 'message': '邮箱格式错误'})
+            return jsonify({'status': 4, 'message': '邮箱格式错误'})
 
         # sex = form['sex']
         # nickname = form['nickname']
@@ -87,17 +87,17 @@ def create():
         email_db = db_session.query(User).filter(User.email == email).first()
         if email_db is not None:
             db_session.close()
-            return jsonify({'status': 9, 'message': '邮箱重复'})
+            return jsonify({'status': 4, 'message': '邮箱重复'})
 
         user = User(username=username, password=password_encoded, email=email)
         session['user_id'] = user.id  # 自动登录
         db_session.add(user)
         db_session.commit()
         db_session.close()
-        return jsonify({'status': 8, 'message': '注册成功'})
+        return jsonify({'status': 0, 'message': '注册成功'})
     except Exception as e:
         print(e)
-        return jsonify({'status': 7, 'message': '未知错误'})
+        return jsonify({'status': 5, 'message': '未知错误'})
 
 
 @api.route('/users/logout', methods=['POST'])
@@ -170,7 +170,7 @@ def getList():
                 )
                 user_dict_list.append(user_dict)
 
-            return jsonify({'status':2,'message':'这是最后了','data':user_dict_list})
+            return jsonify({'status':2,'message':'这是最后了','data':user_dict_list,'page':page_num})
         for i in range(10):
             user_dict = {}
             user_id = users[i].id
@@ -192,7 +192,7 @@ def getList():
             user_dict_list.append(user_dict)
         session['user_page_count'] += 10
         db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':user_dict_list})
+        return jsonify({'status':0,'message':'获取成功','data':user_dict_list,'page':page_num})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{},'error_message':str(e)})
 
