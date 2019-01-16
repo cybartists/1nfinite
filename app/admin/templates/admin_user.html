@@ -88,11 +88,32 @@
     </table>
     {#    编辑页面#}
     <div class="mdui-dialog" id="editDialog">
-        <div class="mdui-dialog-title">Edit</div>
-        <div class="mdui-dialog-content">You'll lose all photos and media!</div>
+        <div class="mdui-dialog-title">编辑用户</div>
+        <div class="mdui-dialog-content">
+            <div class="mdui-textfield">
+                <i class="mdui-icon material-icons">assignment_ind</i>
+                <label class="mdui-textfield-label">Admin</label>
+                <input class="mdui-textfield-input" type="text" id="re_admin"/>
+            </div>
+            <div class="mdui-textfield">
+                <i class="mdui-icon material-icons">block</i>
+                <label class="mdui-textfield-label">Ban</label>
+                <input class="mdui-textfield-input" type="text" id="re_ban"/>
+            </div>
+            <div class="mdui-textfield">
+                <i class="mdui-icon material-icons">wc</i>
+                <label class="mdui-textfield-label">Sex</label>
+                <input class="mdui-textfield-input" type="text" id="re_sex"/>
+            </div>
+            <div class="mdui-textfield">
+                <i class="mdui-icon material-icons">lock</i>
+                <label class="mdui-textfield-label">Password</label>
+                <input class="mdui-textfield-input" type="text" id="re_password"/>
+            </div>
+        </div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-close>cancel</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>erase</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
         </div>
     </div>
 
@@ -115,8 +136,7 @@
     let delete_dialog = new mdui.Dialog("#deleteDialog")
 
     function open_edit_dialog(i) {
-        console.log(data[i]);
-        alert(data[i]);
+        alert(data[i].username);
         edit_dialog.open();
     }
 
@@ -150,6 +170,7 @@
             }
         })
     }
+
     load_user();
 </script>
 </body>
