@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('.static', filename='asset/mdui/css/mdui.min.css') }}">
     <script src="{{ url_for('.static', filename='asset/chisec/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('.static', filename='asset/chisec/js/lazyload.js') }}"></script>
+    <script src="{{ url_for('.static', filename='asset/chisec/js/laytpl.js') }}"></script>
     <script src="{{ url_for('.static', filename='asset/mdui/js/mdui.min.js') }}"></script>
     <title>1finite</title>
 </head>
@@ -51,7 +52,7 @@
                     </a>
                 </li>
                 <li class="mdui-menu-item">
-                    <a href="javascript:;" style="display:block; height:35px" class="mdui-ripple" >
+                    <a href="javascript:;" style="display:block; height:35px" class="mdui-ripple">
                         <i class="mdui-menu-item-icon mdui-icon material-icons">notifications_active</i>
                         提到我的
                         <span class="mdui-menu-item-helper">
@@ -232,35 +233,47 @@
         <div class=""></div>
     {% endif %}
 
-    {% for i in range(10) %}
+    <div id="content"></div>
+
     <div class="mdui-row">
-    <div class="mdui-col-md-7 mdui-col-sm-8">
-      <div class="mdui-card">
-        <div class="mdui-card-header">
-          <img class="mdui-card-header-avatar" src="{{ url_for('.static', filename='asset/chisec/avator.jpg') }}"/>
-          <div class="mdui-card-header-title">CHiSec</div>
-          <div class="mdui-card-header-subtitle">的喷人频道</div>
+        <div class="mdui-col-md-7 mdui-col-sm-8">
+            <div class="mdui-spinner mdui-hidden mdui-center mdui-m-y-5" id="lazy_load_spinner"></div>
         </div>
-        <div class="mdui-card-media">
-          <img src="{{ url_for('.static', filename='asset/chisec/testpicture.jpg') }}"/>
-          <div class="mdui-card-menu">
-            <button class="mdui-btn mdui-btn-icon mdui-text-color-white"><i class="mdui-icon material-icons">share</i></button>
-          </div>
-        </div>
-        <div class="mdui-card-content"><a href="">@ryo</a> 进来挨打</div>
-        <div class="mdui-card-actions mdui-text-color-grey">
-          <button class="mdui-btn mdui-ripple">转发</button>
-          <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">thumb_up</i></button>
-        </div>
-      </div>
     </div>
-  </div>
-    {% endfor %}
-<div class="mdui-row">
-    <div class="mdui-col-md-7 mdui-col-sm-8">
-        <div class="mdui-spinner mdui-hidden mdui-center mdui-m-y-5" id="lazy_load_spinner"></div>
-    </div></div>
 </div>
+
+<script id="channel_tpl" type="text/html">
+    <div class="mdui-row">
+        <div class="mdui-col-md-7 mdui-col-sm-8">
+            <div class="mdui-card mdui-m-y-2 mdui-hoverable">
+                <div class="mdui-card-header">
+                    <img class="mdui-card-header-avatar" src="<% d.avatar %>"/>
+                    <div class="mdui-card-header-title"><% d.username %></div>
+                    <div class="mdui-card-header-subtitle">的<% d.channel_name %>频道</div>
+                </div>
+
+                <%# if(d.media) { %>
+                <div class="mdui-card-media">
+                    <img src="<% d.media %>"/>
+                    <div class="mdui-card-menu">
+                        <button class="mdui-btn mdui-btn-icon mdui-text-color-white"><i
+                                class="mdui-icon material-icons">share</i></button>
+                    </div>
+                </div>
+                <%# } %>
+
+                <div class="mdui-card-content"><% d.content %></div>
+                <div class="mdui-card-actions mdui-text-color-grey">
+                    <button class="mdui-btn mdui-ripple">转发</button>
+                    <button class="mdui-btn mdui-ripple">转发并回复</button>
+                    <button class="mdui-btn mdui-btn-icon mdui-float-right">
+                        <i class="mdui-icon material-icons">thumb_up</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 
 <script>
     mdui.mutation();
@@ -307,14 +320,10 @@
 
         let register = function () {
             $.post('/api/users/create', $('#register').serialize(), function (d) {
-                if (8 == d.status) {
+                if (0 == d.status) {
                     mdui.alert(d.message);
                     register_dialog.close();
                     login_dialog.open();
-                } else if (0 == d.status) {
-                    $('#error_msg_username').text(d.message);
-                    $('#register_username').addClass('mdui-textfield-invalid');
-                    mdui.mutation();
                 } else if (1 == d.status) {
                     $('#error_msg_username').text(d.message);
                     $('#register_username').addClass('mdui-textfield-invalid');
@@ -328,20 +337,12 @@
                     $('#register_password_again').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 } else if (4 == d.status) {
-                    $('#error_msg_password_again').text(d.message);
-                    $('#register_password_again').addClass('mdui-textfield-invalid');
+                    $('#error_msg_email').text(d.message);
+                    $('#register_email').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 } else if (5 == d.status) {
-                    $('#error_msg_email').text(d.message);
-                    $('#register_email').addClass('mdui-textfield-invalid');
-                    mdui.mutation();
-                } else if (6 == d.status) {
-                    $('#error_msg_email').text(d.message);
-                    $('#register_email').addClass('mdui-textfield-invalid');
-                    mdui.mutation();
-                } else if (7 == d.status) {
-                    $('#error_msg_email').text(d.message);
-                    $('#register_email').addClass('mdui-textfield-invalid');
+                    $('#error_msg_password').text(d.message);
+                    $('#register_password').addClass('mdui-textfield-invalid');
                     mdui.mutation();
                 }
 
@@ -360,11 +361,37 @@
             })
         };
     {% endif %}
+
     // var inst = new mdui.Fab('#fab');
-    LazyLoadEvent(function () { return true; }, function () {
+    LazyLoadEvent(function () {
+        return true;
+    }, function () {
         $('#lazy_load_spinner').removeClass('mdui-hidden');
         {#alert('到底了');#}
     });
+
+
+    // 前端魔法 - 模板引擎
+    laytpl.config({
+        open: '<%',
+        close: '%>'
+    });
+
+    const data = {
+        "id": "",
+        "avatar": "{{ url_for('.static', filename='asset/chisec/avator.jpg') }}",
+        "username": "CHiSec",
+        "channel_name": "喷人",
+        "media": "{{ url_for('.static', filename='asset/chisec/testpicture.jpg') }}",
+        "content": "<a href=\"\">@ryo</a> 进来挨打"
+    };
+
+    const channelTpl = channel_tpl.innerHTML;
+    const view = document.getElementById('content');
+    laytpl(channelTpl).render(data, function (html) {
+        view.innerHTML = html;
+    })
+
 
 </script>
 </body>
