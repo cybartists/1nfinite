@@ -116,6 +116,8 @@ def updateUsers():
             return jsonify({'status': 2, 'message': '没有登录'})
         else:
             form = request.form
+            admin = form['admin']
+            ban = form['ban']
             nickname = form['nickname']
             sex = form['sex']
             password = form['password']
@@ -123,6 +125,10 @@ def updateUsers():
             db_session = DBSession()
             user_id = session['user_id']
             user = db_session.query(User).filter_by(id=user_id).first()
+            if admin != None and admin != '':
+                user.admin = admin
+            if ban != None and ban != '':
+                user.ban = ban
             if nickname != None and nickname != '':
                 user.nickname = nickname
             if sex != None and sex != '':
@@ -190,7 +196,6 @@ def getList():
                 }
             )
             user_dict_list.append(user_dict)
-        session['user_page_count'] += 10
         db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict_list,'page':page_num})
     except Exception as e:
@@ -234,3 +239,12 @@ def channelCount():
     except Exception as e:
         print(e)
         return jsonify({'status': 1, 'message': '没有登录'})
+@api.route('/users/count',methods=['POST'])
+def pageCount():
+    try:
+        db_session = DBSession()
+        users = db_session.query(User).all()
+        count = len(users)/10
+        return jsonify({'status':0,'message':'获取成功','page_count':pageCount})
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
