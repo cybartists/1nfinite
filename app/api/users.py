@@ -256,9 +256,6 @@ def pageCount():
 @api.route('/users/admin_update',methods=['POST'])
 def admin_update():
     try:
-        if session['user_id'] == None or session['user_id'] == '':
-            return jsonify({'status': 3, 'message': '没有登录'})
-
         if is_admin():
             form = request.form
             admin = form['admin']

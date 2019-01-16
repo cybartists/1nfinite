@@ -101,6 +101,11 @@
                 <input class="mdui-textfield-input" type="text" id="re_ban"/>
             </div>
             <div class="mdui-textfield">
+                <i class="mdui-icon material-icons">child_care</i>
+                <label class="mdui-textfield-label">Nickname</label>
+                <input class="mdui-textfield-input" type="text" id="re_nickname"/>
+            </div>
+            <div class="mdui-textfield">
                 <i class="mdui-icon material-icons">wc</i>
                 <label class="mdui-textfield-label">Sex</label>
                 <input class="mdui-textfield-input" type="text" id="re_sex"/>
@@ -136,6 +141,7 @@
     let delete_dialog = new mdui.Dialog("#deleteDialog");
     let admin_label = document.getElementById('re_admin');
     let ban_label = document.getElementById('re_ban');
+    let nickname_label = document.getElementById('re_nickname');
     let sex_label = document.getElementById('re_sex');
     let password_label = document.getElementById('re_password');
 
@@ -143,12 +149,19 @@
         console.log(data[i]);
         admin_label.value = data[i].admin;
         ban_label.value = data[i].ban;
+        nickname_label.value = data[i].nickname;
         sex_label.value = data[i].sex;
         edit_dialog.open();
     }
 
     function change_user(i) {
-        $.post('/api/users/update', {'page': 1}, function (d) {
+        let admin = document.getElementById('re_admin').value;
+        let ban = document.getElementById('re_ban').value;
+        let nickname = document.getElementById('re_nickname').value;
+        let sex = document.getElementById('re_sex').value;
+        let password = document.getElementById('re_password').value;
+        alert(nickname)
+        $.post('/api/users/admin_update', {'id':data[i].id,'admin':}, function (d) {
 
         })
     }
