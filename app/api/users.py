@@ -36,9 +36,8 @@ def login():
     user = db_session.query(User).filter(User.username == form['username']).first()
     db_session.close()
 
-    session['user_id'] = user.id
-
     if None is not user and password_auth(password_to_be_checked=form['password'], password=user.password):
+        session['user_id'] = user.id
         return jsonify({'status': 2, 'message': '登录成功'})
     else:
         return jsonify({'status': 3, 'message': '登录失败'})
@@ -87,6 +86,7 @@ def create():
 
         email_db = db_session.query(User).filter(User.email == email).first()
         if email_db is not None:
+            db_session.close()
             return jsonify({'status': 9, 'message': '邮箱重复'})
 
         user = User(username=username, password=password_encoded, email=email)
