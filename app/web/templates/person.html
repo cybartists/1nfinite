@@ -16,15 +16,15 @@
     <link rel="stylesheet" href="{{ url_for('.static', filename='css/font-icon-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('.static', filename='css/style.default.css') }}" id="theme-stylesheet">
 </head>
-<body class="mdui-theme-layout-dark mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded mdui-drawer-body-left"
+<body class=" mdui-appbar-with-toolbar mdui-theme-primary-cyan mdui-theme-accent-orange mdui-loaded mdui-drawer-body-left"
       style="margin-top: 20px;">
 
 <header class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
-    <div class="mdui-toolbar mdui-color-indigo">
+    <div class="mdui-toolbar mdui-color-cyan">
         <span class="mdui-btn mdui-btn-icon " mdui-drawer="{target: '#main-drawer', swipe: true}"><i
                 class="mdui-icon material-icons">menu</i></span>
-        <i class="mdui-icon material-icons">vpn_key</i>
-        <a href="javascript:;" class="mdui-typo-headline">1finite-管理员页面</a>
+        <i class="mdui-icon material-icons">person_outline</i>
+        <a href="javascript:;" class="mdui-typo-headline">个人中心</a>
         <!-- <a href="javascript:;" class="mdui-typo-title">动态</a> -->
         <div class="mdui-toolbar-spacer"></div>
         <div class="mdui-textfield mdui-textfield-expandable">
@@ -43,29 +43,29 @@
 
     <div class="mdui-list">
         <a class="mdui-list-item mdui-ripple" href="../">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">assignment_turned_in</i>
+            <div class="mdui-list-item-content">返回首页</div>
+
+        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
             <i class="mdui-list-item-icon mdui-icon material-icons ">home</i>
-            <div class="mdui-list-item-content">首页</div>
+            <div class="mdui-list-item-content">个人中心</div>
         </a>
 
            <a class="mdui-list-item mdui-ripple" href="../visitor">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">assignment_turned_in</i>
-            <div class="mdui-list-item-content">访客记录</div>
+            <div class="mdui-list-item-content">关注</div>
        </a>
         <a class="mdui-list-item mdui-ripple" href="../user">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">assignment_ind</i>
-            <div class="mdui-list-item-content">用户管理</div>
+            <div class="mdui-list-item-content">修改资料</div>
        </a>
         <a class="mdui-list-item mdui-ripple" href="../channel">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">keyboard_voice</i>
-            <div class="mdui-list-item-content">频道管理</div>
+            <div class="mdui-list-item-content">修改头像</div>
        </a>
         <a class="mdui-list-item mdui-ripple" href="../topic">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">chat_bubble</i>
-            <div class="mdui-list-item-content">话题管理</div>
-       </a>
-        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
-            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">videogame_asset</i>
-            <div class="mdui-list-item-content">游戏公墓</div>
+            <div class="mdui-list-item-content">关于</div>
        </a>
     </div>
 </div>

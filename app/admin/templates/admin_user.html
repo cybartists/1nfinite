@@ -113,7 +113,7 @@
         </div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
+            <button class="mdui-btn mdui-ripple" onclick="change_user()">确认</button>
         </div>
     </div>
 
@@ -132,12 +132,25 @@
 <script>
     let data;
     mdui.mutation();
-    let edit_dialog = new mdui.Dialog("#editDialog")
-    let delete_dialog = new mdui.Dialog("#deleteDialog")
+    let edit_dialog = new mdui.Dialog("#editDialog");
+    let delete_dialog = new mdui.Dialog("#deleteDialog");
+    let admin_label = document.getElementById('re_admin');
+    let ban_label = document.getElementById('re_ban');
+    let sex_label = document.getElementById('re_sex');
+    let password_label = document.getElementById('re_password');
 
     function open_edit_dialog(i) {
-        alert(data[i].username);
+        console.log(data[i]);
+        admin_label.value = data[i].admin;
+        ban_label.value = data[i].ban;
+        sex_label.value = data[i].sex;
         edit_dialog.open();
+    }
+
+    function change_user(i) {
+        $.post('/api/users/update', {'page': 1}, function (d) {
+
+        })
     }
 
     function open_delete_dialog(i) {
