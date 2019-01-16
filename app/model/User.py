@@ -9,10 +9,8 @@ class User(Base):
     id = Column(INT, primary_key=True, autoincrement=True)
     email = Column(VARCHAR(255))
     username = Column(VARCHAR(255))
-    admin = Column(INT)
-    ban = Column(INT)
-
-
+    admin = Column(INT,default=0)
+    ban = Column(INT,default=0)
     nickname = Column(VARCHAR(255))
-    sex = Column(INT)
+    sex = Column(INT,default=0)
     password = Column(VARCHAR(255))
