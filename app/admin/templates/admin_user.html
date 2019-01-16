@@ -38,9 +38,13 @@
 <div class="mdui-drawer" id="main-drawer">
 
     <div class="mdui-list">
+        <a class="mdui-list-item mdui-ripple" href="/web">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>
+            <div class="mdui-list-item-content">返回首页</div>
+        </a>
         <a class="mdui-list-item mdui-ripple" href="../">
-            <i class="mdui-list-item-icon mdui-icon material-icons ">home</i>
-            <div class="mdui-list-item-content">首页</div>
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">view_quilt</i>
+            <div class="mdui-list-item-content">后台总览</div>
         </a>
 
         <a class="mdui-list-item mdui-ripple" href="../visitor">
@@ -48,7 +52,7 @@
             <div class="mdui-list-item-content">访客记录</div>
         </a>
         <a class="mdui-list-item mdui-ripple mdui-list-item-active">
-            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">assignment_ind</i>
+            <i class="mdui-list-item-icon mdui-icon material-icons">assignment_ind</i>
             <div class="mdui-list-item-content">用户管理</div>
         </a>
         <a class="mdui-list-item mdui-ripple" href="../channel">
@@ -86,6 +90,31 @@
 
         </tbody>
     </table>
+    <div style="display:block; height:20px"></div>
+    <div class="mdui-divider" ></div>
+    <div style="display:block; height:20px"></div>
+        <div class="mdui-row">
+            <div class="mdui-col-sm-2" align="center">
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="first_page">第1页</button>
+            </div>
+            <div class="mdui-col-sm-2" align="center">
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="first_up">上一页</button>
+            </div>
+            <div class="mdui-col-sm-2">
+                <div class="mdui-row">
+                <div class="mdui-col-sm-3" align="right">第</div>
+                <div class="mdui-col-sm-3"><input class="mdui-textfield-input" type="text"/></div>
+                <div class="mdui-col-sm-3">页</div>
+                <button class="mdui-col-sm-3 mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme-accent mdui-ripple">Go</button>
+                    </div>
+            </div>
+            <div class="mdui-col-sm-2" align="center">
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="first_down">下一页</button>
+            </div>
+            <div class="mdui-col-sm-2" align="center">
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="last_page">最末页</button>
+            </div>
+        </div>
     {#    编辑页面#}
     <div class="mdui-dialog" id="editDialog">
         <div class="mdui-dialog-title">编辑用户</div>
