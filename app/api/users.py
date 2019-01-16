@@ -245,6 +245,6 @@ def pageCount():
         db_session = DBSession()
         users = db_session.query(User).all()
         count = len(users)/10
-        return jsonify({'status':0,'message':'获取成功','page_count':pageCount})
+        return jsonify({'status':0,'message':'获取成功','page_count':int(count)+1})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
