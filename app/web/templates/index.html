@@ -15,7 +15,7 @@
 <style>
 </style>
 <body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded mdui-drawer-body-left"
-      style="margin-top: 20px;">
+      style="margin-top: 20px;" onload="update_content()">
 
 <header class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
     <div class="mdui-toolbar mdui-color-indigo">
@@ -236,8 +236,8 @@
     <div id="content"></div>
 
     <div class="mdui-row">
-        <div class="mdui-col-md-7 mdui-col-sm-8 mdui-hidden" id="lazy_load_spinner">
-            <div class="mdui-spinner mdui-center mdui-m-y-5"></div>
+        <div class="mdui-col-md-7 mdui-col-sm-8" id="lazy_load_spinner">
+            <div class="mdui-spinner mdui-m-y-5 mdui-center"></div>
         </div>
     </div>
 </div>
@@ -249,7 +249,7 @@
                 <div class="mdui-card-header">
                     <img class="mdui-card-header-avatar" src="<% d.avatar %>"/>
                     <div class="mdui-card-header-title"><% d.username %></div>
-                    <div class="mdui-card-header-subtitle">的<% d.channel_name %>频道</div>
+                    <div class="mdui-card-header-subtitle"><% d.channel_name %>频道</div>
                 </div>
 
                 <%# if(d.media) { %>
@@ -368,8 +368,8 @@
     LazyLoadEvent(function () {
         return enable_load;
     }, function () {
-        $('#lazy_load_spinner').removeClass('mdui-hidden');
         enable_load = false;
+        $('#lazy_load_spinner').removeClass('mdui-hidden');
         update_content();
         {#alert('到底了');#}
     });
@@ -394,11 +394,16 @@
                         view.innerHTML += html;
                     });
                 }
+                mdui.mutation();
                 ++page;
-                enable_load = true;
             }
             if (0 != d.status) {
-                $('#lazy_load_spinner').html(d.message);
+                enable_load = false;
+                $('#lazy_load_spinner').html('<div class="mdui-text-center mdui-m-y-5">'+d.message+'</div>');
+                $('#lazy_load_spinner').removeClass('mdui-hidden');
+                mdui.mutation();
+            } else {
+                enable_load = true;
             }
         });
     };
@@ -411,9 +416,6 @@
         "media": "{{ url_for('.static', filename='asset/chisec/testpicture.jpg') }}",
         "content": "<a href=\"\">@ryo</a> 进来挨打"
     };
-
-    // init
-    update_content();
 
 
 </script>
