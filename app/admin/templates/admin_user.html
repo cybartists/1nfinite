@@ -171,6 +171,12 @@
                         location.reload();
                     });
                 }
+                else if (1 == d.status) {
+                    mdui.alert(d.message,d.error_message)
+                }
+                else {
+                    mdui.alert(d.message)
+            }
         })
 
     }
