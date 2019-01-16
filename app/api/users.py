@@ -168,6 +168,25 @@ def getlistNext():
         users = db_session.query(User).all()
         last_count = session['user_page_count']
         user_dict = {}
+        if len(users)<=10:
+            for i in users:
+                user_id = i.id
+                user_username = i.username
+                user_admin = i.admin
+                user_ban = i.ban
+                user_sex = i.sex
+                user_nickname = i.nickname
+                user_dict.update(
+                    {
+                        'id': user_id,
+                        'username': user_username,
+                        'admin': user_admin,
+                        'ban': user_ban,
+                        'nickname': user_nickname,
+                        'sex': user_sex
+                    }
+                )
+            return jsonify({'status':2,'message':'到最后一页了','data':user_dict})
         for i in range(last_count,last_count+10):
             user_id = users[i].id
             user_username = users[i].username
