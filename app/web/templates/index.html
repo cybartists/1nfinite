@@ -11,6 +11,8 @@
     <script src="{{ url_for('.static', filename='asset/mdui/js/mdui.min.js') }}"></script>
     <title>1finite</title>
 </head>
+<style>
+</style>
 <body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded mdui-drawer-body-left"
       style="margin-top: 20px;">
 
@@ -33,9 +35,40 @@
                 <i class="mdui-icon material-icons">account_circle</i>
             </a>
         {% else %}
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon">
+            {#            <a href="javascript:;" class="mdui-btn mdui-btn-icon">#}
+            {#                <i class="mdui-icon material-icons">account_circle</i>#}
+            {#            </a>#}
+            <button class="mdui-btn mdui-btn-icon" mdui-menu="{target: '#personal'}">
                 <i class="mdui-icon material-icons">account_circle</i>
-            </a>
+            </button>
+
+            <ul class="mdui-menu mdui-menu-cascade" id="personal">
+                <li class="mdui-menu-item">
+                    <a href="./person" class="mdui-ripple">
+                        <i class="mdui-menu-item-icon mdui-icon material-icons">assignment</i>
+                        个人中心
+                        <span class="mdui-menu-item-helper mdui-text-color-black-secondary">修改资料</span>
+                    </a>
+                </li>
+                <li class="mdui-menu-item">
+                    <a href="javascript:;" style="display:block; height:35px" class="mdui-ripple" >
+                        <i class="mdui-menu-item-icon mdui-icon material-icons">notifications_active</i>
+                        提到我的
+                        <span class="mdui-menu-item-helper">
+                            <div class="mdui-chip mdui-color-pink">
+                                <span class="mdui-chip-title">8个提醒</span>
+                                  </div>
+                        </span>
+                    </a>
+                </li>
+                <li class="mdui-menu-item">
+                    <a href="javascript:;" class="mdui-ripple">
+                        <i class="mdui-menu-item-icon mdui-icon material-icons">exit_to_app</i>
+                        退出登录
+                        <span class="mdui-menu-item-helper">Log out</span>
+                    </a>
+                </li>
+            </ul>
         {% endif %}
     </div>
 </header>
