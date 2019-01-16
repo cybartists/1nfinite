@@ -157,6 +157,7 @@ def getList():
                 }
             )
         session['user_page_count'] = 10
+        db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{}})
@@ -205,6 +206,7 @@ def getlistNext():
                 }
             )
         session['user_page_count']+=10
+        db_session.close()
         return jsonify({'status':0,'message':'获取成功','data':user_dict})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','data':{}})
@@ -240,6 +242,7 @@ def channelCount():
         # countNum = int(len(user))
 
         countNum = db_session.query(Channel).filter_by(user_id=userid).count()
+        db_session.close()
         return jsonify({'status': 0, 'message': '获得数据成功', 'countNum': countNum})
 
     except Exception as e:
