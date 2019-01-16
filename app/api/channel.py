@@ -65,7 +65,7 @@ def listAll():
             db_session.close()
         return jsonify({'status': 0, 'message': '获取成功', 'data': Channel_list_arr})
     except Exception as e:
-        return jsonify({'status': 1, 'message': '获取失败', 'error_message': str(e)})
+        return jsonify({'status': 1, 'message': str(e), 'error_message': str(e)})
 
 
 @api.route('/channel/referencelist', methods=['POST'])

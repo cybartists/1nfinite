@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li class="mdui-menu-item">
-                    <a href="javascript:;" class="mdui-ripple">
+                    <a href="javascript:;" class="mdui-ripple" onclick="logout()">
                         <i class="mdui-menu-item-icon mdui-icon material-icons">exit_to_app</i>
                         退出登录
                         <span class="mdui-menu-item-helper">Log out</span>
@@ -249,7 +249,11 @@
                 <div class="mdui-card-header">
                     <img class="mdui-card-header-avatar" src="<% d.avatar %>"/>
                     <div class="mdui-card-header-title"><% d.username %></div>
-                    <div class="mdui-card-header-subtitle"><% d.channel_name %>频道</div>
+                    <div class="mdui-card-header-subtitle"><% d.channel_name %>频道&nbsp;·&nbsp;<% d.create_time %></div>
+                </div>
+
+                <div class="mdui-card-content mdui-typo">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="#">@<% d.username %></a>:&nbsp;<% d.content %>
                 </div>
 
                 <%# if(d.media) { %>
@@ -262,7 +266,6 @@
                 </div>
                 <%# } %>
 
-                <div class="mdui-card-content"><% d.content %></div>
                 <div class="mdui-card-actions mdui-text-color-grey">
                     <button class="mdui-btn mdui-ripple">转发</button>
                     <button class="mdui-btn mdui-ripple">转发并回复</button>
