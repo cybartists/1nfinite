@@ -279,6 +279,7 @@
     mdui.mutation();
 
     {% if not login %}
+        let page = 1;
         let login_dialog = new mdui.Dialog('#loginDialog');
         let register_dialog = new mdui.Dialog('#registerDialog');
 
@@ -377,6 +378,16 @@
         close: '%>'
     });
 
+
+    let update_content = function () {
+        $.post('/api/channel/listdynamic', {page: page}, function (d) {
+            if (0 == d.status) {
+                for (const item of d.data) {
+
+                }
+            }
+        });
+    };
     const data = {
         "id": "",
         "avatar": "{{ url_for('.static', filename='asset/chisec/avator.jpg') }}",
