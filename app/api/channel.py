@@ -18,7 +18,7 @@ def listAll():
             Channel_list = {}
             id = i.id
             user_id = i.user_id
-            username = db_session.query(User).filter(id=user_id).first().username
+            username = db_session.query(User).filter(User.id == user_id).first().username
             Content = i.Content
             create_time = pd_time(i.create_time)
             Channel_list.update(
