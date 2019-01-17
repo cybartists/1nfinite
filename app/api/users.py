@@ -288,3 +288,21 @@ def admin_update():
             return jsonify({'status':2,'message':'不是管理员'})
     except Exception as e:
         return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
+
+@api.route('/users/admin_delete',methods=['POST'])
+def admin_delete():
+    try:
+        if is_admin():
+            form = request.form
+            db_session = DBSession()
+            user_id = form['id']
+            user = db_session.query(User).filter_by(id=user_id).first()
+            db_session.delete(user)
+            db_session.commit()
+            db_session.close()
+            return jsonify({'status': 0, 'message': '删除成功'})
+
+        else:
+            return jsonify({'status':2,'message':'不是管理员'})
+    except Exception as e:
+        return jsonify({'status':1,'message':'获取失败','error_message':str(e)})

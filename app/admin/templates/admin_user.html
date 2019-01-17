@@ -94,16 +94,21 @@
     <div style="display:block; height:20px"></div>
     <div class="mdui-row">
         <div class="mdui-col-sm-2" align="center">
-            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="first_page" onclick="load_user_onbutton(1)">第1页</button>
+            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="first_page"
+                    onclick="load_user_onbutton(1)">第1页
+            </button>
         </div>
         <div class="mdui-col-sm-2" align="center">
-            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="page_up" onclick="load_user_onbutton(pnum.value-1)">上一页</button>
+            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="page_up"
+                    onclick="load_user_onbutton(pnum.value-1)">上一页
+            </button>
         </div>
         <div class="mdui-col-sm-2">
             <div class="mdui-row">
                 <span class="mdui-col-sm-3" align="right">第</span>
                 <div class="mdui-col-sm-3">
-                    <input class="mdui-textfield-input" type="text" style="padding-top: 0px;padding-bottom: 16px;" id="page_num" value="1"/></div>
+                    <input class="mdui-textfield-input" type="text" style="padding-top: 0px;padding-bottom: 16px;"
+                           id="page_num" value="1"/></div>
                 <span class="mdui-col-sm-3" id="page_count">/0页</span>
                 <button class="mdui-col-sm-3 mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme-accent mdui-ripple"
                         onclick="load_user_onbutton(pnum.value)">Go
@@ -111,10 +116,14 @@
             </div>
         </div>
         <div class="mdui-col-sm-2" align="center">
-            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="page_down" onclick="load_user_onbutton(parseInt(pnum.value)+1)">下一页</button>
+            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="page_down"
+                    onclick="load_user_onbutton(parseInt(pnum.value)+1)">下一页
+            </button>
         </div>
         <div class="mdui-col-sm-2" align="center">
-            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="last_page" onclick="load_user_onbutton(page_count)">最末页</button>
+            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="last_page"
+                    onclick="load_user_onbutton(page_count)">最末页
+            </button>
         </div>
     </div>
     {#    编辑页面#}
@@ -156,11 +165,20 @@
 
     {#    删除页面#}
     <div class="mdui-dialog" id="deleteDialog">
-        <div class="mdui-dialog-title">Delete</div>
-        <div class="mdui-dialog-content">You'll lose all photos and media!</div>
+        <div class="mdui-dialog-title">删除用户</div>
+        <div class="mdui-dialog-content">
+        <div class="mdui-dialog-title">确定删除用户名为
+            <div class="mdui-chip">
+                <span class="mdui-chip-icon mdui-color-red"><i class="mdui-icon material-icons">face</i></span>
+                <span class="mdui-chip-title" id="user_span">刘思杰</span>
+            </div>
+            的用户？
+        </div>
+        <div class="mdui-dialog-content">此操作将非常暴力🐸，且不可挽回！</div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-close>cancel</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>erase</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+            <button class="mdui-btn mdui-ripple" onclick="delete_user()">确认</button>
+        </div>
         </div>
     </div>
 </div>
@@ -169,6 +187,7 @@
 <script>
     let data;
     let page_count;
+    let delete_uid;
     mdui.mutation();
     let edit_dialog = new mdui.Dialog("#editDialog");
     let delete_dialog = new mdui.Dialog("#deleteDialog");
@@ -187,7 +206,9 @@
     let first_button = document.getElementById('first_page');
     let last_button = document.getElementById('last_page');
 
-        function open_edit_dialog(i) {
+
+
+    function open_edit_dialog(i) {
         console.log(data[i]);
         admin_label.value = data[i].admin;
         ban_label.value = data[i].ban;
@@ -195,9 +216,9 @@
         sex_label.value = data[i].sex;
         uid_label.value = data[i].uid;
         edit_dialog.open();
-        }
+    }
 
-        function change_user(i) {
+    function change_user(i) {
         let admin = document.getElementById('re_admin').value;
         let ban = document.getElementById('re_ban').value;
         let nickname = document.getElementById('re_nickname').value;
@@ -216,55 +237,28 @@
                 edit_dialog.close();
                 mdui.alert(d.message, function () {
                     pnum = document.getElementById('page_num');
-                    load_user_onbutton(pnum.value)
+                    load_user_onbutton(pnum.value);
                 });
             }
             else if (1 == d.status) {
-                mdui.alert(d.message, d.error_message)
+                mdui.alert(d.message, d.error_message);
             }
             else {
-                mdui.alert(d.message)
+                mdui.alert(d.message);
             }
         })
 
-        }
+    }
 
-        function open_delete_dialog(i) {
+    function open_delete_dialog(i) {
         console.log(data[i]);
+        delete_uid = data[i].uid;
+        let user_span = document.getElementById('user_span');
+        user_span.innerHTML = data[i].username;
         delete_dialog.open();
-        }
+    }
 
-        function load_user(p) {
-        let oTab = document.getElementById('user_table');
-        let pnum = document.getElementById('page_num');
-        pnum.value = p;
-        $.post('/api/users/list', {'page': pnum.value}, function (d) {
-            data = d.data;
-            if (0 == d.status) {
-                for (let i = 0; i < d.data.length; i++) {
-                    let oTr = document.createElement('tr');
-                    oTr.innerHTML = '<td>' + d.data[i].uid + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog(' + i + ')">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog(' + i + ')">删除</button></td>';
-                    oTab.appendChild(oTr);
-                }
-
-                mdui.mutation();
-            }
-            else if (2 == d.status) {
-                for (let i = 0; i < d.data.length; i++) {
-                    let oTr = document.createElement('tr');
-                    oTr.innerHTML = '<td>' + d.data[i].uid + '</td>' + '<td>' + d.data[i].username + '</td>' + '<td>' + d.data[i].admin + '</td>' + '<td>' + d.data[i].ban + '</td>' + '<td>' + d.data[i].nickname + '</td>' + '<td>' + d.data[i].sex + '</td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_edit_dialog()">编辑</button></td>' + '<td><button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="open_delete_dialog()">删除</button></td>';
-                    oTab.appendChild(oTr);
-                }
-                mdui.mutation();
-            }
-            else if (1 == d.status) {
-                mdui.alert(d.message)
-            }
-            pnum = document.getElementById('page_num');
-            })
-        }
-
-        function get_page_num() {
+    function get_page_num() {
         $.post('/api/users/count', {}, function (d) {
             if (d.status == 0) {
                 pcount.innerHTML = '/' + d.page_count + '页';
@@ -274,13 +268,13 @@
                 alert('获取页数失败' + c.error_message)
             }
         })
-        }
+    }
 
-        function load_user_onbutton(p) {
-            first_button.removeAttribute('disabled');
-            last_button.removeAttribute('disabled');
-            up_button.removeAttribute('disabled');
-            down_button.removeAttribute('disabled');
+    function load_user_onbutton(p) {
+        first_button.removeAttribute('disabled');
+        last_button.removeAttribute('disabled');
+        up_button.removeAttribute('disabled');
+        down_button.removeAttribute('disabled');
 
         let oTab = document.getElementById('user_table');
         pnum = document.getElementById('page_num');
@@ -320,17 +314,33 @@
                 mdui.alert(d.message);
             }
             pnum = document.getElementById('page_num');
-            if(parseInt(pnum.value)==1){
-                up_button.setAttribute('disabled','');
-                first_button.setAttribute('disabled','');
+            if (parseInt(pnum.value) == 1) {
+                up_button.setAttribute('disabled', '');
+                first_button.setAttribute('disabled', '');
             }
-            else if(parseInt(pnum.value)==page_count){
-                down_button.setAttribute('disabled','');
-                last_button.setAttribute('disabled','');
+            else if (parseInt(pnum.value) == page_count) {
+                down_button.setAttribute('disabled', '');
+                last_button.setAttribute('disabled', '');
             }
-            })
-        }
+        })
+    }
 
+    function delete_user(){
+        $.post('/api/users/admin_delete', {'id': delete_uid}, function (d) {
+            if (0 == d.status) {
+                delete_dialog.close();
+                mdui.alert(d.message);
+                pnum = document.getElementById('page_num');
+                    load_user_onbutton(pnum.value);
+            }
+            else if (1 == d.status) {
+                mdui.alert(d.message,d.error_message);
+            }
+            else {
+                mdui.alert(d.message);
+            }
+        })
+    }
 
     get_page_num();
     load_user_onbutton(1);
