@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from app.base.extensions import Base
 
 class Channel(Base):
-    __tablename__ = 'Channel'
+    __tablename__ = 'channel'
     id = Column(INT, primary_key=True, autoincrement=True)
     user_id = Column(INT)
     content = Column(Text)

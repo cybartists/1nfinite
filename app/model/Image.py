@@ -5,7 +5,7 @@ from app.base.extensions import Base
 
 
 class Image(Base):
-    __tablename__ = 'Image'
+    __tablename__ = 'image'
     id = Column(INT, primary_key=True, autoincrement=True)
     url = Column(Text)
 
