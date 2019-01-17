@@ -1,3 +1,6 @@
+import string
+import random
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
 from app.base.extensions import DBSession
@@ -50,20 +53,28 @@ def is_admin():
 
 
 def pd_time(time):
-    sec = (datetime.datetime.now()-time).seconds
-    if sec<60:
-        return str(sec)+'秒前'
+    sec = (datetime.datetime.now() - time).seconds
+    if sec < 60:
+        return str(sec) + '秒前'
     else:
-        minute = sec/60
-        if minute <60:
-            return str(int(minute))+'分钟前'
+        minute = sec / 60
+        if minute < 60:
+            return str(int(minute)) + '分钟前'
         else:
-            hour = minute/60
-            if hour<24:
-                return str(int(hour))+'小时前'
+            hour = minute / 60
+            if hour < 24:
+                return str(int(hour)) + '小时前'
             else:
-                days = hour/24
-                if days<7:
-                    return str(int(days))+'天前'
+                days = hour / 24
+                if days < 7:
+                    return str(int(days)) + '天前'
                 else:
                     return time.strftime('%Y年%m月%d日星期%w %H时%M分%S秒')
+
+
+def genreate_random_name(length=10):
+    a = ''
+    s = random.sample(string.ascii_letters + string.digits, length)
+    for i in s:
+        a += i
+    return a

@@ -24,13 +24,13 @@
         <a href="javascript:;" class="mdui-typo-headline">1finite</a>
         <!-- <a href="javascript:;" class="mdui-typo-title">动态</a> -->
         <div class="mdui-toolbar-spacer"></div>
-{#        <div class="mdui-textfield mdui-textfield-expandable">#}
-{#            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i>#}
-{#            </button>#}
-{#            <input class="mdui-textfield-input" type="text" placeholder="Search"/>#}
-{#            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>#}
-{#            </button>#}
-{#        </div>#}
+        {#        <div class="mdui-textfield mdui-textfield-expandable">#}
+        {#            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i>#}
+        {#            </button>#}
+        {#            <input class="mdui-textfield-input" type="text" placeholder="Search"/>#}
+        {#            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>#}
+        {#            </button>#}
+        {#        </div>#}
         {% if not login %}
             <a href="javascript:;" class="mdui-btn mdui-btn-icon" onclick="open_login_dialog()">
                 <i class="mdui-icon material-icons">account_circle</i>
@@ -254,9 +254,16 @@
                     <div class="mdui-textfield">
                         <textarea class="mdui-textfield-input" rows="4" placeholder="想说点啥" name="content"></textarea>
                     </div>
+                    <input class="mdui-hidden" type="text" id="image_id" name="image_id">
+                </form>
+
+                <form enctype='multipart/form-data' method="post" id="file_form">
+                    <input id="file" class="mdui-hidden" type="file" name="file"/>
                 </form>
                 <div>
-                    &nbsp;
+                    <div class="mdui-btn mdui-btn-icon" onclick="upload_photo()">
+                        <i class="mdui-icon material-icons" id="insert_photo">insert_photo</i>
+                    </div>
                     <div class="mdui-float-right">
                         <button class="mdui-btn mdui-color-theme-accent mdui-ripple"
                                 onclick="submit_new_channel_message()">发布
@@ -309,7 +316,8 @@
                         <i class="mdui-icon material-icons <%# if(d.liked) { %>mdui-text-color-pink<%# } %>"
                            id="liked_<% d.id %>">thumb_up</i>
                     </button>
-                    <div id="like_count_<% d.id %>" class="mdui-float-right mdui-text-right mdui-valign" style="height: 42px; width: 10px;" disabled>
+                    <div id="like_count_<% d.id %>" class="mdui-float-right mdui-text-right mdui-valign"
+                         style="height: 42px; width: 10px;" disabled>
                         <% d.like_count %>
                     </div>
                 </div>
@@ -490,6 +498,39 @@
             }
         });
     };
+
+    let upload_photo = function () {
+        $('#file').click();
+    };
+
+    $('#file').on('change', function () {
+        {#$('#photo_form').submit();#}
+        //let url = getObjectURL(this.files[0]);
+        {#let imgurl = document.getElementById("upload").value;#}
+        let formData = new FormData($('#file_form')[0]);
+        $.ajax({
+            url: "/api/upload",
+            type: "POST",
+            data: formData,
+            async: true,
+            cashe: false,
+            contentType: false,
+            processData: false,
+            fileElementId: "file",
+            dataType: 'json',
+
+            success: function (d) {
+                if (0 == d.status) {
+                    $('#image_id').val(d.data.image_id);
+                    $('#insert_photo').addClass('mdui-text-color-pink')
+                }
+            },
+            error: function (returndata) {
+                alert("上传失败！")
+            }
+
+        });
+    })
 
 
 </script>
