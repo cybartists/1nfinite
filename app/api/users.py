@@ -25,7 +25,7 @@ country_dict = {
 }
 
 @api.route('/users/login', methods=['POST'])
-def login():
+def users_login():
     form = request.form
     if None == form['username'] or form['username'] == '':
         return jsonify({'status': 0, 'message': '请输入用户名！'})
@@ -44,7 +44,7 @@ def login():
 
 
 @api.route('/users/create', methods=['POST'])
-def create():
+def users_create():
     form = request.form
     try:
         username = form['username']
@@ -90,18 +90,19 @@ def create():
             return jsonify({'status': 4, 'message': '邮箱重复'})
 
         user = User(username=username, password=password_encoded, email=email)
-        session['user_id'] = user.id  # 自动登录
         db_session.add(user)
         db_session.commit()
+        user = db_session.query(User).filter_by(username=username).first()
         db_session.close()
-        return jsonify({'status': 0, 'message': '注册成功'})
+        session['user_id'] = user.id  # 自动登录
+        return jsonify({'status': 0, 'message': '注册成功, 即将跳转个人中心完善个人信息'})
     except Exception as e:
         print(e)
         return jsonify({'status': 5, 'message': '未知错误'})
 
 
 @api.route('/users/logout', methods=['POST'])
-def logout():
+def users_logout():
     try:
         session['user_id'] = None
         return jsonify({'status': 0, 'message': '退出登录成功'})
@@ -110,7 +111,7 @@ def logout():
 
 
 @api.route('/users/update', methods=['POST'])
-def updateUsers():
+def users_update():
     try:
         if session['user_id'] == None or session['user_id'] == '':
             return jsonify({'status': 2, 'message': '没有登录'})
@@ -152,7 +153,7 @@ def updateUsers():
 
 
 @api.route('/users/list', methods=['POST'])
-def getList():
+def users_list():
     try:
         db_session = DBSession()
         page_num = int(request.form['page'])
@@ -207,7 +208,7 @@ def getList():
 
 
 @api.route('/user/listsex', methods=['POST'])
-def listSex():
+def user_list_sex():
     try:
         return jsonify({'status': 0, 'message': '获取成功', 'data': sex_dict})
     except Exception as e:
@@ -215,7 +216,7 @@ def listSex():
 
 
 @api.route('/users/sex', methods=['POST'])
-def getSex():
+def users_get_sex():
     try:
         sex = request.form['sex']
         sex_code = sex_dict[sex]
@@ -226,7 +227,7 @@ def getSex():
 
 
 @api.route('/users/channelcount', methods=['POST'])
-def channelCount():
+def users_channel_count():
     try:
         db_session = DBSession()
         userid = session.get('user_id')
@@ -244,7 +245,7 @@ def channelCount():
         print(e)
         return jsonify({'status': 1, 'message': '没有登录'})
 @api.route('/users/count',methods=['POST'])
-def pageCount():
+def users_page_count():
     try:
         db_session = DBSession()
         users = db_session.query(User).all()
@@ -254,7 +255,7 @@ def pageCount():
         return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
 
 @api.route('/users/admin_update',methods=['POST'])
-def admin_update():
+def users_admin_update():
     try:
         if is_admin():
             form = request.form
@@ -290,7 +291,7 @@ def admin_update():
         return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
 
 @api.route('/users/admin_delete',methods=['POST'])
-def admin_delete():
+def users_admin_delete():
     try:
         if is_admin():
             form = request.form

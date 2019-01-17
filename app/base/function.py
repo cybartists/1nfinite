@@ -5,6 +5,7 @@ from app.model.User import User
 import re
 import datetime
 
+
 def password_encode(password):
     return generate_password_hash(password)
 
@@ -26,6 +27,16 @@ def is_login():
     return user_id is not None
 
 
+def get_login_user():
+    if is_login():
+        dbs = DBSession()
+        user_id = session.get('user_id')
+        user = dbs.query(User).filter(User.id == user_id).first()
+        return user
+    else:
+        return None
+
+
 def is_admin():
     dbs = DBSession()
     user_id = session.get('user_id')
@@ -36,9 +47,6 @@ def is_admin():
         if user.admin == 1:
             admin = True
     return admin
-#时间戳排序
-def sort_by_time(List):
-    List.sort(key=lambda x:x.create_time,reverse=True)
 
 
 def pd_time(time):

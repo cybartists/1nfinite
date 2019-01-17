@@ -87,12 +87,12 @@
 
     <div class="mdui-list">
         <a class="mdui-list-item mdui-ripple mdui-list-item-active">
-            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">all_inclusive</i>
-            <div class="mdui-list-item-content">动态</div>
-        </a>
-        <a class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">explore</i>
             <div class="mdui-list-item-content">发现</div>
+        </a>
+        <a class="mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">all_inclusive</i>
+            <div class="mdui-list-item-content">动态</div>
         </a>
         {% if admin %}
             <a class="mdui-list-item mdui-ripple" href="/admin">
@@ -101,6 +101,10 @@
             </a>
         {% endif %}
         {% if login %}
+            <a class="mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">keyboard_voice</i>
+                <div class="mdui-list-item-content">我的频道</div>
+            </a>
             <a class="mdui-list-item mdui-ripple" onclick="logout()">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">exit_to_app</i>
                 <div class="mdui-list-item-content">退出登录</div>
@@ -113,24 +117,25 @@
 <div class="mdui-container" id="container">
     <!-- 悬浮按钮 -->
     <div class="mdui-fab-wrapper" id="fab" mdui-fab="{trigger: 'hover'}">
-        <button class="mdui-fab mdui-ripple mdui-color-pink-accent">
+        <button class="mdui-fab mdui-ripple mdui-color-pink-accent" onclick="new_channel_message()">
             <i class="mdui-icon material-icons">add</i>
             <i class="mdui-icon mdui-fab-opened material-icons">mode_edit</i>
         </button>
-        <div class="mdui-fab-dial">
-
-            <button class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-red">
-                <i class="mdui-icon material-icons">bookmark</i>
-            </button>
-
-            <button class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-blue">
-                <i class="mdui-icon material-icons">touch_app</i>
-            </button>
-        </div>
+        {#        <div class="mdui-fab-dial">#}
+        {##}
+        {#            <button class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-red">#}
+        {#                <i class="mdui-icon material-icons">bookmark</i>#}
+        {#            </button>#}
+        {##}
+        {#            <button class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-blue">#}
+        {#                <i class="mdui-icon material-icons">touch_app</i>#}
+        {#            </button>#}
+        {#        </div>#}
     </div>
 
     {% if not login %}
-        <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
+        <!-- 登录框 -->
+        <div class="mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
             <div class="mdui-color-indigo">
                 <div style="height: 150px;">
                     <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
@@ -175,7 +180,8 @@
             </div>
         </div>
 
-        <div class="mc-login mdui-dialog" style="width: 400px; top: 30px;" id="registerDialog">
+        <!-- 注册框 -->
+        <div class="mdui-dialog" style="width: 400px; top: 30px;" id="registerDialog">
             <div class="mdui-color-indigo">
                 <div style="height: 150px;">
                     <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
@@ -220,9 +226,9 @@
 
                 <div style="margin: 30px;">
                     &nbsp;
-                    {#                <div class="mdui-float-left">#}
-                    {#                    <button class="mdui-btn" onclick="register()">注册</button>#}
-                    {#                </div>#}
+                    <div class="mdui-float-left">
+                        <button class="mdui-btn" onclick="open_login_dialog()">登录</button>
+                    </div>
                     <div class="mdui-float-right">
                         <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="register()">注册</button>
                     </div>
@@ -230,7 +236,37 @@
             </div>
         </div>
 
-        <div class=""></div>
+    {% endif %}
+
+    {% if login %}
+        <!-- 频道消息编辑框 -->
+        <div class="mdui-dialog" id="newChannelMessageDialog">
+            <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
+                    mdui-dialog-close>
+                <i class="mdui-icon material-icons">clear</i>
+            </button>
+
+            <div class="mdui-m-x-4 mdui-m-b-4">
+                <form id="new_channel_message_form">
+                    <div class="mdui-typo">
+                        <div class="mdui-text-color-pink">@{{ username }}:</div>
+                    </div>
+                    <div class="mdui-textfield">
+                        <textarea class="mdui-textfield-input" rows="4" placeholder="想说点啥" name="content"></textarea>
+                    </div>
+                </form>
+                <div>
+                    &nbsp;
+                    <div class="mdui-float-right">
+                        <button class="mdui-btn mdui-color-theme-accent mdui-ripple"
+                                onclick="submit_new_channel_message()">发布
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
     {% endif %}
 
     <div id="content"></div>
@@ -269,8 +305,9 @@
                 <div class="mdui-card-actions mdui-text-color-grey">
                     <button class="mdui-btn mdui-ripple">转发</button>
                     <button class="mdui-btn mdui-ripple">转发并回复</button>
-                    <button class="mdui-btn mdui-btn-icon mdui-float-right">
-                        <i class="mdui-icon material-icons">thumb_up</i>
+                    <button class="mdui-btn mdui-btn-icon mdui-float-right" onclick="like('<% d.id %>')">
+                        <i class="mdui-icon material-icons <%# if(d.liked) { %>mdui-text-color-pink<%# } %>"
+                           id="liked_<% d.id %>">thumb_up</i>
                     </button>
                 </div>
             </div>
@@ -287,6 +324,7 @@
         let register_dialog = new mdui.Dialog('#registerDialog');
 
         let open_login_dialog = function () {
+            register_dialog.close();
             login_dialog.open();
         };
 
@@ -325,9 +363,11 @@
         let register = function () {
             $.post('/api/users/create', $('#register').serialize(), function (d) {
                 if (0 == d.status) {
-                    mdui.alert(d.message);
+                    mdui.alert(d.message, function () {
+                        location.href = '/web/person';
+                    });
                     register_dialog.close();
-                    login_dialog.open();
+                    {#login_dialog.open();#}
                 } else if (1 == d.status) {
                     $('#error_msg_username').text(d.message);
                     $('#register_username').addClass('mdui-textfield-invalid');
@@ -352,9 +392,15 @@
 
             })
         };
+
+        let new_channel_message = function () {
+            open_login_dialog();
+        };
     {% endif %}
 
     {% if login %}
+        let new_channel_message_dialog = new mdui.Dialog('#newChannelMessageDialog');
+
         let logout = function () {
             $.post('/api/users/logout', {}, function (d) {
                 if (0 == d.status) {
@@ -364,9 +410,28 @@
                 }
             })
         };
+
+        let new_channel_message = function () {
+            new_channel_message_dialog.open();
+        };
+
+        let submit_new_channel_message = function () {
+            $.post('/api/channel/new_message', $('#new_channel_message_form').serialize(), function (d) {
+                if (0 == d.status) {
+                    new_channel_message_dialog.close();
+                    mdui.alert(d.message, function () {
+                        location.reload();
+                    });
+                } else if (1 == d.status) {
+                    new_channel_message_dialog.close();
+                    mdui.alert(d.message);
+                }
+            })
+        };
     {% endif %}
 
-    // var inst = new mdui.Fab('#fab');
+    {#const fab = new mdui.Fab('#fab');#}
+
 
     LazyLoadEvent(function () {
         return enable_load;
@@ -402,7 +467,7 @@
             }
             if (0 != d.status) {
                 enable_load = false;
-                $('#lazy_load_spinner').html('<div class="mdui-text-center mdui-m-y-5">'+d.message+'</div>');
+                $('#lazy_load_spinner').html('<div class="mdui-text-center mdui-m-y-5">' + d.message + '</div>');
                 $('#lazy_load_spinner').removeClass('mdui-hidden');
                 mdui.mutation();
             } else {
@@ -411,13 +476,14 @@
         });
     };
 
-    const data = {
-        "id": "",
-        "avatar": "{{ url_for('.static', filename='asset/chisec/avator.jpg') }}",
-        "username": "CHiSec",
-        "channel_name": "喷人",
-        "media": "{{ url_for('.static', filename='asset/chisec/testpicture.jpg') }}",
-        "content": "<a href=\"\">@ryo</a> 进来挨打"
+    let like = function (id) {
+        $.post('/api/channel/like', {id: id}, function (d) {
+            if (0 == d.status) {
+                $('#liked_' + id).addClass('mdui-text-color-pink');
+            } else if (-1 == d.status) {
+                $('#liked_' + id).removeClass('mdui-text-color-pink');
+            }
+        });
     };
 
 
