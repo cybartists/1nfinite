@@ -2,20 +2,40 @@ from flask import request, flash, render_template, redirect, url_for, jsonify, s
 from app.api import api
 from app.base.extensions import DBSession
 from flask import request, flash, render_template, redirect, url_for, jsonify, session
-from app.model.Channel import Channel
-from app.model.Following import Following
-from app.model.Image import Image
-from app.model.Reference import Reference
-from app.base.function import sort_by_time, pd_time
-from app.model.User import User
+
+from app.model import Like, Channel, Image, User, Following, Reference
+from app.base.function import sort_by_time, pd_time, is_admin, is_login
+
+
+
+@api.route('/channel/like', methods=['POST'])
+def like():
+    if not is_login():
+        return jsonify({'status': 2, 'message': '没有登录'})
+    id = request.values.get('id', default=0, type=int)
+    if id == 0:
+        return jsonify({'status': 1, 'message': '错误的id'})
+
+    db = DBSession()
+    try:
+        channel = db.query(Channel).filter(Channel.id == id).first()
+        if channel is not None:
+            like = Like(user_id=session.get(''))
+
+    except Exception as e:
+        db.close()
+        return jsonify({
+            'status': 1,
+            'message': str(e),
+            'error_message': str(e)
+        })
 
 
 @api.route('/channel/listdynamic', methods=['POST'])
 def listAll():
+    page = request.values.get('page', default=1, type=int)
+    db_session = DBSession()
     try:
-        page = request.values.get('page', default=1, type=int)
-
-        db_session = DBSession()
         query = db_session.query(Channel)
 
         count = query.count()
@@ -61,126 +81,10 @@ def listAll():
                 'data': data
             })
     except Exception as e:
+        db_session.close()
         return jsonify({
             'status': 1,
             'message': str(e),
             'error_message': str(e)
         })
 
-
-@api.route('/channel/referencelist', methods=['POST'])
-def listChannelReference():
-    try:
-        if session['user_id'] == None or session['user_id'] == '':
-            return jsonify({'status': 2, 'message': '没有登录'})
-        userid = session['user_id']
-        page_num = request.form['page']
-        page_cur = (page_num - 1) * 10
-        db_session = DBSession()
-        channel_dict_arr = []
-        data = db_session.query(Reference).filter_by(user_id=userid).order_by(Reference.create_time.desc()).limit(
-            11).offset(page_cur).all()
-        # sort_by_time(data)
-        if len(data) <= 10:
-            for i in data:
-                channel_dict = {}
-                channel_id = i.id
-                channel_content = i.content
-                channel_userid = i.user_id
-                channel_status = i.status
-                channel_topic_id = i.topic_id
-                channel_topic_artical_id = i.topic_artical_id
-                channel_create_time = pd_time(i.create_time)
-                channel_dict.update(
-                    {
-                        'channel_id': channel_id,
-                        'channel_content': channel_content,
-                        'channel_userid': channel_userid,
-                        'channel_create_time': channel_create_time,
-                        'reference_status': channel_status,
-                        'topic_artical_id': channel_topic_artical_id,
-                        'topic_id': channel_topic_id
-                    }
-                )
-                channel_dict_arr.append(channel_dict)
-            db_session.close()
-            return jsonify({'status': 2, 'message': '最后一页了', 'data': channel_dict_arr})
-        for i in range(10):
-            channel_dict = {}
-            channel_id = data[i].id
-            channel_content = data[i].content
-            channel_userid = data[i].user_id
-            channel_status = data[i].status
-            channel_topic_id = data[i].topic_id
-            channel_topic_artical_id = data[i].topic_artical_id
-            channel_create_time = pd_time(data[i].create_time)
-            channel_dict.update(
-                {
-                    'channel_id': channel_id,
-                    'channel_content': channel_content,
-                    'channel_userid': channel_userid,
-                    'channel_create_time': channel_create_time,
-                    'reference_status': channel_status,
-                    'topic_artical_id': channel_topic_artical_id,
-                    'topic_id': channel_topic_id
-                }
-            )
-            channel_dict_arr.append(channel_dict)
-        db_session.close()
-        return jsonify({'status': 0, 'message': '获取成功', 'data': channel_dict_arr})
-    except Exception as e:
-        return jsonify({'status': 1, 'message': '获取失败'})
-
-
-@api.route('/channel/followlist', methods=['POST'])
-def listChannelFollow():
-    try:
-        if session['user_id'] == None or session['user_id'] == '':
-            return jsonify({'status': 2, 'message': '没有登录'})
-        userid = session['user_id']
-        page_num = request.form['page']
-        page_cur = (page_num - 1) * 10
-        db_session = DBSession()
-        channel_dict_arr = []
-        data = db_session.query(Following).filter_by(user_id=userid).order_by(Reference.create_time.desc()).limit(
-            11).offset(page_cur).all()
-        # sort_by_time(data)
-        if len(data) <= 10:
-            for i in data:
-                channel_dict = {}
-                channel_id = i.id
-                channel_Channel_user_id = i.Channel_user_id
-                channel_userid = i.user_id
-                channel_Topic_id = i.Topic_id
-                channel_create_time = pd_time(i.create_time)
-                channel_dict.update(
-                    {
-                        'channel_id': channel_id,
-                        'Channel_user_id': channel_Channel_user_id,
-                        'channel_userid': channel_userid,
-                        'channel_create_time': channel_create_time,
-                        'Topic_id': channel_Topic_id
-                    }
-                )
-                channel_dict_arr.append(channel_dict)
-            db_session.close()
-            return jsonify({'status': 2, 'message': '最后一页了', 'data': channel_dict_arr})
-        for i in range(10):
-            channel_dict = {}
-            channel_id = data[i].id
-            channel_content = data[i].content
-            channel_userid = data[i].user_id
-            channel_create_time = pd_time(data[i].create_time)
-            channel_dict.update(
-                {
-                    'channel_id': channel_id,
-                    'channel_content': channel_content,
-                    'channel_userid': channel_userid,
-                    'channel_create_time': channel_create_time
-                }
-            )
-            channel_dict_arr.append(channel_dict)
-        db_session.close()
-        return jsonify({'status': 0, 'message': '获取成功', 'data': channel_dict_arr})
-    except Exception as e:
-        return jsonify({'status': 1, 'message': "获取失败", 'data': {}, 'error_message': str(e)})

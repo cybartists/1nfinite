@@ -1,7 +1,8 @@
 from sqlalchemy import Column,INT,VARCHAR,Text,Boolean,ForeignKey,TIMESTAMP
-from sqlalchemy.orm import relationship
+
 
 from app.base.extensions import Base
+
 
 class Channel(Base):
     __tablename__ = 'channel'
