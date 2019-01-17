@@ -134,7 +134,8 @@
     </div>
 
     {% if not login %}
-        <div class="mc-login mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
+        <!-- 登录框 -->
+        <div class="mdui-dialog" style="width: 400px; top: 30px; height: 500px" id="loginDialog">
             <div class="mdui-color-indigo">
                 <div style="height: 150px;">
                     <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
@@ -179,7 +180,8 @@
             </div>
         </div>
 
-        <div class="mc-login mdui-dialog" style="width: 400px; top: 30px;" id="registerDialog">
+        <!-- 注册框 -->
+        <div class="mdui-dialog" style="width: 400px; top: 30px;" id="registerDialog">
             <div class="mdui-color-indigo">
                 <div style="height: 150px;">
                     <button style="margin: 5px;" class="mdui-btn mdui-btn-icon mdui-ripple mdui-btn-dense"
@@ -330,9 +332,11 @@
         let register = function () {
             $.post('/api/users/create', $('#register').serialize(), function (d) {
                 if (0 == d.status) {
-                    mdui.alert(d.message);
+                    mdui.alert(d.message, function () {
+                        location.href = '/web/person';
+                    });
                     register_dialog.close();
-                    login_dialog.open();
+                    {#login_dialog.open();#}
                 } else if (1 == d.status) {
                     $('#error_msg_username').text(d.message);
                     $('#register_username').addClass('mdui-textfield-invalid');

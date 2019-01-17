@@ -6,6 +6,6 @@ from app.base.extensions import DBSession
 from app.model.User import User
 
 
-@web.route('/person/')
+@web.route('/person')
 def person():
     return render_template('person.html', login=is_login())

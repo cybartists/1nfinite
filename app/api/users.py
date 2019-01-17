@@ -90,11 +90,12 @@ def users_create():
             return jsonify({'status': 4, 'message': '邮箱重复'})
 
         user = User(username=username, password=password_encoded, email=email)
-        session['user_id'] = user.id  # 自动登录
         db_session.add(user)
         db_session.commit()
+        user = db_session.query(User).filter_by(username=username).first()
         db_session.close()
-        return jsonify({'status': 0, 'message': '注册成功'})
+        session['user_id'] = user.id  # 自动登录
+        return jsonify({'status': 0, 'message': '注册成功, 即将跳转个人中心完善个人信息'})
     except Exception as e:
         print(e)
         return jsonify({'status': 5, 'message': '未知错误'})
