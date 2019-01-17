@@ -101,6 +101,10 @@
             </a>
         {% endif %}
         {% if login %}
+            <a class="mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">keyboard_voice</i>
+                <div class="mdui-list-item-content">我的频道</div>
+            </a>
             <a class="mdui-list-item mdui-ripple" onclick="logout()">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">exit_to_app</i>
                 <div class="mdui-list-item-content">退出登录</div>
@@ -269,8 +273,8 @@
                 <div class="mdui-card-actions mdui-text-color-grey">
                     <button class="mdui-btn mdui-ripple">转发</button>
                     <button class="mdui-btn mdui-ripple">转发并回复</button>
-                    <button class="mdui-btn mdui-btn-icon mdui-float-right">
-                        <i class="mdui-icon material-icons">thumb_up</i>
+                    <button class="mdui-btn mdui-btn-icon mdui-float-right" onclick="like('<% d.id %>')">
+                        <i class="mdui-icon material-icons <%# if(d.liked > 0) { %>mdui-text-color-pink<%# } %>" id="liked_<% d.id %>">thumb_up</i>
                     </button>
                 </div>
             </div>
@@ -407,6 +411,16 @@
                 mdui.mutation();
             } else {
                 enable_load = true;
+            }
+        });
+    };
+
+    let like = function (id) {
+        $.post('/api/channel/like', {id: id}, function (d) {
+            if (0 == d.status) {
+                $('#liked_'+id).addClass('mdui-text-color-pink');
+            } else if (-1 == d.status) {
+                $('#liked_'+id).removeClass('mdui-text-color-pink');
             }
         });
     };
