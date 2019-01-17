@@ -4,6 +4,7 @@ from app.base.extensions import DBSession
 from flask import request, flash, render_template, redirect, url_for, jsonify, session
 from app.model.Channel import Channel
 from app.model.Following import Following
+from app.model.Image import Image
 from app.model.Reference import Reference
 from app.base.function import sort_by_time, pd_time
 from app.model.User import User
@@ -12,60 +13,59 @@ from app.model.User import User
 @api.route('/channel/listdynamic', methods=['POST'])
 def listAll():
     try:
+        page = request.values.get('page', default=1, type=int)
+
         db_session = DBSession()
-        data = db_session.query(Channel).order_by(Channel.create_time.desc()).all()
-        Channel_list_arr = []
-        if len(data) <= 10:
-            for i in data:
-                Channel_list = {}
-                id = i.id
-                user_id = i.user_id
-                user = db_session.query(User).filter(User.id == user_id).first()
-                username = user.username
-                channel_name = user.channel_name
-                Content = i.Content
-                create_time = pd_time(i.create_time)
-                Channel_list.update(
-                    {
-                        'id': id,
-                        'user_id': user_id,
-                        'content': Content,
-                        'channel_name': channel_name,
-                        'create_time': create_time,
-                        'username': username,
-                        'avatar': 'http://127.0.0.1:5000/web/static/asset/chisec/avator.jpg',
-                        'media': 'http://127.0.0.1:5000/web/static/asset/chisec/testpicture.jpg'
-                    }
-                )
-                Channel_list_arr.append(Channel_list)
-                db_session.close()
-            return jsonify({'status': 2, 'message': '最后一页了', 'data': Channel_list_arr})
-        for i in range(10):
-            Channel_list = {}
-            id = data[i].id
-            user_id = data[i].user_id
-            user = db_session.query(User).filter(User.id == user_id).first()
-            username = user.username
-            channel_name = user.channel_name
-            Content = data[i].Content
-            create_time = pd_time(data[i].create_time)
-            Channel_list.update(
-                {
-                    'id': id,
-                    'user_id': user_id,
-                    'content': Content,
-                    'channel_name': channel_name,
-                    'create_time': create_time,
-                    'username': username,
-                    'avatar': 'http://127.0.0.1:5000/web/static/asset/chisec/avator.jpg',
-                    'media': 'http://127.0.0.1:5000/web/static/asset/chisec/testpicture.jpg'
-                }
-            )
-            Channel_list_arr.append(Channel_list)
-            db_session.close()
-        return jsonify({'status': 0, 'message': '获取成功', 'data': Channel_list_arr})
+        query = db_session.query(Channel)
+
+        count = query.count()
+        channels = query.order_by(Channel.create_time.desc()).limit(10).offset((page - 1) * 10).all()
+        is_end = (page*10 >= count)
+
+        data = []
+        for i in channels:
+            user = db_session.query(User).filter(User.id == i.user_id).first()
+            avatar = None
+            if user.avatar_id != 0:
+                image = db_session.query(Image).filter(Image.id == user.avatar_id).first()
+                avatar = image.url
+            if user.avatar_id == 0:
+                avatar = 'http://127.0.0.1:5000/web/static/asset/chisec/avator.jpg'
+            media = None
+            if i.image_id != None and i.image_id != '':
+                image = db_session.query(Image).filter(Image.id == i.image_id).first()
+                media = image.url
+
+            data.append({
+                'id': i.id,
+                'user_id': user.id,
+                'content': i.content,
+                'channel_name': user.channel_name,
+                'username': user.username,
+                'avatar': avatar,
+                'media': media,
+                'create_time': pd_time(i.create_time)
+            })
+
+        db_session.close()
+        if is_end:
+            return jsonify({
+                'status': 2,
+                'message': '没有更多消息了',
+                'data': data
+            })
+        else:
+            return jsonify({
+                'status': 0,
+                'message': 'ok',
+                'data': data
+            })
     except Exception as e:
-        return jsonify({'status': 1, 'message': str(e), 'error_message': str(e)})
+        return jsonify({
+            'status': 1,
+            'message': str(e),
+            'error_message': str(e)
+        })
 
 
 @api.route('/channel/referencelist', methods=['POST'])

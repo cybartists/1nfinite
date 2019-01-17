@@ -5,9 +5,9 @@ from app.base.extensions import Base
 
 
 class Following(Base):
-    __tablename__ = 'Following'
+    __tablename__ = 'following'
     id = Column(INT, primary_key=True, autoincrement=True)
     user_id = Column(INT)
-    Channel_user_id = Column(INT)
-    Topic_id = Column(INT)
+    channel_user_id = Column(INT)
+    topic_id = Column(INT)
     status = Column(INT)

@@ -4,4 +4,4 @@ api = Blueprint('api', __name__, static_folder='static')
 
 # from . import login
 
-from . import users,token,upload,channel
+from . import users,token,upload,channel,topic

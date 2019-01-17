@@ -5,7 +5,7 @@ from app.base.extensions import Base
 
 
 class User(Base):
-    __tablename__ = 'User'
+    __tablename__ = 'user'
     id = Column(INT, primary_key=True, autoincrement=True)
     email = Column(VARCHAR(255))
     username = Column(VARCHAR(255))
