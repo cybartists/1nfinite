@@ -39,7 +39,7 @@
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-indigo">home</i>
             <div class="mdui-list-item-content">返回首页</div>
         </a>
-        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
+        <a class="mdui-list-item mdui-ripple " href="../person">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-cyan">person_pin_circle</i>
             <div class="mdui-list-item-content">个人中心</div>
         </a>
@@ -52,7 +52,7 @@
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink-accent">thumb_up</i>
             <div class="mdui-list-item-content">我赞过的</div>
         </a>
-        <a class="mdui-list-item mdui-ripple" href="../person_info">
+        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-light-green">assignment</i>
             <div class="mdui-list-item-content">修改资料</div>
         </a>
@@ -66,7 +66,7 @@
 <div class="mdui-container">
     <div class="mdui-row">
         <div class=" mdui-col-md-4">
-            <h2 class="mdui-text-color-black-secondary" align="center">个人卡片</h2>
+            <h2 class="mdui-text-color-black-secondary" align="center">修改个人资料</h2>
         </div>
     </div>
     <div class="mdui-row">
@@ -153,14 +153,13 @@
         <div class="mdui-col-sm-3">
             <!-- 卡片1 -->
             <div class="mdui-card mdui-hoverable">
-                <div class="mdui-toolbar mdui-color-light-blue-a200">
+                <div class="mdui-toolbar mdui-color-teal-accent">
                 </div>
 
                 <div class="mdui-card-primary">
-                    <div class="mdui-card-primary-title">8次访问</div>
-                    <div class="mdui-card-primary-subtitle">频道至今为止访问数量</div>
-                    <div class="mdui-progress">
-                        <div class="mdui-progress-determinate mdui-color-light-blue-a200" style="width: 100%;"></div>
+                    <div class="mdui-card-primary-title">昵称</div>
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" id="nickname"/>
                     </div>
                 </div>
             </div>
@@ -169,13 +168,12 @@
 
             <!-- 卡片2 -->
             <div class="mdui-card mdui-hoverable">
-                <div class="mdui-toolbar mdui-color-green-accent">
+                <div class="mdui-toolbar mdui-color-light-green-accent">
                 </div>
                 <div class="mdui-card-primary">
-                    <div class="mdui-card-primary-title">5次被@</div>
-                    <div class="mdui-card-primary-subtitle">至今为止被@数量</div>
-                    <div class="mdui-progress">
-                        <div class="mdui-progress-determinate mdui-color-green-accent" style="width: 100%;"></div>
+                    <div class="mdui-card-primary-title">个性签名</div>
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" id="sign"/>
                     </div>
                 </div>
             </div>
@@ -184,18 +182,90 @@
 
             <!-- 卡片3 -->
             <div class="mdui-card mdui-hoverable">
-                <div class="mdui-toolbar mdui-color-pink-accent">
+                <div class="mdui-toolbar mdui-color-orange-accent">
                 </div>
                 <div class="mdui-card-primary">
-                    <div class="mdui-card-primary-title">10次被赞</div>
-                    <div class="mdui-card-primary-subtitle">至今为止被赞数量</div>
-                    <div class="mdui-progress">
-                        <div class="mdui-progress-determinate mdui-color-pink-accent" style="width: 100%;"></div>
+                    <div class="mdui-card-primary-title">重设密码</div>
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" id="password"/>
+                    </div>
+                    <div class="mdui-card-primary-title">重复密码</div>
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" id="re_password"/>
                     </div>
                 </div>
             </div>
+            <div style="height: 20px"></div>
+            
+            <div style="position:relative">
+            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" style="margin: auto;  position: absolute; left: 0; right: 0;">保存更改</button>
+            </div>
+            
         </div>
+
+        <div class=" mdui-col-md-3">
+            <!-- 卡片4 -->
+            <div class="mdui-card mdui-hoverable" style="height: 440px">
+                <div class="mdui-toolbar mdui-color-grey">
+                </div>
+                    <div style="height: 290px;">
+                            <h3 class="mdui-text-color-black-secondary" align="center">个人卡片背景图片</h3>
+                            <div class="mdui-card-primary">
+                                <div class="mdui-card-media mdui-card mdui-hoverable">
+                                    <img src="{{ url_for('.static', filename='asset/chisec/card.jpg') }}"/>
+                                </div>
+                                <div style="height: 10px"></div>
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">点击上传</button>
+                            </div>
+                    </div>
+                    <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title">国家/地区
+                        <select class="mdui-select" mdui-select="{position: 'top'}">
+                            <option value="0">霍格沃兹</option>
+                            <option value="1">赛博坦</option>
+                            <option value="2">瓦坎达</option>
+                            <option value="3">新日暮里</option>
+                            <option value="4">3栋501</option>
+                            <option value="5">卡塞尔</option>
+                            <option value="6">召唤师峡谷</option>
+                        </select>
+                    </div>
+                    </div>
+            </div>
+
+            <div style="height: 20px"><span style="height: 20px"> </span></div>
+            <!-- 卡片5 -->
+            <div class="mdui-card mdui-hoverable" style="height: 320px">
+                <div class="mdui-toolbar mdui-color-grey">
+                </div>
+                    <div style="height: 170px ; position:relative">
+                            <h3 class="mdui-text-color-black-secondary" align="center">个人头像图片</h3>
+                            <div style="width:100px;height:100px;margin: auto;  position: absolute; left: 0; right: 0;">
+                                <div class="mdui-card-media mdui-card mdui-hoverable">
+                                    <img src="{{ url_for('.static', filename='asset/chisec/avator.jpg') }}"/>
+                                </div>
+                                <div style="height: 10px"></div>
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">点击上传</button>
+                            </div>
+                    </div>
+                    <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title">性别
+                        <select class="mdui-select" mdui-select="{position: 'top'}">
+                            <option value="0">未知</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                            <option value="3">女装大佬</option>
+                            <option value="4">女汉子</option>
+                        </select>
+                    </div>
+                    </div>
+            </div>
+
+        </div>
+
     </div>
+
+</div>
 
 </div>
 

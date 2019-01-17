@@ -278,6 +278,8 @@
 
         let oTab = document.getElementById('user_table');
         pnum = document.getElementById('page_num');
+        if(p<1){p=1}
+        if(p>page_count){p=page_count}
         pnum.value = p;
         $.post('/api/users/list', {'page': p}, function (d) {
             data = d.data;

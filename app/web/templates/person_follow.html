@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='asset/mdui/css/mdui.min.css') }}">
+    <script src="{{ url_for('.static', filename='asset/mdui/js/mdui.min.js') }}"></script>
+    <title>Personal Center</title>
+</head>
+<body class=" mdui-appbar-with-toolbar mdui-theme-primary-cyan mdui-theme-accent-orange mdui-loaded mdui-drawer-body-left"
+      style="margin-top: 20px;">
+
+<header class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
+    <div class="mdui-toolbar mdui-color-cyan">
+        <span class="mdui-btn mdui-btn-icon " mdui-drawer="{target: '#main-drawer', swipe: true}"><i
+                class="mdui-icon material-icons">menu</i></span>
+        <i class="mdui-icon material-icons">person_outline</i>
+        <a href="javascript:;" class="mdui-typo-headline">个人中心</a>
+        <!-- <a href="javascript:;" class="mdui-typo-title">动态</a> -->
+        <div class="mdui-toolbar-spacer"></div>
+        <div class="mdui-textfield mdui-textfield-expandable">
+            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i>
+            </button>
+            <input class="mdui-textfield-input" type="text" placeholder="Search"/>
+            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i>
+            </button>
+        </div>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">person</i></a>
+    </div>
+</header>
+
+<!-- 侧边栏 -->
+<div class="mdui-drawer" id="main-drawer">
+
+    <div class="mdui-list">
+        <a class="mdui-list-item mdui-ripple" href="/web">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-indigo">home</i>
+            <div class="mdui-list-item-content">返回首页</div>
+        </a>
+        <a class="mdui-list-item mdui-ripple " href="../person">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-cyan">person_pin_circle</i>
+            <div class="mdui-list-item-content">个人中心</div>
+        </a>
+
+        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-orange">assignment_turned_in</i>
+            <div class="mdui-list-item-content">关注</div>
+        </a>
+        <a class="mdui-list-item mdui-ripple" href="../person_like">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink-accent">thumb_up</i>
+            <div class="mdui-list-item-content">我赞过的</div>
+        </a>
+        <a class="mdui-list-item mdui-ripple "href="../person_info">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-light-green">assignment</i>
+            <div class="mdui-list-item-content">修改资料</div>
+        </a>
+        <a class="mdui-list-item mdui-ripple" href="../person_about">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">star</i>
+            <div class="mdui-list-item-content">关于</div>
+        </a>
+    </div>
+</div>
+
+<div class="mdui-container">
+    <h4>关注</h4>
+
+</div>
+
+<script>
+
+</script>
+</body>
+</html>
