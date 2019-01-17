@@ -9,8 +9,40 @@ from app.model import Like, Channel, Image, User, Following, Reference
 from app.base.function import pd_time, is_admin, is_login, get_login_user
 
 
+@api.route('/channel/new_message', methods=['POST'])
+def channel_new_message():
+    if not is_login():
+        return jsonify({'status': 2, 'message': '没有登录'})
+    user = get_login_user()
+    if user.ban == 1:
+        return jsonify({
+            'status': 1,
+            'message': '你被禁言了，无法发送！'
+        })
+
+    content = request.values.get('content', default='', type=str)
+    image_id = request.values.get('image_id', default=0, type=int)
+
+    db = DBSession()
+    try:
+        channel = Channel(content=content, image_id=image_id, user_id=user.id)
+        db.add(channel)
+        db.commit()
+        db.close()
+        return jsonify({
+            'status': 0,
+            'message': 'ok'
+        })
+    except Exception as e:
+        db.close()
+        return jsonify({
+            'status': 2,
+            'message': str(e)
+        })
+
+
 @api.route('/channel/like', methods=['POST'])
-def like():
+def channel_like():
     if not is_login():
         return jsonify({'status': 2, 'message': '没有登录'})
     user = get_login_user()
@@ -53,7 +85,7 @@ def like():
 
 
 @api.route('/channel/listdynamic', methods=['POST'])
-def listAll():
+def channel_dynamic_list():
     if not is_login():
         return jsonify({'status': 2, 'message': '没有登录'})
     curr_user = get_login_user()
@@ -119,6 +151,6 @@ def listAll():
         db.close()
         return jsonify({
             'status': 1,
-            'message': str(e),
+            'message': '拉取失败',
             'error_message': str(e)
         })

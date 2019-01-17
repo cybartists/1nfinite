@@ -87,12 +87,12 @@
 
     <div class="mdui-list">
         <a class="mdui-list-item mdui-ripple mdui-list-item-active">
-            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">all_inclusive</i>
-            <div class="mdui-list-item-content">动态</div>
-        </a>
-        <a class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">explore</i>
             <div class="mdui-list-item-content">发现</div>
+        </a>
+        <a class="mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">all_inclusive</i>
+            <div class="mdui-list-item-content">动态</div>
         </a>
         {% if admin %}
             <a class="mdui-list-item mdui-ripple" href="/admin">
@@ -224,9 +224,9 @@
 
                 <div style="margin: 30px;">
                     &nbsp;
-                    {#                <div class="mdui-float-left">#}
-                    {#                    <button class="mdui-btn" onclick="register()">注册</button>#}
-                    {#                </div>#}
+                    <div class="mdui-float-left">
+                        <button class="mdui-btn" onclick="open_login_dialog()">登录</button>
+                    </div>
                     <div class="mdui-float-right">
                         <button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="register()">注册</button>
                     </div>
@@ -291,6 +291,7 @@
         let register_dialog = new mdui.Dialog('#registerDialog');
 
         let open_login_dialog = function () {
+            register_dialog.close();
             login_dialog.open();
         };
 
@@ -423,15 +424,6 @@
                 $('#liked_'+id).removeClass('mdui-text-color-pink');
             }
         });
-    };
-
-    const data = {
-        "id": "",
-        "avatar": "{{ url_for('.static', filename='asset/chisec/avator.jpg') }}",
-        "username": "CHiSec",
-        "channel_name": "喷人",
-        "media": "{{ url_for('.static', filename='asset/chisec/testpicture.jpg') }}",
-        "content": "<a href=\"\">@ryo</a> 进来挨打"
     };
 
 
