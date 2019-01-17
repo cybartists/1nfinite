@@ -25,6 +25,9 @@ def person_like():
 def person_info():
     if is_login():
         user = get_login_user()
+        avatar = user.avatar
+        if avatar == 0:
+            avatar = '/web/static/asset/chisec/avator.jpg'
         return render_template('person_info.html',
                                username=user.username,
                                avatar=user.avatar,
