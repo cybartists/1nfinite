@@ -63,17 +63,21 @@ def channel_like():
             if liked is not None:
                 db.delete(liked)
                 db.commit()
+                like_count = db.query(Like).filter(Like.channel_id == id).count()
                 return jsonify({
                     'status': -1,
                     'message': 'ok',
+                    'data': {'like_count': int(like_count)}
                 })
             else:
                 like = Like(user_id=user.id, status=1, channel_id=id)
                 db.add(like)
                 db.commit()
+                like_count = db.query(Like).filter(Like.channel_id == id).count()
                 return jsonify({
                     'status': 0,
                     'message': 'ok',
+                    'data': { 'like_count': int(like_count) }
                 })
         else:
             return jsonify({

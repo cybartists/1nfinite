@@ -309,6 +309,9 @@
                         <i class="mdui-icon material-icons <%# if(d.liked) { %>mdui-text-color-pink<%# } %>"
                            id="liked_<% d.id %>">thumb_up</i>
                     </button>
+                    <div id="like_count_<% d.id %>" class="mdui-float-right mdui-text-right mdui-valign" style="height: 42px; width: 10px;" disabled>
+                        <% d.like_count %>
+                    </div>
                 </div>
             </div>
         </div>
@@ -480,8 +483,10 @@
         $.post('/api/channel/like', {id: id}, function (d) {
             if (0 == d.status) {
                 $('#liked_' + id).addClass('mdui-text-color-pink');
+                $('#like_count_' + id).text(d.data.like_count);
             } else if (-1 == d.status) {
                 $('#liked_' + id).removeClass('mdui-text-color-pink');
+                $('#like_count_' + id).text(d.data.like_count);
             }
         });
     };
