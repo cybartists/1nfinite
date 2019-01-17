@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column,INT,VARCHAR,Text,Boolean,ForeignKey,TIMESTAMP
-
+from sqlalchemy import Column, INT, VARCHAR, Text, Boolean, ForeignKey, TIMESTAMP, text
 
 from app.base.extensions import Base
 
@@ -12,4 +11,4 @@ class Channel(Base):
     user_id = Column(INT)
     content = Column(Text)
     image_id = Column(INT)
-    create_time = Column(TIMESTAMP, default=datetime.now())#时间戳模型
+    create_time = Column(TIMESTAMP(True), nullable=False, server_default=text('NOW()'))#时间戳模型

@@ -14,14 +14,17 @@ def channel_new_message():
     if not is_login():
         return jsonify({'status': 2, 'message': '没有登录'})
     user = get_login_user()
+    content = request.values.get('content', default='', type=str)
+    image_id = request.values.get('image_id', default=0, type=int)
+
+    if content == '':
+        return jsonify({'status': 2})
     if user.ban == 1:
         return jsonify({
             'status': 1,
             'message': '你被禁言了，无法发送！'
         })
 
-    content = request.values.get('content', default='', type=str)
-    image_id = request.values.get('image_id', default=0, type=int)
     if image_id == 0:
         image_id = None
 
@@ -98,7 +101,7 @@ def channel_dynamic_list():
         query = db.query(Channel)
 
         count = query.count()
-        channels = query.order_by(Channel.create_time.desc()).limit(10).offset((page - 1) * 10).all()
+        channels = query.order_by(Channel.id.desc()).limit(10).offset((page - 1) * 10).all()
         is_end = (page * 10 >= count)
 
         data = []
