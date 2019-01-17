@@ -29,8 +29,10 @@ def listAll():
             if user.avatar_id != 0:
                 image = db_session.query(Image).filter(Image.id == user.avatar_id).first()
                 avatar = image.url
+            if user.avatar_id == 0:
+                avatar = 'http://127.0.0.1:5000/web/static/asset/chisec/avator.jpg'
             media = None
-            if i.image_id != None:
+            if i.image_id != None or i.image_id != '':
                 image = db_session.query(Image).filter(Image.id == i.image_id).first()
                 media = image.url
 
