@@ -22,6 +22,8 @@ def channel_new_message():
 
     content = request.values.get('content', default='', type=str)
     image_id = request.values.get('image_id', default=0, type=int)
+    if image_id == 0:
+        image_id = None
 
     db = DBSession()
     try:
@@ -31,7 +33,7 @@ def channel_new_message():
         db.close()
         return jsonify({
             'status': 0,
-            'message': 'ok'
+            'message': '发出去辣'
         })
     except Exception as e:
         db.close()
@@ -86,9 +88,10 @@ def channel_like():
 
 @api.route('/channel/listdynamic', methods=['POST'])
 def channel_dynamic_list():
-    if not is_login():
-        return jsonify({'status': 2, 'message': '没有登录'})
-    curr_user = get_login_user()
+    # if not is_login():
+    #     return jsonify({'status': 2, 'message': '没有登录'})
+    if is_login():
+        curr_user = get_login_user()
     page = request.values.get('page', default=1, type=int)
     db = DBSession()
     try:
@@ -113,12 +116,14 @@ def channel_dynamic_list():
                 media = image.url
 
             like_count = db.query(Like).filter(Like.channel_id == channel.id).count()
-            liked = db.query(Like).filter(Like.channel_id == channel.id, Like.user_id == curr_user.id).count()
-
-            if liked > 0:
-                liked = True
+            if is_login():
+                liked = db.query(Like).filter(Like.channel_id == channel.id, Like.user_id == curr_user.id).count()
+                if liked > 0:
+                    liked = True
+                else:
+                    liked = False
             else:
-                liked = False
+                liked = 0
 
             data.append({
                 'id': channel.id,
