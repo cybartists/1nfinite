@@ -112,11 +112,11 @@ def channel_dynamic_list():
         for channel in channels:
             user = db.query(User).filter(User.id == channel.user_id).first()
             avatar = None
-            if user.avatar_id != 0:
-                image = db.query(Image).filter(Image.id == user.avatar_id).first()
-                avatar = image.url
-            if user.avatar_id == 0:
-                avatar = 'http://127.0.0.1:5000/web/static/asset/chisec/avator.jpg'
+            if user.avatar != '0':
+                # image = db.query(Image).filter(Image.id == user.avatar_id).first()
+                avatar = user.avatar
+            if user.avatar == '0':
+                avatar = '/web/static/asset/chisec/avator.jpg'
             media = None
             if channel.image_id is not None and channel.image_id is not '':
                 image = db.query(Image).filter(Image.id == channel.image_id).first()

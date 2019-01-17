@@ -15,6 +15,6 @@ class User(Base):
     sex = Column(INT,default=0)
     password = Column(VARCHAR(255))
 
-    avatar_id =Column(INT,default=0)
+    avatar =Column(VARCHAR(255),default='0')
     channel_name = Column(VARCHAR(255))
 
