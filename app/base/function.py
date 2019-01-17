@@ -35,6 +35,7 @@ def get_login_user():
         dbs = DBSession()
         user_id = session.get('user_id')
         user = dbs.query(User).filter(User.id == user_id).first()
+        dbs.close()
         return user
     else:
         return None

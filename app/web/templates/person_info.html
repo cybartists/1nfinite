@@ -7,6 +7,7 @@
     <meta name="renderer" content="webkit">
     <link rel="stylesheet" href="{{ url_for('.static', filename='asset/mdui/css/mdui.min.css') }}">
     <script src="{{ url_for('.static', filename='asset/mdui/js/mdui.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='asset/chisec/js/jquery-3.3.1.min.js') }}"></script>
     <title>Personal Center</title>
 </head>
 <body class=" mdui-appbar-with-toolbar mdui-theme-primary-cyan mdui-theme-accent-orange mdui-loaded mdui-drawer-body-left"
@@ -78,7 +79,7 @@
                     <div class="mdui-card-header">
                         <img class="mdui-card-header-avatar"
                              src="{{ url_for('.static', filename='asset/chisec/avator.jpg') }}"/>
-                        <div class="mdui-card-header-title" id="username">刘四姐</div>
+                        <div class="mdui-card-header-title" id="username">{{ username }}</div>
                         <div class="mdui-card-header-subtitle">-你是🐉鸣🐎¿-</div>
                     </div>
 
@@ -119,7 +120,7 @@
                         <div class="mdui-panel-item">
                             <div class="mdui-panel-item-header">完整个人信息</div>
                             <div class="mdui-panel-item-body">
-                                <p>用户名：刘四姐</p>
+                                <p>用户名：{{ username }}</p>
                                 <p>昵称：Chisec</p>
                                 <p>性别：男</p>
                                 <p>邮箱：Chisec@gmail.com</p>
@@ -129,7 +130,7 @@
                         <div class="mdui-panel-item">
                             <div class="mdui-panel-item-header">我的频道信息</div>
                             <div class="mdui-panel-item-body">
-                                <p>频道名：在线喷人频道</p>
+                                <p>频道名：{{ channel_name }}频道</p>
                                 <p>频道号：004</p>
                                 <p>订阅人数：12</p>
                             </div>
@@ -196,11 +197,13 @@
                 </div>
             </div>
             <div style="height: 20px"></div>
-            
+
             <div style="position:relative">
-            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" style="margin: auto;  position: absolute; left: 0; right: 0;">保存更改</button>
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"
+                        style="margin: auto;  position: absolute; left: 0; right: 0;">保存更改
+                </button>
             </div>
-            
+
         </div>
 
         <div class=" mdui-col-md-3">
@@ -208,17 +211,17 @@
             <div class="mdui-card mdui-hoverable" style="height: 440px">
                 <div class="mdui-toolbar mdui-color-grey">
                 </div>
-                    <div style="height: 290px;">
-                            <h3 class="mdui-text-color-black-secondary" align="center">个人卡片背景图片</h3>
-                            <div class="mdui-card-primary">
-                                <div class="mdui-card-media mdui-card mdui-hoverable">
-                                    <img src="{{ url_for('.static', filename='asset/chisec/card.jpg') }}"/>
-                                </div>
-                                <div style="height: 10px"></div>
-                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">点击上传</button>
-                            </div>
-                    </div>
+                <div style="height: 290px;">
+                    <h3 class="mdui-text-color-black-secondary" align="center">个人卡片背景图片</h3>
                     <div class="mdui-card-primary">
+                        <div class="mdui-card-media mdui-card mdui-hoverable">
+                            <img src="{{ url_for('.static', filename='asset/chisec/card.jpg') }}"/>
+                        </div>
+                        <div style="height: 10px"></div>
+                        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">点击上传</button>
+                    </div>
+                </div>
+                <div class="mdui-card-primary">
                     <div class="mdui-card-primary-title">国家/地区
                         <select class="mdui-select" mdui-select="{position: 'top'}">
                             <option value="0">霍格沃兹</option>
@@ -230,7 +233,7 @@
                             <option value="6">召唤师峡谷</option>
                         </select>
                     </div>
-                    </div>
+                </div>
             </div>
 
             <div style="height: 20px"><span style="height: 20px"> </span></div>
@@ -238,17 +241,21 @@
             <div class="mdui-card mdui-hoverable" style="height: 320px">
                 <div class="mdui-toolbar mdui-color-grey">
                 </div>
-                    <div style="height: 170px ; position:relative">
-                            <h3 class="mdui-text-color-black-secondary" align="center">个人头像图片</h3>
-                            <div style="width:100px;height:100px;margin: auto;  position: absolute; left: 0; right: 0;">
-                                <div class="mdui-card-media mdui-card mdui-hoverable">
-                                    <img src="{{ url_for('.static', filename='asset/chisec/avator.jpg') }}"/>
-                                </div>
-                                <div style="height: 10px"></div>
-                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">点击上传</button>
-                            </div>
+                <div style="height: 170px ; position:relative">
+                    <h3 class="mdui-text-color-black-secondary" align="center">个人头像图片</h3>
+                    <div style="width:100px;height:100px;margin: auto;  position: absolute; left: 0; right: 0;">
+                        <div class="mdui-card-media mdui-card mdui-hoverable">
+                            <img id="avatar_show" src="{{ avatar }}"
+                                 onclick="upload_avatar_prepare()"/>
+                        </div>
+                        <div style="height: 10px"></div>
+                        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"
+                                onclick="upload_avatar_go()">保存
+                        </button>
+
                     </div>
-                    <div class="mdui-card-primary">
+                </div>
+                <div class="mdui-card-primary">
                     <div class="mdui-card-primary-title">性别
                         <select class="mdui-select" mdui-select="{position: 'top'}">
                             <option value="0">未知</option>
@@ -258,7 +265,7 @@
                             <option value="4">女汉子</option>
                         </select>
                     </div>
-                    </div>
+                </div>
             </div>
 
         </div>
@@ -267,9 +274,56 @@
 
 </div>
 
-</div>
+
+<form id="upload_avatar_form" enctype='multipart/form-data' method="post">
+    <input class="mdui-hidden" id="avatar_file" type="file" name="file" id="upload_avatar">
+</form>
 
 <script>
+    let upload_avatar_prepare = function () {
+        $('#avatar_file').click();
+    };
+
+    $('#avatar_file').on('change', function () {
+        var objUrl = getObjectURL(this.files[0]);
+        $('#avatar_show').attr("src", objUrl);
+    });
+
+    let upload_avatar_go = function () {
+        let formData = new FormData($('#upload_avatar_form')[0]);
+        $.ajax({
+            url: "/api/upload_avatar",
+            type: "POST",
+            data: formData,
+            async: true,
+            cashe: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+
+            success: function (d) {
+                if (0 == d.status) {
+                    mdui.alert('上传成功');
+                }
+            },
+            error: function (returndata) {
+                alert("上传失败！")
+            }
+
+        });
+    };
+
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
 
 </script>
 </body>

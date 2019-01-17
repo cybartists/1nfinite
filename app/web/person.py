@@ -1,6 +1,6 @@
-from flask import render_template, session
+from flask import render_template, session, abort
 
-from app.base.function import is_login
+from app.base.function import is_login, get_login_user
 from app.web import web
 from app.base.extensions import DBSession
 from app.model.User import User
@@ -23,7 +23,14 @@ def person_like():
 
 @web.route('/person_info/')
 def person_info():
-    return render_template('person_info.html', login=is_login())
+    if is_login():
+        user = get_login_user()
+        return render_template('person_info.html',
+                               username=user.username,
+                               avatar=user.avatar,
+                               channel_name=user.channel_name)
+    else:
+        abort(404)
 
 
 @web.route('/person_about/')
