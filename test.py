@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from app.base.extensions import DBSession
 from app.model.User import User
 

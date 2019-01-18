@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from flask import request, flash, render_template, redirect, url_for, jsonify
 
 from app.base.extensions import DBSession
