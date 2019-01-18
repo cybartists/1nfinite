@@ -8,7 +8,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config():
     HOSTNAME = 'localhost'
     PORT = '3306'
-    DATABASE = 'test'
+    DATABASE = '1finite'
     USERNAME = 'root'
     PASSWORD = 'LfB9yOqj#ma&'
     DB_URI = 'mysql+pymysql://{username}:{password}@{host}:{port}/{db}'.format(username=USERNAME, password=PASSWORD,
