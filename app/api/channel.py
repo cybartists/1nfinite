@@ -16,7 +16,7 @@ def channel_new_message():
     if not is_login():
         return jsonify({'status': 2, 'message': '没有登录'})
     user = get_login_user()
-    content = request.values.get('content', default='', type=str)
+    content = request.form['content']
     image_id = request.values.get('image_id', default=0, type=int)
 
     if content == '':
