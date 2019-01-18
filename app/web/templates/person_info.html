@@ -123,6 +123,7 @@
                                 <p>用户名：{{ username }}</p>
                                 <p>昵称：Chisec</p>
                                 <p>性别：男</p>
+                                <p>居住地：霍格沃兹</p>
                                 <p>邮箱：Chisec@gmail.com</p>
                             </div>
                         </div>
@@ -141,7 +142,7 @@
                             <div class="mdui-panel-item-body">
                                 <p>是否被禁言：否</p>
                                 <p>是否为管理员：是</p>
-                                <p>创建时间：2019-01-16</p>
+                                <p>创建时间：{{ create_time }}</p>
                             </div>
                         </div>
 
@@ -276,7 +277,7 @@
 
 
 <form id="upload_avatar_form" enctype='multipart/form-data' method="post">
-    <input class="mdui-hidden" id="avatar_file" type="file" name="file" id="upload_avatar">
+    <input class="mdui-hidden" id="avatar_file" type="file" name="file">
 </form>
 
 <script>
