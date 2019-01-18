@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config():
     HOSTNAME = 'zhuangbi.party'
     PORT = '3306'
-    DATABASE = '1finite'
+    DATABASE = 'test'
     USERNAME = 'root'
     PASSWORD = 'LfB9yOqj#ma&'
     DB_URI = 'mysql+pymysql://{username}:{password}@{host}:{port}/{db}'.format(username=USERNAME, password=PASSWORD,
