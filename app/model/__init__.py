@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 from .Channel import Channel
 from .User import User
 from .Following import Following

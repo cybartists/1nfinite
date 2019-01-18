@@ -1,9 +1,12 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config():
-    HOSTNAME = 'zhuangbi.party'
+    HOSTNAME = 'localhost'
     PORT = '3306'
     DATABASE = 'test'
     USERNAME = 'root'

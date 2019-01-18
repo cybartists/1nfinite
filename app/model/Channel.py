@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 from datetime import datetime
 
 from sqlalchemy import Column, INT, VARCHAR, Text, Boolean, ForeignKey, TIMESTAMP, text

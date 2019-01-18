@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 from flask import render_template
 
 from app.base.function import is_login, is_admin, get_login_user
