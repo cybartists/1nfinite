@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding:utf-8 -*-
 from flask import request, flash, render_template, redirect, url_for, jsonify, session
 from sqlalchemy.sql.elements import and_

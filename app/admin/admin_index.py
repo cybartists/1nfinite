@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding:utf-8 -*-
 from flask import render_template, url_for, abort
 from app.base.function import is_admin

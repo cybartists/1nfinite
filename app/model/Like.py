@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 from sqlalchemy import Column, INT, VARCHAR, TIMESTAMP
 from app.base.extensions import Base
 
