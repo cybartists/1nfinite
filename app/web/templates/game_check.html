@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Cub n Pup - puzzle game demo</title>
+  <title>Check if you are a player</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   
@@ -14,40 +14,21 @@
 
 <body>
 
-
-<div class="top-bar" >
-  <button class="button level-select-button disabled" id="levels" ></button>
+  
+<div class="top-bar">
+    🐻→⭐
+  <button class="button level-select-button" onclick="change_level()">换一个</button>
 </div>
 
 <ol class="level-list"></ol>
 
 <canvas></canvas>
 <p class="instruction"></p>
-<button class="button next-level-button" id="pass">pass</button>
+<button class="button next-level-button">通过验证</button>
 
 <div class="levels">
 
-<pre id="intro-fixed1" data-blurb="Tutorial">
-blurb: Tutorial
-instruction: Drag cub to star
----
-*=.=.
-    !
-. . .
-    !
-@=.=.
-</pre>
-
-<pre id="intro-fixed2" data-blurb="Tutorial">
-blurb: Tutorial
-instruction: Drag grid to rotate. Cub and star moves with grid. Orange links stay in place.
----
-* . .
-    !
-. . .
-    !
-@=.=.
-</pre>
+{#    31个随机结果#}
 
 <pre id="intro-fixed3" data-blurb="★">
 blurb: ★
@@ -57,27 +38,6 @@ blurb: ★
 . . .
     !
 *=. .
-</pre>
-
-<pre id="intro-free1" data-blurb="Tutorial">
-blurb: Tutorial
-instruction: Blue links move with grid. Rotate grid to connect blue and orange links in different ways.
----
-@-. .
-!   | 
-. . .
-    |
-*-.-.
-</pre>
-
-<pre id="m3x3-2-med" data-blurb="★">
-blurb: ★
----
-. . *
-| | | 
-. . .
-| | | 
-@ .=.
 </pre>
 
 <pre id="m3x3-fixed-switch" data-blurb="★">
@@ -282,42 +242,6 @@ blurb: ★★
 .=. .-.=.
 </pre>
 
-<pre id="m5x5-7" data-blurb="★★★">
-.=* . @=.
-|
-. .=. . .
-|   | |
-.=. . .-.
-        |
-. . . .=.
-!    
-. .-.-. .
-</pre>
-
-<pre id="m5x5-8" data-blurb="★★★">
-. * . .-.
-  |     
-. . .=.-.
-!       | 
-. . . . .
-        
-. .-. .=.
-        |
-. . .=.-@
-</pre>
-
-<pre id="m5x5-9" data-blurb="★★★">
-.-.-. . .
-    |    
-. . . .-@
-  !      
-* . .-. .
-|   !    
-.-. . .=.
-    |   !
-. . .=. .
-</pre>
-
 <pre id="m5x5-10" data-blurb="★★">
 . . . . .
          
@@ -328,18 +252,6 @@ blurb: ★★
 .-. . . .
          
 . . . . .
-</pre>
-
-<pre id="m5x5-11" data-blurb="★★★">
-. . . .=.
-  |     
-. . . .=.
-|        
-. . .-. .
-! |     
-. .=. . .
-|   !   !
-.-@ . * .
 </pre>
 
 <pre id="m5x5-12" data-blurb="★★">
@@ -354,60 +266,6 @@ blurb: ★★
 * . .=.=.
 </pre>
 
-<pre id="m6x6-1-hard1" data-blurb="★★★">
-. . * . . .
-  ! | |  
-. .-. .-. .
-          |
-. . . . .-.
-      | ! |
-. . .=. . .
-    |
-@-.-. .-. .
-          |
-. .=. . .-.
-</pre>
-
-<pre id="m6x6-2" data-blurb="★★★">
-@ .=. . .=.
-  | | !
-. . . .=. .
-  |     |
-. . . .-. .
-|   !
-. . . . . *
-|     |
-.=. .-. . .
-  |   | |
-.-. . . .=.
-</pre>
-
-<pre id="m6x6-3" data-blurb="★★★">
-.=. .=.-.-*
-  |        
-.-. . . . .
-        | !
-. . .-.-. .
-!          
-.-. .=.=. .
-           
-@ .=. . . .
-  |     !
-. .-. .-. .
-</pre>
-
-<pre id="pivot-4x4-intro" data-blurb="Tutorial">
-instruction: Green links pivot with grid, but point in the same direction
----
-. .-* .
-  |    
-. . . .
-       
-. .>. .
-       
-. @ . .
-</pre>
-
 <pre id="pivot-5x5-2" data-blurb="★★">
 . . .-.-@
         
@@ -417,30 +275,6 @@ instruction: Green links pivot with grid, but point in the same direction
 | !      
 .-.-. . *
   !     
-. . . . .
-</pre>
-
-<pre id="pivot-5x5-swirly" data-blurb="★★★">
-. . . . .
-      ^ 
-.<. . . *
-        
-. . . . .
-        
-@ . . .>.
-  v     
-. . . . .
-</pre>
-
-<pre id="pivot-5x5-1" data-blurb="★★★">
-. .-. . .
-      ^ 
-. .<.=.=.
-        
-.>. . .-@
-        
-* . . .=.
-        
 . . . . .
 </pre>
 
@@ -454,97 +288,6 @@ instruction: Green links pivot with grid, but point in the same direction
 @-. . . .
     v   
 .<. . . .
-</pre>
-
-<pre id="pivot-5x5-4" data-blurb="★★★">
-.-.-. @>.
-!     ^ 
-. . . . .
-  |      
-. . . . .
-  |     
-. . . .=*
-    ^    
-. . .-. .>
-</pre>
-
-<pre id="pivot-5x5-5" data-blurb="★★★">
-.-. . . *
-        
-. .>. . .
-|       v
-.-. . . .
-  ^      
-. . .-. .
-      v 
-@=.=. . .
-</pre>
-
-<pre id="pivot-5x5-6" data-blurb="★★★">
-. . .>. .
-  ! |    
-@=. .-. .
-        
-. . . .=.>
-         
-. . . . .
-         
-. *>.<. .
-</pre>
-
-<pre id="pivot-5x5-7" data-blurb="★★★">
-* . @ . .
-v   |   
-. . . . .
-      !  
-. . . . .
-^     ! !
-. .-. . .
-  !     
-. . . . .
-    v
-</pre>
-
-<pre id="pivot-6x6-1" data-blurb="★★★">
-. . . . . .
-| v         
-@ . . . . *
-  | |      
-. . . . . .
-| !   ^ | K
-. . . .-.=.
-|          
-. .-. . . .
-v          
-.>. . . . .
-</pre>
-
-<pre id="pivot-6x6-3" data-blurb="★★★">
-. @-. .>.-.
-          
-. . . . . .
-          |
-* .>. .=. .
-    !      
-. . . . . .>
-      |   ^
-. . . .=. .
-           
-. .=. . .=.>
-</pre>
-
-<pre id="pivot-6x6-2" data-blurb="★★★">
-. .-.-. .=.
-      v   
-. . . . . .
-  |     ! v
-.>. . . . *
-    ^      
-. . . . . .
-|          
-. .-.<. . .
-! |       |
-. . . .>.-@
 </pre>
 
 <pre id="m44" data-blurb="★★">
@@ -569,16 +312,6 @@ v
 . . . .>.
 |       
 .=. . .-.
-</pre>
-
-<pre id="m46" data-blurb="★★★">
-.-. . .
-    ^ 
-. . . .
-       
-.L. . .
-      !
-@ . .-*
 </pre>
 
 <pre id="m47" data-blurb="★★">
@@ -609,40 +342,6 @@ W !       |
 |          
 .#.=. .<. .
     v     v
-</pre>
-
-<pre id="m49" data-blurb="★★★">
-. . .-@ .
-    |   
-. . . .J.
-        
-* . . . .
-| !     !
-. . . . .
-    v   !
-. . . .-.
-</pre>
-
-<pre id="m50" data-blurb="★★★">
-*=. . .
-    v  
-. . . .
-^     |
-. . . .
-  ^   |
-@ .>. .
-</pre>
-
-<pre id="rotate-tut" data-blurb="Tutorial">
-instruction: Red links are fixed in place, but rotate with grid
----
-. . . .
-       
-@ .4. .
-  |    
-. . .-*
-       
-. . . .
 </pre>
 
 <pre id="rotate1" data-blurb="★">
@@ -685,18 +384,6 @@ instruction: Red links are fixed in place, but rotate with grid
 . . . .
 </pre>
 
-<pre id="rotate-5x5-1" data-blurb="★★">
-. . . .-@
-      8 
-. .=. . .
-        
-*=. . . .
-        
-. .-. . .
-        
-. . . . .
-</pre>
-
 <pre id="rotate-5x5-2" data-blurb="★★">
 . . . . .
         
@@ -709,72 +396,21 @@ instruction: Red links are fixed in place, but rotate with grid
 . . . .-@
 </pre>
 
-<pre id="rotate-5x5-2b" data-blurb="★★★">
-. . . . .
-  !   | 
-.-.-. . .
-  v   |
-. . .-. .
-        
-@ . . . .
-    5   
-. . .=* .
-</pre>
-
-<pre id="rotate-6x6-1" data-blurb="★★★">
-@4.=. . . .
-          
-. . . . . .
-      v 8 |
-.-.-. . . .
-!   !   ^   
-. . . . . .
-           
-. .>. . . .
-!          
-* . .4. . .
-</pre>
-
-<pre id="rotate-6x6-2" data-blurb="★★★">
-. . *<. . .
-          
-.=. .-. . .
-        5
-. . . .-. .
-        |   
-. . . . . .
-           
-. . . . . .
-    5     | 
-. .=. . @-.
-</pre>
-
-<pre id="rotate-6x6-3" data-blurb="★★★">
-.4. . . . @
-!          
-.-. . .=. .
-! 
-. . . . . .
-!           
-.>.6. . . .
-!          
-. . . .=.-.
-      ^    
-. . . . * .
-</pre>
-
-
 </div>
+
   
   
 
     <script  src="{{ url_for('.static', filename='asset/funter/js/index.js') }}"></script>
+
 <script>
-    var i =Math.floor(Math.random()*(61-1+1)+1);
+    var i =Math.floor(Math.random()*(31-1+1)+1);
     loadLevel( levels[i] );
+    function change_level() {
+        var i =Math.floor(Math.random()*(31-1+1)+1);
+    loadLevel( levels[i] );
+    }
 </script>
-
-
 
 
 </body>

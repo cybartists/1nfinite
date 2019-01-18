@@ -12,4 +12,8 @@ from app.model.User import User
 def game_check():
     return render_template('game_check.html', login=is_login())
 
+@web.route('/game/')
+def game():
+    return render_template('game.html', login=is_login())
+
 

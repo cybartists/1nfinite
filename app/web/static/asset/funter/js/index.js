@@ -1306,12 +1306,9 @@ var levels = [];
 
 // ----- levels button ----- //
 
-var levelSelectButton = document.querySelector('.level-select-button');
 var nextLevelButton = document.querySelector('.next-level-button');
 
-levelSelectButton.addEventListener( 'click', function() {
-  levelList.classList.add('is-open');
-});
+
 
 nextLevelButton.style.top = ( mazeCenter.y + gridSize * 5.5 ) + 'px';
 
@@ -1749,10 +1746,7 @@ function getNextLevel() {
 // -------------------------- next level -------------------------- //
 
 nextLevelButton.addEventListener( 'click', function() {
-  var nextLevel = getNextLevel();
-  if ( nextLevel ) {
-    loadLevel( nextLevel );
-  }
+window.location.href='../game';
 });
 
 // -------------------------- utils -------------------------- //
