@@ -37,6 +37,7 @@ def users_login():
     db_session.close()
 
     if None is not user and password_auth(password_to_be_checked=form['password'], password=user.password):
+        session.permanent = True
         session['user_id'] = user.id
         return jsonify({'status': 2, 'message': '登录成功'})
     else:

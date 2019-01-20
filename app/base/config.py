@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 
 import os
+from datetime import timedelta
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -16,6 +18,9 @@ class Config():
 
     SQLALCHEMY_DATABASE_URI = DB_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # 设置session 7天过期。
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
     DEBUG = True
 
