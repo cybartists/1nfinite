@@ -2,7 +2,7 @@
 from flask import request, flash, render_template, redirect, url_for, jsonify
 
 from app.base.extensions import DBSession
-from app.base.function import genreate_random_name, is_login, get_login_user
+from app.base.function import generate_random_name, is_login, get_login_user
 from app.api import api
 from app import base
 import os
@@ -16,7 +16,7 @@ def upload():
     try:
         suffix = file.filename.rsplit('.', 1)[1]
         cwd = os.getcwd()
-        url = genreate_random_name(12) + '.' + suffix
+        url = generate_random_name(12) + '.' + suffix
         file.save(os.path.join(cwd + '/app/api/static/upload/' + url))
         db = DBSession()
         image = Image(url='/api/static/upload/' + url)
@@ -46,7 +46,7 @@ def upload_avatar():
     try:
         suffix = file.filename.rsplit('.', 1)[1]
         cwd = os.getcwd()
-        url = genreate_random_name(12) + '.' + suffix
+        url = generate_random_name(12) + '.' + suffix
         file.save(os.path.join(cwd + '/app/api/static/upload/' + url))
         db = DBSession()
         user = db.query(User).filter(User.id == user.id).first()

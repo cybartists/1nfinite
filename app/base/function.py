@@ -27,6 +27,15 @@ def correct_email(email_str):
         return False
 
 
+def set_login(user):
+    session.permanent = True
+    session['user_id'] = user.id
+
+
+def set_logout():
+    session.pop('user_id')
+
+
 def is_login():
     user_id = session.get('user_id')
     return user_id is not None
@@ -75,7 +84,7 @@ def pd_time(time):
                     return time.strftime('%Y年%m月%d日星期%w %H时%M分%S秒')
 
 
-def genreate_random_name(length=10):
+def generate_random_name(length=10):
     a = ''
     s = random.sample(string.ascii_letters + string.digits, length)
     for i in s:

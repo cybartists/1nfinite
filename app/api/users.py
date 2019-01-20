@@ -2,7 +2,7 @@
 from flask import request, flash, render_template, redirect, url_for, jsonify, session
 from app.api import api
 from app.base.extensions import DBSession
-from app.base.function import is_admin,password_encode, password_auth
+from app.base.function import is_admin, password_encode, password_auth, set_login, set_logout, is_login, get_login_user
 from app.model.User import User
 from app.model.Channel import Channel
 from app.base.function import correct_email
@@ -15,14 +15,15 @@ sex_dict = {
     4: '女装大佬'
 }
 country_dict = {
-    0:'霍格沃兹',
-    1:'赛博坦',
-    2:'瓦坎达',
-    3:'新日暮里',
-    4:'3栋501',
-    5:'卡塞尔',
-    6:'召唤师峡谷'
+    0: '霍格沃兹',
+    1: '赛博坦',
+    2: '瓦坎达',
+    3: '新日暮里',
+    4: '3栋501',
+    5: '卡塞尔',
+    6: '召唤师峡谷'
 }
+
 
 @api.route('/users/login', methods=['POST'])
 def users_login():
@@ -37,8 +38,7 @@ def users_login():
     db_session.close()
 
     if None is not user and password_auth(password_to_be_checked=form['password'], password=user.password):
-        session.permanent = True
-        session['user_id'] = user.id
+        set_login(user)
         return jsonify({'status': 2, 'message': '登录成功'})
     else:
         return jsonify({'status': 3, 'message': '登录失败'})
@@ -95,7 +95,7 @@ def users_create():
         db_session.commit()
         user = db_session.query(User).filter_by(username=username).first()
         db_session.close()
-        session['user_id'] = user.id  # 自动登录
+        set_login(user)  # 自动登录
         return jsonify({'status': 0, 'message': '注册成功, 即将跳转个人中心完善个人信息'})
     except Exception as e:
         print(e)
@@ -105,7 +105,7 @@ def users_create():
 @api.route('/users/logout', methods=['POST'])
 def users_logout():
     try:
-        session['user_id'] = None
+        set_logout()
         return jsonify({'status': 0, 'message': '退出登录成功'})
     except Exception as e:
         return jsonify({'status': 1, 'message': '退出登录失败'})
@@ -114,7 +114,7 @@ def users_logout():
 @api.route('/users/update', methods=['POST'])
 def users_update():
     try:
-        if session['user_id'] == None or session['user_id'] == '':
+        if not is_login():
             return jsonify({'status': 2, 'message': '没有登录'})
         else:
             form = request.form
@@ -124,10 +124,8 @@ def users_update():
             sex = form['sex']
             password = form['password']
 
-
-
             db_session = DBSession()
-            user_id = session['user_id']
+            user_id = get_login_user().id
             user = db_session.query(User).filter_by(id=user_id).first()
             if admin != None and admin != '':
                 user.admin = admin
@@ -138,9 +136,8 @@ def users_update():
             if sex != None and sex != '':
                 user.sex = sex
             if password != '' and password != None:
-                password_encoded = password_encode(password)
+                user.password = password_encode(password)
 
-                user.password = password_encoded
             db_session.commit()
             db_session.close()
             return jsonify({'status': 0, 'message': '修改成功'})
@@ -151,17 +148,17 @@ def users_update():
         return jsonify({'status': 1, 'message': '未知错误'})
 
 
-
-
 @api.route('/users/list', methods=['POST'])
 def users_list():
+    if not is_admin():
+        return jsonify({'status': 1, 'message': '你看你🐎呢¿'})
     try:
         db_session = DBSession()
         page_num = int(request.form['page'])
-        page_cur = (page_num-1)*10
+        page_cur = (page_num - 1) * 10
         user_dict_list = []
         users = db_session.query(User).limit(11).offset(page_cur).all()
-        if len(users)<=10:
+        if len(users) <= 10:
             for i in users:
                 user_dict = {}
                 user_id = i.id
@@ -182,7 +179,7 @@ def users_list():
                 )
                 user_dict_list.append(user_dict)
 
-            return jsonify({'status':2,'message':'这是最后了','data':user_dict_list,'page':page_num})
+            return jsonify({'status': 2, 'message': '这是最后了', 'data': user_dict_list, 'page': page_num})
         for i in range(10):
             user_dict = {}
             user_id = users[i].id
@@ -193,19 +190,19 @@ def users_list():
             user_sex = users[i].sex
             user_dict.update(
                 {
-                    'uid':user_id,
-                    'username':user_username,
-                    'admin':user_admin,
-                    'ban':user_ban,
-                    'nickname':user_nickname,
-                    'sex':user_sex
+                    'uid': user_id,
+                    'username': user_username,
+                    'admin': user_admin,
+                    'ban': user_ban,
+                    'nickname': user_nickname,
+                    'sex': user_sex
                 }
             )
             user_dict_list.append(user_dict)
         db_session.close()
-        return jsonify({'status':0,'message':'获取成功','data':user_dict_list,'page':page_num})
+        return jsonify({'status': 0, 'message': '获取成功', 'data': user_dict_list, 'page': page_num})
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','data':{},'error_message':str(e)})
+        return jsonify({'status': 1, 'message': '获取失败', 'data': {}, 'error_message': str(e)})
 
 
 @api.route('/user/listsex', methods=['POST'])
@@ -245,17 +242,20 @@ def users_channel_count():
     except Exception as e:
         print(e)
         return jsonify({'status': 1, 'message': '没有登录'})
-@api.route('/users/count',methods=['POST'])
+
+
+@api.route('/users/count', methods=['POST'])
 def users_page_count():
     try:
         db_session = DBSession()
         users = db_session.query(User).all()
-        count = len(users)/10
-        return jsonify({'status':0,'message':'获取成功','page_count':int(count)+1})
+        count = len(users) / 10
+        return jsonify({'status': 0, 'message': '获取成功', 'page_count': int(count) + 1})
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
+        return jsonify({'status': 1, 'message': '获取失败', 'error_message': str(e)})
 
-@api.route('/users/admin_update',methods=['POST'])
+
+@api.route('/users/admin_update', methods=['POST'])
 def users_admin_update():
     try:
         if is_admin():
@@ -268,8 +268,6 @@ def users_admin_update():
             db_session = DBSession()
             user_id = form['id']
             user = db_session.query(User).filter_by(id=user_id).first()
-
-
 
             if admin != None and admin != '':
                 user.admin = admin
@@ -287,11 +285,12 @@ def users_admin_update():
             return jsonify({'status': 0, 'message': '修改成功'})
 
         else:
-            return jsonify({'status':2,'message':'不是管理员'})
+            return jsonify({'status': 2, 'message': '不是管理员'})
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
+        return jsonify({'status': 1, 'message': '获取失败', 'error_message': str(e)})
 
-@api.route('/users/admin_delete',methods=['POST'])
+
+@api.route('/users/admin_delete', methods=['POST'])
 def users_admin_delete():
     try:
         if is_admin():
@@ -305,6 +304,6 @@ def users_admin_delete():
             return jsonify({'status': 0, 'message': '删除成功'})
 
         else:
-            return jsonify({'status':2,'message':'不是管理员'})
+            return jsonify({'status': 2, 'message': '不是管理员'})
     except Exception as e:
-        return jsonify({'status':1,'message':'获取失败','error_message':str(e)})
+        return jsonify({'status': 1, 'message': '获取失败', 'error_message': str(e)})
