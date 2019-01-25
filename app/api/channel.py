@@ -168,3 +168,82 @@ def channel_dynamic_list():
             'message': '拉取失败',
             'error_message': str(e)
         })
+
+
+@api.route('/channel/listlike', methods=['POST'])
+def list_like():
+    if is_login():
+        user = get_login_user()
+        page = request.values.get('page', default=1, type=int)
+        db = DBSession()
+        try:
+            query = db.query(Channel).join(Like, Channel.id == Like.channel_id).filter(Like.user_id == user.id)
+
+            count = query.count()
+            channels = query.order_by(Channel.id.desc()).limit(10).offset((page - 1) * 10).all()
+            is_end = (page * 10 >= count)
+
+            data = []
+            for channel in channels:
+                user = db.query(User).filter(User.id == channel.user_id).first()
+                avatar = None
+                if user.avatar != '0':
+                    # image = db.query(Image).filter(Image.id == user.avatar_id).first()
+                    avatar = user.avatar
+                if user.avatar == '0':
+                    avatar = '/web/static/asset/chisec/avator.jpg'
+                media = None
+                if channel.image_id is not None and channel.image_id is not '':
+                    image = db.query(Image).filter(Image.id == channel.image_id).first()
+                    media = image.url
+
+                like_count = db.query(Like).filter(Like.channel_id == channel.id).count()
+                liked = True
+                # if is_login():
+                #     liked = db.query(Like).filter(Like.channel_id == channel.id, Like.user_id == curr_user.id).count()
+                #     if liked > 0:
+                #         liked = True
+                #     else:
+                #         liked = False
+                # else:
+                #     liked = 0
+
+                data.append({
+                    'id': channel.id,
+                    'user_id': user.id,
+                    'content': channel.content,
+                    'channel_name': user.channel_name,
+                    'username': user.username,
+                    'avatar': avatar,
+                    'media': media,
+                    'like_count': like_count,
+                    'liked': liked,
+                    'count': count,
+                    'create_time': pd_time(channel.create_time)
+                })
+
+            db.close()
+            if is_end:
+                return jsonify({
+                    'status': 2,
+                    'message': '没有更多消息了',
+                    'data': data
+                })
+            else:
+                return jsonify({
+                    'status': 0,
+                    'message': 'ok',
+                    'data': data
+                })
+        except Exception as e:
+            db.close()
+            return jsonify({
+                'status': 1,
+                'message': '拉取失败',
+                'error_message': str(e)
+            })
+    else:
+        return jsonify({
+            'status': 1,
+            'message': '请登录'
+        })

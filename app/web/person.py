@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-from flask import render_template, session, abort
+from flask import render_template, session, abort, redirect
 
 from app.base.function import is_login, get_login_user
 from app.web import web
@@ -35,7 +35,7 @@ def person_info():
                                avatar=user.avatar,
                                channel_name=user.channel_name)
     else:
-        abort(404)
+        return redirect('/')
 
 
 @web.route('/person_about/')

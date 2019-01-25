@@ -65,22 +65,22 @@ def is_admin():
 
 
 def pd_time(time):
-    sec = (datetime.datetime.now() - time).seconds
-    if sec < 60:
-        return str(sec) + '秒前'
-    else:
-        minute = sec / 60
-        if minute < 60:
-            return str(int(minute)) + '分钟前'
-        else:
-            hour = minute / 60
-            if hour < 24:
-                return str(int(hour)) + '小时前'
-            else:
-                days = hour / 24
-                if days < 7:
-                    return str(int(days)) + '天前'
-                else:
+    # sec = (datetime.datetime.now() - time).seconds
+    # if sec < 60:
+    #     return str(sec) + '秒前'
+    # else:
+    #     minute = sec / 60
+    #     if minute < 60:
+    #         return str(int(minute)) + '分钟前'
+    #     else:
+    #         hour = minute / 60
+    #         if hour < 24:
+    #             return str(int(hour)) + '小时前'
+    #         else:
+    #             days = hour / 24
+    #             if days < 7:
+    #                 return str(int(days)) + '天前'
+    #             else:
                     return time.strftime('%Y年%m月%d日星期%w %H时%M分%S秒')
 
 
