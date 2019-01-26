@@ -95,7 +95,7 @@ def channel_like():
         })
 
 
-@api.route('/channel/listdynamic', methods=['POST'])
+@api.route('/channel/list_discovery', methods=['POST'])
 def channel_dynamic_list():
     # if not is_login():
     #     return jsonify({'status': 2, 'message': '没有登录'})
@@ -170,13 +170,14 @@ def channel_dynamic_list():
         })
 
 
-@api.route('/channel/listlike', methods=['POST'])
+@api.route('/channel/list_like', methods=['POST'])
 def list_like():
     if is_login():
         user = get_login_user()
         page = request.values.get('page', default=1, type=int)
         db = DBSession()
         try:
+            # 取本人点赞过的频道消息
             query = db.query(Channel).join(Like, Channel.id == Like.channel_id).filter(Like.user_id == user.id)
 
             count = query.count()

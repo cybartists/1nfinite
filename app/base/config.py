@@ -8,7 +8,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config():
-    HOSTNAME = 'localhost'
+    HOSTNAME = 'zhuangbi.party'
     PORT = '3306'
     DATABASE = '1finite'
     USERNAME = 'root'

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-from sqlalchemy import Column, INT, VARCHAR, TIMESTAMP
+from sqlalchemy import Column, INT, VARCHAR, TIMESTAMP, text
 from app.base.extensions import Base
 
 
@@ -11,4 +11,4 @@ class Like(Base):
     status = Column(INT)
     channel_id = Column(INT)
     topic_artical_id = Column(INT)
-    create_time = Column(TIMESTAMP)
+    create_time = Column(TIMESTAMP(True), nullable=False, server_default=text('NOW()'))

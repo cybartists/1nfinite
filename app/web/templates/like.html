@@ -86,7 +86,7 @@
     {#    </div>#}
 
     <div class="mdui-list">
-        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
+        <a class="mdui-list-item mdui-ripple" href="/web">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">explore</i>
             <div class="mdui-list-item-content">发现</div>
         </a>
@@ -99,7 +99,7 @@
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">keyboard_voice</i>
                 <div class="mdui-list-item-content">我的频道</div>
             </a>
-            <a class="mdui-list-item mdui-ripple" href="./like">
+            <a class="mdui-list-item mdui-ripple mdui-list-item-active">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-pink">thumb_up</i>
                 <div class="mdui-list-item-content">点赞过的</div>
             </a>
@@ -470,7 +470,7 @@
 
 
     let update_content = function () {
-        $.post('/api/channel/list_discovery', {page: page}, function (d) {
+        $.post('/api/channel/list_like', {page: page}, function (d) {
             if (0 == d.status || 2 == d.status) {
                 $('#lazy_load_spinner').addClass('mdui-hidden');
 

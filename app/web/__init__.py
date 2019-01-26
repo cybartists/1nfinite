@@ -7,3 +7,4 @@ web = Blueprint('web', __name__, static_folder='static', template_folder='templa
 from . import index
 from . import person
 from . import game
+from . import like
