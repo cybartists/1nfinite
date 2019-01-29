@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from app.base.extensions import Base
 
 
-class Following(Base):
+class Follow(Base):
     __tablename__ = 'following'
     id = Column(INT, primary_key=True, autoincrement=True)
     user_id = Column(INT)
