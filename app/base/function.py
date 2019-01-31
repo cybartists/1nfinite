@@ -2,9 +2,10 @@
 # -*- coding:utf-8 -*-
 import string
 import random
+from functools import wraps
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import session
+from flask import session, jsonify
 from app.base.extensions import DBSession
 from app.model.User import User
 import re
@@ -57,11 +58,10 @@ def is_admin():
     user_id = session.get('user_id')
     user = dbs.query(User).filter(User.id == user_id).first()
     dbs.close()
-    admin = False
     if user is not None:
         if user.admin == 1:
-            admin = True
-    return admin
+            return True
+    return False
 
 
 def pd_time(time):
@@ -81,7 +81,7 @@ def pd_time(time):
     #             if days < 7:
     #                 return str(int(days)) + '天前'
     #             else:
-                    return time.strftime('%Y年%m月%d日星期%w %H时%M分%S秒')
+                    return time.strftime('%Y年%m月%d日 %H时%M分%S秒')
 
 
 def generate_random_name(length=10):
@@ -90,3 +90,31 @@ def generate_random_name(length=10):
     for i in s:
         a += i
     return a
+
+
+# decorators:
+
+def login_required(fun):
+    @wraps(fun)
+    def wrapper(*args, **kwargs):
+        if is_login():
+            return fun(*args, **kwargs)
+        else:
+            return jsonify({
+                'status': 1,
+                'message': '请先登录'
+            })
+    return wrapper
+
+
+def admin_required(fun):
+    @wraps(fun)
+    def wrapper(*args, **kwargs):
+        if is_admin():
+            return fun(*args, **kwargs)
+        else:
+            return jsonify({
+                'status': 1,
+                'message': '没有权限'
+            })
+    return wrapper

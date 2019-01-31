@@ -2,7 +2,7 @@
 from flask import request, flash, render_template, redirect, url_for, jsonify
 
 from app.base.extensions import DBSession
-from app.base.function import generate_random_name, is_login, get_login_user
+from app.base.function import generate_random_name, is_login, get_login_user, login_required
 from app.api import api
 from app import base
 import os
@@ -11,6 +11,7 @@ from app.model import Image, User
 
 
 @api.route('/upload', methods=['POST'])
+@login_required
 def upload():
     file = request.files['file']
     try:
@@ -38,9 +39,8 @@ def upload():
 
 
 @api.route('/upload_avatar', methods=['POST'])
+@login_required
 def upload_avatar():
-    if not is_login():
-        return jsonify({'status': 1, 'message': '保存失败:'})
     user = get_login_user()
     file = request.files['file']
     try:
