@@ -32,7 +32,7 @@ def person_info():
             avatar = '/web/static/asset/chisec/avator.jpg'
         return render_template('person_info.html',
                                username=user.username,
-                               avatar=user.avatar,
+                               avatar=avatar,
                                channel_name=user.channel_name)
     else:
         return redirect('/')
