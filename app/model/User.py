@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-from pymysql import TIMESTAMP
-from sqlalchemy import Column, INT, VARCHAR, Text, Boolean, text
+from sqlalchemy import Column, INT, VARCHAR, Text, Boolean, text, TIMESTAMP
 from sqlalchemy.orm import relationship
 
 from app.base.extensions import Base
