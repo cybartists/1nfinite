@@ -13,4 +13,4 @@ class Channel(Base):
     user_id = Column(INT)
     content = Column(Text)
     image_id = Column(INT)
-    create_time = Column(TIMESTAMP(True), nullable=False, server_default=text('NOW()'))#时间戳模型
+    create_time = Column(TIMESTAMP(True), nullable=False, server_default=text('NOW()'))

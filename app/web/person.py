@@ -33,7 +33,8 @@ def person_info():
         return render_template('person_info.html',
                                username=user.username,
                                avatar=avatar,
-                               channel_name=user.channel_name)
+                               channel_name=user.channel_name,
+                               create_time = user.create_time)
     else:
         return redirect('/')
 

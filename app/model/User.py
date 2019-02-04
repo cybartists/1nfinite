@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-from sqlalchemy import Column,INT,VARCHAR,Text,Boolean
+from pymysql import TIMESTAMP
+from sqlalchemy import Column, INT, VARCHAR, Text, Boolean, text
 from sqlalchemy.orm import relationship
 
 from app.base.extensions import Base
@@ -19,4 +20,6 @@ class User(Base):
 
     avatar =Column(VARCHAR(255),default='0')
     channel_name = Column(VARCHAR(255))
+    create_time = Column(TIMESTAMP(True), nullable=False, server_default=text('NOW()'))
+
 
