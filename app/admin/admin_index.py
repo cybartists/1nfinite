@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding:utf-8 -*-
 from flask import render_template, url_for, abort, redirect
 from app.base.function import is_admin

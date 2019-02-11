@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding:utf-8 -*-
 from sqlalchemy import create_engine
 from flask_moment import Moment

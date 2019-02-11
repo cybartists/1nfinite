@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding:utf-8 -*-
 from sqlalchemy import Column,INT,VARCHAR,Text,Boolean,TIMESTAMP
 from sqlalchemy.orm import relationship

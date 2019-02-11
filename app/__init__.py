@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding:utf-8 -*-
 from flask import Flask, redirect, render_template
 from app.base.config import Config
